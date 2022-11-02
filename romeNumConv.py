@@ -1,3 +1,6 @@
+#Jesse A. Jones
+#Version: 2022-11-02.2
+
 from tkinter import *
 from tkinter import messagebox
 import math
@@ -54,6 +57,9 @@ class RomanNumeral(object):
         self.tOutput["text"] = romeNum
 
     def rome_conv(self, decInt):
+        #This function takes in an integer and returns 
+        #   a string representing its equivalent roman numeral.
+
         numinit = int(decInt)
         if numinit == 0:
             return ""
@@ -98,11 +104,23 @@ class RomanNumeral(object):
                     '(|M|)', '(|CM|)', '(|D|)', '(|CD|)','(|C|)', '(|XC|)','(|L|)','(|XL|)','(|X|)','(|IX|)','(|V|)',
                     '(|IV|)', 'M','CM', 'D', 'CD','C', 'XC','L','XL','X','IX','V','IV','I')
             romenum = []
+
+            """
+                THIS CODE BELOW THAT CONVERTS INTS TO ROMAN NUMERALS IS NOT MINE. 
+                I FOUND THIS SOMEWHERE ON STACKOVERFLOW A COUPLE YEARS AGO. 
+                CREDIT GOES TO THE ORIGIONAL MAKER OF THIS CODE BLOCK.
+                I WILL IMPLEMENT A GREEDY ALGORITHIM MYSELF 
+                THAT DOES THE SAME THING SOON ENOUGH. 
+                FOR NOW, THIS STOLEN CODE WILL HOLD ITS PLACE.  
+            """
             for i in range(len(numbs)):
                 count = int(numinit / int(numbs[i]))
                 romenum.append(romes[i] * count)
                 numinit -= int(numbs[i]) * count
             return str(''.join(romenum))
+            """
+            STOLEN CODE ABOVE /\
+            """
 
 def main():
     root = Tk()
