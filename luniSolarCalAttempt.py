@@ -1,106 +1,97 @@
+#Jesse A. Jones
+#Version: 2022-11-13.2
+
 from tkinter import *
-import math
-import time
-import datetime
-from tkinter import messagebox
+import metricTime
+import dateHandling
+from math import trunc
 
 class LunisolarCalendarCalc(object):
-    def __init__(self, window = None):
-        self.window = window
+    """
+    This class contains all the methods necessary to convert a 
+        Gregorian Calendar date to a homemade lunisolar calendar's date.
+    """
 
+    #This function initializes all the fields of input for the converter.
+    def __init__(self, window = None):
+        
+        #Top frame established.
+        self.window = window
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quit button.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
-        self.isStupid = True
-
+        #Bottom frame created.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
+        #Year input field.
         self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 55")
         self.messageI.grid(row = 0, column = 0)
+        self.year = Entry(self.frameBottom, font = "Times 45")
+        self.year.grid(row = 0, column = 1)
 
-        self.yearE = Entry(self.frameBottom, font = "Times 45")
-        self.yearE.grid(row = 0, column = 1)
-
+        #Month input field.
         self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 55")
         self.messageII.grid(row = 2, column = 0)
+        self.month = Entry(self.frameBottom, font = "Times 45")
+        self.month.grid(row = 2, column = 1)
 
-        self.monthE = Entry(self.frameBottom, font = "Times 45")
-        self.monthE.grid(row = 2, column = 1)
-
+        #Day input field.
         self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 55")
         self.messageIII.grid(row = 3, column = 0)
-
-        self.dayE = Entry(self.frameBottom, font = "Times 45")
-        self.dayE.grid(row = 3, column = 1)
+        self.day = Entry(self.frameBottom, font = "Times 45")
+        self.day.grid(row = 3, column = 1)
     
+        #Conversion button and output.
         self.convButton = Button(self.frameBottom, text = "Convert to Luni-Solar Calendar", 
             font = "Ariel 50", command = self.RCalCalc)
         self.convButton.grid(row = 4, column = 0)
-
         self.cOutput = Label(self.frameBottom, text = "", 
             font = "Ariel 55", justify = LEFT)
         self.cOutput.grid(row = 5, column = 0)
 
+        #Used in time calculations.
+        self.metricStuph = metricTime.MetricTime()
+
+    #This function quits the given program.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Displays the resulting lunisolar calendar date to cOutput label.
     def RCalCalc(self):
         date = self.cal_calc()
         self.cOutput["text"] = date
 
-    def isShortCycle(self, cyNum):
-        fourLoc = cyNum % 4
-        shortCyArr = [True, False, False, False]
-        isShort = shortCyArr[fourLoc]
-        return isShort
-
-    def yearGet(self):
-        if self.yearE.get() == "":
-            messagebox.showerror("Empty Entry Error", "Put a year in!")
-            return
-        else:
-            return int(self.yearE.get())
-
-    def monthGet(self):
-        if self.monthE.get() == "":
-            messagebox.showerror("Empty Entry Error", "Put a month in!")
-            return
-        if 1 > int(self.monthE.get()) > 12:
-            messagebox.showerror("Out of Range Error", "Month must be in range 1-12!")
-            return
-        else:
-            return int(self.monthE.get())
-
-    def dayGet(self):
-        if self.dayE.get() == "":
-            messagebox.showerror("Empty Entry Error", "Put a day in!")
-            return
-        if 1 > int(self.dayE.get()) > 12:
-            messagebox.showerror("Out of Range Error", "Day must be in range 1-31!")
-            return
-        else:
-            return int(self.dayE.get())
-
+    #Converts date from input fields to the equivalent lunisolar calendar date.
     def cal_calc(self):
-        year = self.yearGet()
-        month = self.monthGet()
-        day = self.dayGet()
+        #Parses date field input. Accounts 
+        #   for empty fields and out of bounds inputs.
+        dateGet = dateHandling.GetDate()
+        year = dateGet.getYear(self.year.get())
+        month = dateGet.getMonth(self.month.get())
+        day = dateGet.getDay(self.day.get())
+        
+        #Fetches current metric date and calculates date change from base date.
         baseDayNum = 4388023
-        currentDayNum = self.metric_calc()
-        currentDayNum = math.trunc(currentDayNum * 1000)
+        currentDayNum = self.metricStuph.metric_calc(year, month, day, 0, 0)
+        currentDayNum = trunc(currentDayNum * 1000)
         dayDelta = currentDayNum - baseDayNum
         #27759 in four cycle
+
         monthsElapsed = 0
         baseCycleCount = 106
         cyclesElapsedTotal = (dayDelta // 27759) * 4 + baseCycleCount
         remainingCycleDays = dayDelta % 27759
         cyDayArr = [6939, 6940, 6940, 6940]
         shortCy = False
+
+        #Determines if the given metonic cycle is a 
+        #   short one as well as how many cycles have gone by.
         if 0 <= remainingCycleDays < self.cyDaySum(cyDayArr, 1):
             dayNumOfCycle = remainingCycleDays - self.cyDaySum(cyDayArr, 0)
             cyclesElapsedTotal += 0
@@ -114,14 +105,17 @@ class LunisolarCalendarCalc(object):
         else:
             dayNumOfCycle = remainingCycleDays - self.cyDaySum(cyDayArr, 3)
             cyclesElapsedTotal += 3
+
+        #Calculates days and months elapsed in 28 month cycle.
         daySub = shortCy
-        #print(daySub, dayNumOfCycle)
-        #cyclesElapsedTotal = (dayDelta // 6940) + baseCycleCount
-        #dayNumOfCycle = (dayDelta % 6940)
         currentDayOf28MonthCycle = dayNumOfCycle % 827 + 1
         monthsElapsed = (dayNumOfCycle // 827) * 28
+
+        #Handles case that covers most of the 28 month cycle.
         if dayNumOfCycle < 6616:
             monthArr = [29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 30, 30]
+
+            #Determines current day and months elapsed within the cycle. 
             if 1 <= currentDayOf28MonthCycle < self.cyDaySum(monthArr, 1) + 1:
                 currentDay = currentDayOf28MonthCycle - self.cyDaySum(monthArr, 0)
                 monthsElapsed += 0
@@ -206,9 +200,13 @@ class LunisolarCalendarCalc(object):
             else:
                 currentDay = currentDayOf28MonthCycle - self.cyDaySum(monthArr, 27)
                 monthsElapsed += 27
+
+        #Handles later chunk of the 28 month cycle.
         else:
             monthArrII = [29, 30, 29, 30, 29, 30, 29, 30, 29, 30 - daySub, 29]
             dayOfExceptionCycle = (dayNumOfCycle - 6616) + 1
+            
+            #Finds day and months elapsed of later part of 28 month cycle.
             if self.cyDaySum(monthArrII, 0) + 1 <= dayOfExceptionCycle < self.cyDaySum(monthArrII, 1) + 1:
                 currentDay = dayOfExceptionCycle - self.cyDaySum(monthArrII, 0)
                 monthsElapsed += 0
@@ -242,14 +240,21 @@ class LunisolarCalendarCalc(object):
             else:
                 currentDay = dayOfExceptionCycle - self.cyDaySum(monthArrII, 10)
                 monthsElapsed += 10
+
+        #Calculates current month and calls function 
+        #   to transform cycles elapsed, current month of cycle, 
+        #   and day of cycle into a proper lunisolar datestamp.
         currentMonth = monthsElapsed + 1
-        dateString = str(cyclesElapsedTotal) + "-" + str(currentMonth) + "-" + str(currentDay)
         trueDateString = self.toLuniSolar(cyclesElapsedTotal, currentMonth, currentDay)
         return trueDateString
     
+    #Calculates lunisolar datestamp from input cycles elapsed, 
+    #   month of cycle, and day of month.
     def toLuniSolar(self, cycles, month, day):
         year = cycles * 19
         monthCountArr = [12, 12, 13, 12, 12, 13, 12, 13, 12, 12, 13, 12, 12, 13, 12, 12, 13, 12, 13]
+
+        #Derives current year from leftover year count in Metonic cycle.
         if self.cyDaySum(monthCountArr, 0) + 1 <= month < self.cyDaySum(monthCountArr, 1) + 1:
             currentMonth = month - self.cyDaySum(monthCountArr, 0)
             year += 0
@@ -307,10 +312,14 @@ class LunisolarCalendarCalc(object):
         else:
             currentMonth = month - self.cyDaySum(monthCountArr, 18)
             year += 18
+
+        #Constructs date string for lunisolar calendar to be returned.
         nameOfMonth = self.monthName(currentMonth)
         date = str(day) + " " + nameOfMonth + "(" + str(currentMonth) + "), " + str(year)
         return date
 
+    #Derives month name from month number. 
+    #   Names based on the Farmer's Almanac moon names.
     def monthName(self, monthNum):
         if monthNum == 1:
             name = "Wolf"
@@ -340,13 +349,14 @@ class LunisolarCalendarCalc(object):
             name = "Blue"
         return name
         
-
+    #Determines if a given metonic cycle year needs a leap month.
     def isMetonicLeapYear(self, year):
         if year == 2 or year == 5 or year == 7 or year == 10 or year == 13 or year == 16 or year == 18:
             return True
         else:
             return False
 
+    #Returns a sum of days elapsed from a position in a month array.
     def cyDaySum(self, monthArr, index):
         if index == 0:
             return 0
@@ -358,113 +368,7 @@ class LunisolarCalendarCalc(object):
                 i += 1
             return subTotal
 
-    def metricCalcII(self, year, dayNum, hour, minute):
-        year += 10000
-        fourCenturyCount = year // 400
-        remainingYears = year % 400
-        totalDays = fourCenturyCount * 146097
-        while remainingYears > 0:
-            leap = self.isLeapYear(remainingYears)
-            if leap:
-                totalDays += 366
-            else:
-                totalDays += 365
-            remainingYears -= 1
-        totalDays += dayNum - 1
-        totalDays = totalDays / 1000
-        totalDays = round(totalDays, 3)
-        secTotal = (hour * 3600) + (minute * 60)
-        dayDec = secTotal / 86400
-        dayDec *= 1000000
-        dayDec = math.floor(dayDec)
-        dayDec = dayDec / 1000000000
-        finalMetric = totalDays + dayDec
-        return finalMetric 
-
-    def metric_calc(self):
-        if self.isStupid:
-            lower = 1969
-            upper = 3002
-        else:
-            lower = 0
-            upper = 10000
-        year = int(self.yearE.get())
-        month = int(self.monthE.get())
-        day = int(self.dayE.get())
-        hour = 0
-        minute = 0
-        if lower < year < upper:
-            dt = datetime.datetime(year, month, day, hour, minute)
-            t = (time.mktime(dt.timetuple()))
-            metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
-            rounderI = metric_time * 1000000000
-            rounderII = math.trunc(rounderI)
-            rounderIII = rounderII / 1000000000
-        if year >= upper or year <= lower:
-            dayCount = self.findDayNumOfYear(year, month, day)
-            rounderIII = self.metricCalcII(year, dayCount, hour, minute)
-        return rounderIII
-
-    def findDayNumOfYear(self, year, month, day):
-        leap_year = self.isLeapYear(year)
-        if month == 1:
-                D_Code_MKI = 0
-        if month == 2:
-                D_Code_MKI = 31
-        if month == 3:
-                D_Code_MKI = 59
-                if leap_year == True:
-                    D_Code_MKI = 60
-        if month == 4:
-                D_Code_MKI = 90
-                if leap_year == True:
-                    D_Code_MKI = 91
-        if month == 5:
-                D_Code_MKI = 120
-                if leap_year == True:
-                    D_Code_MKI = 121
-        if month == 6:
-                D_Code_MKI = 151
-                if leap_year == True:
-                    D_Code_MKI = 152
-        if month == 7:
-                D_Code_MKI = 181
-                if leap_year == True:
-                    D_Code_MKI = 182
-        if month == 8:
-                D_Code_MKI = 212
-                if leap_year == True:
-                    D_Code_MKI = 213
-        if month == 9:
-                D_Code_MKI = 243
-                if leap_year == True:
-                    D_Code_MKI = 244
-        if month == 10:
-                D_Code_MKI = 273
-                if leap_year == True:
-                    D_Code_MKI = 274
-        if month == 11:
-                D_Code_MKI = 304
-                if leap_year == True:
-                    D_Code_MKI = 305
-        if month == 12:
-                D_Code_MKI = 334
-                if leap_year == True:
-                    D_Code_MKI = 335
-        D_Code_MKII = D_Code_MKI + day
-        return D_Code_MKII
-
-    def isLeapYear(self, year):
-        if year % 4 == 0:
-            leap = True
-            if year % 100 == 0:
-                leap = False
-                if year % 400 == 0:
-                    leap = True
-        else:
-            leap = False
-        return leap
-
+#Creates tkinter root and main loop that makes GUI work.
 def main():
     root = Tk()
     root.title("Lunisolar Calendar Calculator")

@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Current Version: 2022-10-19
+#Version: 2022-11-13.2
 
 from tkinter import *
 import ageCalcGUI
@@ -65,12 +65,12 @@ class A(object):
         affCalculator.main()
 
     #Converts Gregorian Calendar Date to home-made lunisolar calendar date.
-    def lunisolarCalc(self): #RIGHT HERE
+    def lunisolarCalc(self): #DONE
         luniSolarCalAttempt.main()
 
     #Generates a random alien name based 
     #   on steriotypical alien name components.
-    def alienName(self):
+    def alienName(self): #RIGHT HERE
         alienNameGenerator.main()
 
     #Displays an analog clock with some extra information attached.
