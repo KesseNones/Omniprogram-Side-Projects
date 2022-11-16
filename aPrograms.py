@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-11-13.2
+#Version: 2022-11-16.2
 
 from tkinter import *
 import ageCalcGUI
@@ -11,7 +11,6 @@ import zodiacClock
 
 #This class holds all programs that start with "A"
 class A(object):
-
     #Creates all buttons of aPrograms
     def __init__(self, window = None):
         self.window = window
@@ -70,11 +69,11 @@ class A(object):
 
     #Generates a random alien name based 
     #   on steriotypical alien name components.
-    def alienName(self): #RIGHT HERE
+    def alienName(self): #DONE
         alienNameGenerator.main()
 
     #Displays an analog clock with some extra information attached.
-    def analogClock(self):
+    def analogClock(self):  #COMMENTING RIGHT HERE
         analogClock.main()
 
     #Displays the current position 
