@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-11-16.2
+#Version: 2022-11-20.0
 
 from tkinter import *
 import ageCalcGUI
@@ -73,12 +73,12 @@ class A(object):
         alienNameGenerator.main()
 
     #Displays an analog clock with some extra information attached.
-    def analogClock(self):  #COMMENTING RIGHT HERE
+    def analogClock(self):  #DONE
         analogClock.main()
 
     #Displays the current position 
     #   in the western astrological zodiac.
-    def astrologyClock(self):
+    def astrologyClock(self): #RIGHT HERE COMMENTING I AM
         zodiacClock.main()
 
 #Creates and sustains GUI window.
