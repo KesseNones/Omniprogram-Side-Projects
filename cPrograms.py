@@ -1,7 +1,20 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2022-11-22.3
 
+from tkinter import *
+import coinFlipGUI
+import betterCToWarpConv
+import connecFour
+import chineseCalCalc
+import gradeCalc
+import calMonthDisplayGUI
+import caesarCipher
+import centaurianTime
+import gradeCalcGUI
+
+#Contains programs that start with the letter C in their Omniprogram titles.
 class C(object):
+    #Sets up all of the program buttons.
     def __init__(self, window = None):
         self.window = window
 
@@ -48,48 +61,40 @@ class C(object):
         self.cenButton = Button(self.frameBottom, text = "Centaurian Time", 
             font = "Ariel 30", command = self.centaurian)
         self.cenButton.grid(row = 2, column = 1)
-        
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
+
+        self.gradeMarkII = Button(self.frameBottom, text = "Calculate Weighted Grade GUI Edition", 
+            font = "Ariel 30", command = self.guiGrade)
+        self.gradeMarkII.grid(row = 2, column = 2)
 
     def quitButtonAction(self):
         self.window.destroy()
     
     def coinFlipper(self):
-        import coinFlipGUI
-        #self.clickSound()
         coinFlipGUI.main()
 
     def CToWarp(self):
-        import betterCToWarpConv
-        #self.clickSound()
         betterCToWarpConv.main()
 
     def connecFour(self):
-        import connecFour
-        #self.clickSound()
         connecFour.main()
 
     def chineseCalc(self):
-        import chineseCalCalc
         chineseCalCalc.main()
 
     def grdCalc(self):
-        import gradeCalc
         gradeCalc.main()
 
     def mnthCalc(self):
-        import calMonthDisplayGUI
         calMonthDisplayGUI.main()
 
     def caesarCode(self):
-        import caesarCipher
         caesarCipher.main()
 
     def centaurian(self):
-        import centaurianTime
         centaurianTime.main()
+
+    def guiGrade(self):
+        gradeCalcGUI.main()
 
 def main():
     root = Tk()
