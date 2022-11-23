@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-11-20.0
+#Version: 2022-11-23.4
 
 from tkinter import *
 import ageCalcGUI
@@ -78,7 +78,7 @@ class A(object):
 
     #Displays the current position 
     #   in the western astrological zodiac.
-    def astrologyClock(self): #RIGHT HERE COMMENTING I AM
+    def astrologyClock(self): #DONE
         zodiacClock.main()
 
 #Creates and sustains GUI window.

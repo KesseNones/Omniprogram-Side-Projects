@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Current Version: 2022-10-19
+#Version: 2022-10-23.4
 
 #All alphabet category programs imported as well as tkinter.
 from tkinter import *
@@ -104,10 +104,10 @@ class Omni(object):
         self.window.destroy()
 
     #All methods listed below call the alphabetized category programs.
-    def aFunc(self): #RIGHT HERE
+    def aFunc(self): #DONE
         aPrograms.main()
 
-    def bFunc(self): 
+    def bFunc(self): #HERE
         bPrograms.main()
 
     def cFunc(self):

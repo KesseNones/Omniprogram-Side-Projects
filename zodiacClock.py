@@ -1,41 +1,45 @@
+#Jesse A. Jones
+#Version: 2022-11-23.4
+
 import random
-from time import sleep
 import time
 import datetime
 from tkinter import *
 import math
-from tkinter import messagebox
 import tkinter as tk
+import metricTime
 
+#This class is part of a program to display the current 
+#   position in the commonly used Western Astrological system.
+#I don't personally believe in this kind of stuff, 
+#   I just made it because it's another time system I pay attention to for fun.
 class Zodiac(object):
+    #Makes all function calls to set up the initial astrological clock display.
     def __init__(self, window = None):
         self.window = window
 
+        #Top frame contains quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
-
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.grid(row = 0, column = 0)
 
+        #Sets up frame bottom with appropriate background.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
-
         self.draw = Canvas(self.frameBottom, width = 800, height = 800, 
             bg = "white", highlightbackground = "black", highlightthickness = 2)
-        self.mouseInput = self.draw.bind("<Button-1>", self.mouse)
         self.draw.grid(row = 0, column = 0)
 
         self.backGroundColor = "white"
-        #self.createMinDashes()
+        #Hex code correlates to purple.
         self.outerCircle = self.draw.create_oval(5, 5, 795, 795, width = 6, fill = "#9d45b0")
-        self.createMinDashes()
+        self.createSignSeperators()
+        #Hex code correlates to very dark purple.
         self.innerCircle = self.draw.create_oval(85, 85, 715, 715, width = 6, fill = "#190020")
         self.createStars()
-        #self.dateCreated = False
-        #self.createDate()
-        self.createHourNums()
-        #self.createWeekDays()
+        self.createAstroSymbols()
         
         self.seasonArrowDrawn = False
         self.drawSeasonArrow()
@@ -45,11 +49,13 @@ class Zodiac(object):
 
         self.timeUpdate()
 
-    def mouse(self, event):
-        print(event.x, event.y)
-
+    #Makes stars behind clock hand and moon phase.
     def createStars(self):
+        #Hypotenuse length.
         hype = 310
+
+        #Randomly makes stars in increasingly large circles, 
+        #   filling up the background with a random set of stars.
         while hype > 0:
             starSize = random.choice(range(1, 4))
             starPos = random.choice(range(0, 360))
@@ -58,13 +64,21 @@ class Zodiac(object):
             self.draw.create_oval(x, y, x + starSize, y + starSize, width = 0, fill = "white")
             hype -= 2
             
+    #Quits the program when quit button pressed.
     def quitButtonAction(self):
         self.window.destroy()
     
+    #Draws background for moon phase and prints moon phase emoji based 
+    #   on calculated moon phase. This was implemented 
+    #   in Windows 10 originally. Running it in another OS might 
+    #   either not work or have a moon phase with an off alignment background.
     def createMoon(self):
+        #Delete old moon phase if moon already drawn before.
         if self.moonMade:
             self.moonPhase = self.draw.delete(self.moonPhase)
             self.moonMade = False
+
+        #Gives moon phase character based on calculated moon phase. 
         moon = self.moonCalc()
         x = 400
         y = 400
@@ -72,13 +86,21 @@ class Zodiac(object):
         self.moonPhase = self.draw.create_text(x, y, text = moon, font  = "Times 50", fill = "black")
         self.moonMade = True
         
+    #Calculates moon phase character to use based on metric date.
     def moonCalc(self):
-        #🌑🌒🌓🌔🌕🌖🌗🌘
+        #🌑🌒🌓🌔🌕🌖🌗🌘 <- Moon phase emoji's used.
         moonPhase = ""
-        metricDate = self.metric_time()
+       
+        #Gets current metric date and determines current moon 
+        #   age decimal day from the offset from the base metric date.
+        metric = metricTime.MetricTime()
+        metricDate = metric.metric_time()
         moonBase = 4390.562679166
         metricDiff = metricDate - moonBase
         moonAge = (metricDiff * 1000) % 29.530588
+        
+        #Conditional chain used to determine current 
+        #   moon phase character based on calculated moonAge.
         if moonAge < 0:
             moonAge += 29.530588
         if 0.0 <= moonAge < 3.6913235:
@@ -98,16 +120,10 @@ class Zodiac(object):
         if 25.8392645 <= moonAge < 29.530588:
             moonPhase = "🌘"
         return moonPhase
-        
-    def metric_time(self):
-        t = time.time()
-        metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
-        rounderI = metric_time * 1000000000
-        rounderII = math.trunc(rounderI)
-        rounderIII = rounderII / 1000000000
-        return rounderIII
 
-    def createHourNums(self):
+    #Generates all twelve astrological symbols 
+    #   used throughout the year in order, starting with Aries.
+    def createAstroSymbols(self):
         degreeOffshift = 75
         x = 400 + 350 * math.cos(math.radians(0 - degreeOffshift))
         y = 400 + 350 * math.sin(math.radians(0 - degreeOffshift))
@@ -147,16 +163,25 @@ class Zodiac(object):
         self.pisces = self.draw.create_text(x, y, text = "♓", font  = "times 40")
         self.elementColors()
 
+    #Sets each astrological symbol to its respective element color: 
+    #   red for fire, green for earth, yellow for air, and blue for water.
     def elementColors(self):
-        zodArr = [self.aries, self.taurus, self.gemini, self.cancer, self.leo, self.virgo, self.libra, self.scorpio, self.saggitarius, self.capricorn, self.aquarius, self.pisces]
+        #Array of all twelve zodiac symbols.
+        zodArr = [self.aries, self.taurus, self.gemini, self.cancer, self.leo, 
+            self.virgo, self.libra, self.scorpio, self.saggitarius, 
+            self.capricorn, self.aquarius, self.pisces]
         index = 0
         elementColorArr = ["red", "green", "#fff884", "blue"]
+        
+        #Colors each group of four signs in a specific color 
+        #   order using modulo to discern which color goes where.
         for el in zodArr:
             elementColorArrIndex = index % 4
             self.draw.itemconfig(el, fill = elementColorArr[elementColorArrIndex])
             index += 1
         
-    def createMinDashes(self):
+    #Creates the lines seperating each sign segment of the clock.
+    def createSignSeperators(self):
         delta = 0
         self.crazyArr = []
         while delta < 360:
@@ -170,6 +195,7 @@ class Zodiac(object):
                 self.crazyArr.append(self.draw.create_line(x, y, x2, y2, fill = "black", width = 5))
             delta += 30
 
+    #Detects if an input year is a leap year or not.
     def isLeapYear(self, year):
         if year % 4 == 0:
             leap = True
@@ -181,6 +207,7 @@ class Zodiac(object):
             leap = False
         return leap
     
+    #Gets a timezone shifted unix timestamp.
     def localUnix(self):
         t = time.time()
         t = int(t)
@@ -193,6 +220,7 @@ class Zodiac(object):
         t = (t - (3600 * timeZoneDiff))
         return t
 
+    #Updates the clock if midnight is hit.
     def timeUpdate(self):
         unix = self.localUnix()
         if unix % 86400 == 0:
@@ -200,20 +228,26 @@ class Zodiac(object):
             self.createMoon()
         self.window.after(1000, self.timeUpdate)
 
+    #Creates arrow that indicates position in zodiac cycle.
     def drawSeasonArrow(self):
+        #Deletes old arrow if one exists.
         if self.seasonArrowDrawn:
             self.seasonArrow = self.draw.delete(self.seasonArrow)
             self.seasonArrowDrawn = False
+
+        #Calculates position in year and draws arrow appropriately.
         seasonPosition = self.findSeasonPos()
         seasonArmHyp = 350
         x = 400
         y = 400
         x2 = 400 + seasonArmHyp * math.cos(math.radians(seasonPosition - 90))
         y2 = 400 + seasonArmHyp * math.sin(math.radians(seasonPosition - 90))
-        self.seasonArrow = self.draw.create_line(400, 400, x2, y2, width = 10, fill = "grey", arrow = tk.LAST, arrowshape = (10, 15, 10))
+        self.seasonArrow = self.draw.create_line(400, 400, x2, y2, width = 10, 
+            fill = "grey", arrow = tk.LAST, arrowshape = (10, 15, 10))
         
         self.seasonArrowDrawn = True
 
+    #Determines current degree number for the arrow to be on.
     def findSeasonPos(self):
         yearDayNum = self.calCalcI()
         if self.isLeap:
@@ -224,16 +258,23 @@ class Zodiac(object):
         degOfYear = yearDec * 360
         return degOfYear
 
+    #Calculates what day number to be on in the seasonal year cycle.
     def calCalcI(self):
+        #Base date.
         yearB = 2001
         monthB = 3
         dayB = 19
+
+        #Present date.
         local = datetime.datetime.now()
         yearC = local.year
         monthC = local.month
         dayC = local.day - 1
+
         leap_year = self.isLeapYear(yearB)
         leap_year = self.isLeapYear(yearC)
+        
+        #Giant block of ifs determine day number.
         if leap_year == False:
             div = 365
         if leap_year == True:
@@ -326,6 +367,8 @@ class Zodiac(object):
             D_Code_C = 334
             if leap_year == True:
                 D_Code_C = 335
+
+        #Calculates days elapsed in cycle.
         D_Code_BII = D_Code_B + dayB
         D_Code_CII = D_Code_C + dayC
         Age_int = yearC - yearB
@@ -342,9 +385,8 @@ class Zodiac(object):
         AGE = AGE * 1000
         AGE = round(AGE)
         AGE = AGE / 1000
-        self.year = yearC
+
         self.isLeap = self.isLeapYear(yearC)
-        print(Age_day)
         return Age_day
 
 def main():
