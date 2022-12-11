@@ -1,11 +1,21 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2022-12-10.1
 
+from tkinter import *
+import bearimyConverterGUI
+import baseConvGui
+import binEncoder
+import binaryClock
+import baseCounter
+import baseSixClock
+import baseCalculator
+import baseSixClock2
+
+#This class contains all the buttons that yield 
+#   the programs made that start with the letter B.
 class B(object):
     def __init__(self, window = None):
         self.window = window
-
-        self.soundsAllowed = False
 
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
@@ -49,44 +59,40 @@ class B(object):
             font = "Ariel 30", command = self.baseSixClock2)
         self.baseSixClockButtonII.grid(row = 2, column = 1)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
+    #Quits the given window.
     def quitButtonAction(self):
         self.window.destroy()
 
-    def berimyConv(self):
-        import bearimyConverterGUI
-        #self.clickSound()
+    #Activates program that converts from regular time to Bearmies and back.
+    def berimyConv(self):           #DONE
         bearimyConverterGUI.main()
 
+    #Calls main of program that converts between various bases.
     def baseConvert(self):
-        import baseConvGui
-        baseConvGui.main()
+        baseConvGui.main()          #HERE
 
+    #Converts text to the ascii binary equivalents.
     def binConv(self):
-        import binEncoder
         binEncoder.main()
 
+    #Tells the time in a binary fashion.
     def binClock(self):
-        import binaryClock
         binaryClock.main()
 
+    #A stopwatch for bases 2 through 36.
     def anyBaseStop(self):
-        import baseCounter
         baseCounter.main()
         
+    #A clock that reckons time in base six.
     def baseSixClock(self):
-        import baseSixClock
         baseSixClock.main()
         
+    #Performs math in different bases.
     def baseCalculator(self):
-        import baseCalculator
         baseCalculator.main()
 
+    #Another base six clock.
     def baseSixClock2(self):
-        import baseSixClock2
         baseSixClock2.main()
 
 def main():
