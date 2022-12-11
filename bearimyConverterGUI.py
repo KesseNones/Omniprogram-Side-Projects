@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-10.1
+#Version: 2022-12-11.1
 
 from tkinter import *
 from random import choice

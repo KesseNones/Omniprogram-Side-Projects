@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-10.1
+#Version: 2022-12-11.4
 
 from tkinter import *
 import bearimyConverterGUI
@@ -69,7 +69,7 @@ class B(object):
 
     #Calls main of program that converts between various bases.
     def baseConvert(self):
-        baseConvGui.main()          #HERE
+        baseConvGui.main()          #DONE
 
     #Converts text to the ascii binary equivalents.
     def binConv(self):
