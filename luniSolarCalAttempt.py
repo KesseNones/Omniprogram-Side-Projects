@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-11-13.2
+#Version: 2022-12-22.2
 
 from tkinter import *
 import metricTime
@@ -30,29 +30,29 @@ class LunisolarCalendarCalc(object):
         self.frameBottom.pack(side = BOTTOM)
 
         #Year input field.
-        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 55")
+        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Times 20")
         self.messageI.grid(row = 0, column = 0)
-        self.year = Entry(self.frameBottom, font = "Times 45")
+        self.year = Entry(self.frameBottom, font = "Times 20")
         self.year.grid(row = 0, column = 1)
 
         #Month input field.
-        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 55")
+        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Times 20")
         self.messageII.grid(row = 2, column = 0)
-        self.month = Entry(self.frameBottom, font = "Times 45")
+        self.month = Entry(self.frameBottom, font = "Times 20")
         self.month.grid(row = 2, column = 1)
 
         #Day input field.
-        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 55")
+        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Times 20")
         self.messageIII.grid(row = 3, column = 0)
-        self.day = Entry(self.frameBottom, font = "Times 45")
+        self.day = Entry(self.frameBottom, font = "Times 20")
         self.day.grid(row = 3, column = 1)
     
         #Conversion button and output.
         self.convButton = Button(self.frameBottom, text = "Convert to Luni-Solar Calendar", 
-            font = "Ariel 50", command = self.RCalCalc)
+            font = "Times 20", command = self.RCalCalc)
         self.convButton.grid(row = 4, column = 0)
         self.cOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 55", justify = LEFT)
+            font = "Times 20", justify = LEFT)
         self.cOutput.grid(row = 5, column = 0)
 
         #Used in time calculations.

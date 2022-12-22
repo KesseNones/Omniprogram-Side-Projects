@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-10-19
+#Version: 2022-12-22.2
 
 from tkinter import *
 import math
@@ -27,56 +27,56 @@ class AgeCalc(object):
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageI = Label(self.frameBottom, text = "Enter Birth Year:", font = "Ariel 45")
+        self.messageI = Label(self.frameBottom, text = "Enter Birth Year:", font = "Times 20")
         self.messageI.grid(row = 0, column = 0)
 
-        self.yearB = Entry(self.frameBottom, font = "Times 45")
+        self.yearB = Entry(self.frameBottom, font = "Times 20")
         self.yearB.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Birth Month:", font = "Ariel 45")
+        self.messageII = Label(self.frameBottom, text = "Enter Birth Month:", font = "Times 20")
         self.messageII.grid(row = 2, column = 0)
 
-        self.monthB = Entry(self.frameBottom, font = "Times 45")
+        self.monthB = Entry(self.frameBottom, font = "Times 20")
         self.monthB.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Birth Day:", font = "Ariel 45")
+        self.messageIII = Label(self.frameBottom, text = "Enter Birth Day:", font = "Times 20")
         self.messageIII.grid(row = 3, column = 0)
 
-        self.dayB = Entry(self.frameBottom, font = "Times 45")
+        self.dayB = Entry(self.frameBottom, font = "Times 20")
         self.dayB.grid(row = 3, column = 1)
 
-        self.messageIV = Label(self.frameBottom, text = "Enter Current Year:", font = "Ariel 45")
+        self.messageIV = Label(self.frameBottom, text = "Enter Current Year:", font = "Times 20")
         self.messageIV.grid(row = 4, column = 0)
 
-        self.yearC = Entry(self.frameBottom, font = "Times 45")
+        self.yearC = Entry(self.frameBottom, font = "Times 20")
         self.yearC.grid(row = 4, column = 1)
 
-        self.messageV = Label(self.frameBottom, text = "Enter Current Month:", font = "Ariel 45")
+        self.messageV = Label(self.frameBottom, text = "Enter Current Month:", font = "Times 20")
         self.messageV.grid(row = 5, column = 0)
 
-        self.monthC = Entry(self.frameBottom, font = "Times 45")
+        self.monthC = Entry(self.frameBottom, font = "Times 20")
         self.monthC.grid(row = 5, column = 1)
 
-        self.messageVI = Label(self.frameBottom, text = "Enter Current Day:", font = "Ariel 45")
+        self.messageVI = Label(self.frameBottom, text = "Enter Current Day:", font = "Times 20")
         self.messageVI.grid(row = 6, column = 0)
 
-        self.dayC = Entry(self.frameBottom, font = "Times 45")
+        self.dayC = Entry(self.frameBottom, font = "Times 20")
         self.dayC.grid(row = 6, column = 1)
     
         self.convButton = Button(self.frameBottom, text = "Calculate Age", 
-            font = "Ariel 60", command = self.ageCalc)
+            font = "Times 20", command = self.ageCalc)
         self.convButton.grid(row = 7, column = 0)
 
         self.cOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 55", justify = LEFT)
+            font = "Times 20", justify = LEFT)
         self.cOutput.grid(row = 7, column = 1)
 
         self.cOutputII = Label(self.frameBottom, text = "", 
-            font = "Ariel 55", justify = LEFT)
+            font = "Times 20", justify = LEFT)
         self.cOutputII.grid(row = 8, column = 1)
         
         self.cOutputIII = Label(self.frameBottom, text = "", 
-            font = "Ariel 55", justify = LEFT)
+            font = "Times 20", justify = LEFT)
         self.cOutputIII.grid(row = 9, column = 1)
         
     #Quits program.

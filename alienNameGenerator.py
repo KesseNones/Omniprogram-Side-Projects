@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-11-16.2
+#Version: 2022-12-22.2
 
 from tkinter import *
 from random import choice
@@ -23,15 +23,15 @@ class NamGen(object):
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
         self.convButtonI = Button(self.frameBottom, text = "Generate Name", 
-            font = "Ariel 45", command = self.nameGen)
+            font = "Times 30", command = self.nameGen)
         self.convButtonI.grid(row = 0, column = 0)
 
         #Alien name output.
-        self.message = Label(self.frameBottom, text = "Name:", font = "Ariel 55", anchor = "w")
+        self.message = Label(self.frameBottom, text = "Name:", font = "Times 30", anchor = "w")
         self.message.grid(row = 1, column = 0)
         self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 50", justify = LEFT, wraplength = 600 )
-        self.tOutput.grid(row = 1, column = 1)
+            font = "Times 30", justify = LEFT, wraplength = 600 )
+        self.tOutput.grid(row = 2, column = 0)
 
         self.copyNameToClipBoard = False
 
@@ -51,9 +51,19 @@ class NamGen(object):
 
     #Generates random alien sounding name.
     def nameGen(self):
-        firstSegArr = ["Gor", "Spea", "Ar", "Vol", "Mel", "Ter", "Kek", "Teal", "Ozge", "Kre", "Mor", "So", "Fel", "Yan", "Toq", "Krak", "Kess", "Kell", "Kror", "Wor", "Skek", "Tp'"]
-        secondSegArr = ["sel", "krek", "eoru", "tek", "'", "arau", "bos","basil", "nel", "fu", "a", "or", "vi", "pur", "gar", "pol", "snor", "ron", "mort", "yuv", "frar", "t'rar", "wё", "osgalet", ""]
-        thirdSegArr = ["orot", "'bel","ol", "nel", "kron", "org", "sen", "unal", "yun", "schek", "vek", "", "c"]
+        firstSegArr = ["Gor", "Spea", "Ar", "Vol", "Mel", "Ter", "Kek", "Teal", "Ozge", "Kre", 
+            "Mor", "So", "Fel", "Yan", "Toq", "Krak", "Kess", 
+            "Kell", "Kror", "Wor", "Skek", "Tp'"]
+
+        secondSegArr = ["sel", "krek", "eoru", "tek", "'", "arau", "bos","basil", "nel", "fu", 
+            "a", "or", "vi", "pur", "gar", "pol", "snor", 
+            "ron", "mort", "yuv", "frar", "t'rar", "wё", "osgalet", ""]
+
+        thirdSegArr = ["orot", "'bel","ol", "nel", "kron", "org", 
+            "sen", "unal", "yun", "schek", "vek", "", "c"]
+
+        #Randomly picks name pieces and puts them together, 
+        #   displaying the name to user.
         firstIndex = choice(range(0, len(firstSegArr)))
         secondIndex = choice(range(0, len(secondSegArr)))
         thirdIndex = choice(range(0, len(thirdSegArr)))

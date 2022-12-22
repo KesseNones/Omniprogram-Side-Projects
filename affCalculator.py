@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-10-19
+#Version: 2022-12-22.2
 
 from tkinter import *
 import math
@@ -23,32 +23,32 @@ class ActillionFTLFactorCalc(object):
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
     
-        self.messageI = Label(self.frameBottom, text = "Enter C Multiple:", font = "Ariel 55", anchor = "w")
+        self.messageI = Label(self.frameBottom, text = "Enter C Multiple:", font = "Times 20", anchor = "w")
         self.messageI.grid(row = 0, column = 0)
 
-        self.cI = Entry(self.frameBottom, font = "Times 55")
+        self.cI = Entry(self.frameBottom, font = "Times 20")
         self.cI.grid(row = 0, column = 1)
 
         self.affButton = Button(self.frameBottom, text = "Convert to AFF", 
-            font = "Ariel 55", command = self.CTOAff)
+            font = "Times 20", command = self.CTOAff)
         self.affButton.grid(row = 1, column = 0)
 
         self.aOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 45")
+            font = "Times 20")
         self.aOutput.grid(row = 2, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter AFF:", font = "Ariel 55", anchor = "w")
+        self.messageII = Label(self.frameBottom, text = "Enter AFF:", font = "Times 20", anchor = "w")
         self.messageII.grid(row = 3, column = 0)
 
-        self.aff = Entry(self.frameBottom, font = "Times 55")
+        self.aff = Entry(self.frameBottom, font = "Times 20")
         self.aff.grid(row = 3, column = 1)
 
         self.cButton = Button(self.frameBottom, text = "Convert to C Multiple", 
-            font = "Ariel 55", command = self.affToC)
+            font = "Times 20", command = self.affToC)
         self.cButton.grid(row = 4, column = 0)
 
         self.cOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 45")
+            font = "Times 20")
         self.cOutput.grid(row = 5, column = 1)
 
     def quitButtonAction(self):
