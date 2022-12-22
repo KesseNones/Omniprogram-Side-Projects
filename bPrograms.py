@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-11.4
+#Version: 2022-12-22.2
 
 from tkinter import *
 import bearimyConverterGUI
@@ -73,7 +73,7 @@ class B(object):
 
     #Converts text to the ascii binary equivalents.
     def binConv(self):
-        binEncoder.main()
+        binEncoder.main()           #DONE
 
     #Tells the time in a binary fashion.
     def binClock(self):
