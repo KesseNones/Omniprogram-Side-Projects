@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-22.2
+#Version: 2022-12-22.4
 
 from tkinter import *
 import bearimyConverterGUI
@@ -77,11 +77,11 @@ class B(object):
 
     #Tells the time in a binary fashion.
     def binClock(self):
-        binaryClock.main()
+        binaryClock.main()          #DONE
 
     #A stopwatch for bases 2 through 36.
     def anyBaseStop(self):
-        baseCounter.main()
+        baseCounter.main()          #HERE
         
     #A clock that reckons time in base six.
     def baseSixClock(self):
