@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-22.4
+#Version: 2022-12-23.0
 
 from tkinter import *
 import bearimyConverterGUI
@@ -81,11 +81,11 @@ class B(object):
 
     #A stopwatch for bases 2 through 36.
     def anyBaseStop(self):
-        baseCounter.main()          #HERE
+        baseCounter.main()          #DONE
         
     #A clock that reckons time in base six.
     def baseSixClock(self):
-        baseSixClock.main()
+        baseSixClock.main()         #HERE
         
     #Performs math in different bases.
     def baseCalculator(self):
