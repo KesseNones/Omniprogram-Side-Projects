@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-23.0
+#Version: 2022-12-23.4
 
 from tkinter import *
 import bearimyConverterGUI
@@ -85,11 +85,11 @@ class B(object):
         
     #A clock that reckons time in base six.
     def baseSixClock(self):
-        baseSixClock.main()         #HERE
+        baseSixClock.main()         #DONE
         
     #Performs math in different bases.
     def baseCalculator(self):
-        baseCalculator.main()
+        baseCalculator.main()       #HERE
 
     #Another base six clock.
     def baseSixClock2(self):
