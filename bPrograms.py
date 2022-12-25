@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-23.4
+#Version: 2022-12-25.1
 
 from tkinter import *
 import bearimyConverterGUI
@@ -89,11 +89,11 @@ class B(object):
         
     #Performs math in different bases.
     def baseCalculator(self):
-        baseCalculator.main()       #HERE
+        baseCalculator.main()       #FLOATING POINT STUFF STILL NEEDS SOME WORK
 
     #Another base six clock.
     def baseSixClock2(self):
-        baseSixClock2.main()
+        baseSixClock2.main()        #HERE
 
 def main():
     root = Tk()
