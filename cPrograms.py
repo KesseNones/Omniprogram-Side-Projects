@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-28.1
+#Version: 2022-12-28.2
 
 from tkinter import *
 import coinFlipGUI
@@ -79,12 +79,12 @@ class C(object):
 
     #Converts a multiple of the speed of light 
     #   to the Star Trek TNG Warp Drive Scale.
-    def CToWarp(self):                          #HERE
+    def CToWarp(self):                          #DONE
         betterCToWarpConv.main()
 
     #Runs a GUI connect four game with several bells and wistles. 
     #   The sound is currently a bit broken and needs to be fixed.
-    def connecFour(self):
+    def connecFour(self):                       #HERE
         connecFour.main()
 
     #Converts a year to the equivalent year in the Chinese Calendar.
