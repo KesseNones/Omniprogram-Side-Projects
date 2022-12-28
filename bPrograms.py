@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-25.1
+#Version: 2022-12-28.1
 
 from tkinter import *
 import bearimyConverterGUI
@@ -93,7 +93,7 @@ class B(object):
 
     #Another base six clock.
     def baseSixClock2(self):
-        baseSixClock2.main()        #HERE
+        baseSixClock2.main()        #DONE
 
 def main():
     root = Tk()
