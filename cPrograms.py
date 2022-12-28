@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-11-22.3
+#Version: 2022-12-28.1
 
 from tkinter import *
 import coinFlipGUI
@@ -14,19 +14,22 @@ import gradeCalcGUI
 
 #Contains programs that start with the letter C in their Omniprogram titles.
 class C(object):
-    #Sets up all of the program buttons.
     def __init__(self, window = None):
         self.window = window
 
         self.soundsAllowed = False
 
+        #Top frame contains quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quit button.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 30", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Bottom frame contains all buttons 
+        #   for programs that start with the letter C.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
@@ -46,7 +49,7 @@ class C(object):
             font = "Ariel 30", command = self.chineseCalc)
         self.chiButton.grid(row = 1, column = 0)
 
-        self.grdButton = Button(self.frameBottom, text = "Calculate Weighted Grade Not GUI", 
+        self.grdButton = Button(self.frameBottom, text = "Calculate Weighted Grade", 
             font = "Ariel 30", command = self.grdCalc)
         self.grdButton.grid(row = 1, column = 1)
 
@@ -66,33 +69,46 @@ class C(object):
             font = "Ariel 30", command = self.guiGrade)
         self.gradeMarkII.grid(row = 2, column = 2)
 
+    #Quits the program.
     def quitButtonAction(self):
         self.window.destroy()
     
-    def coinFlipper(self):
+    #Displays the result of a coin flip.
+    def coinFlipper(self):                      #DONE (maybe add head and tails counter later)
         coinFlipGUI.main()
 
-    def CToWarp(self):
+    #Converts a multiple of the speed of light 
+    #   to the Star Trek TNG Warp Drive Scale.
+    def CToWarp(self):                          #HERE
         betterCToWarpConv.main()
 
+    #Runs a GUI connect four game with several bells and wistles. 
+    #   The sound is currently a bit broken and needs to be fixed.
     def connecFour(self):
         connecFour.main()
 
+    #Converts a year to the equivalent year in the Chinese Calendar.
     def chineseCalc(self):
         chineseCalCalc.main()
 
+    #Calculates a grade from weighted grade portions. This is not a GUI.
     def grdCalc(self):
         gradeCalc.main()
 
+    #Displays a calendar month page for a given year and month.
+    #   Is kind of garbage and could use improving.
     def mnthCalc(self):
         calMonthDisplayGUI.main()
 
+    #Performs the classic Caeser Cipher encrption or decryption on a string.
     def caesarCode(self):
         caesarCipher.main()
 
+    #Displays the present Centaurian time that m.i.b Headquarters uses.
     def centaurian(self):
         centaurianTime.main()
 
+    #Calculates a grade from weighted grade portions.
     def guiGrade(self):
         gradeCalcGUI.main()
 

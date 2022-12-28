@@ -1,11 +1,18 @@
-import random
-from time import sleep
-from tkinter import *
+#Jesse A. Jones
+#Version: 2022-12-28.1
 
+from random import randint
+from tkinter import *
+from time import sleep
+
+#Contains the members and methods necessary 
+#   to yield the result of a coin flip, 
+#   being Heads or Tails.
 class CoinFlip(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Contains the quit button and flip button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
@@ -17,26 +24,35 @@ class CoinFlip(object):
             font = "Ariel 20", command = self.coinUpdate)
         self.flipper.pack(side = LEFT)
 
+        #Contains the output from a given flip.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "Click to Flip", font = "Ariel 75", anchor = "w")
+        #Output of flip.
+        self.message = Entry(self.frameBottom, font = "Times 30", justify = CENTER)
         self.message.pack(side = TOP)
 
+    #Quits the program.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Flips the coin and displays the result to the user.
     def coinUpdate(self):
-        flip = self.coin_flip()
-        self.message["text"] = flip
+        flip = self.flipCoin()
 
-    def coin_flip(self):
-        X = random.randint(0,1)
-        if X == 0:
-            Y = "Heads"
-        elif X == 1:
-            Y = "Tails"
-        return Y
+        #Displays progress message before displaying output to user.
+        self.message.delete(0, "end")
+        self.message.insert(0, "Flipping...")
+        self.message.update()
+        sleep(1)
+        self.message.delete(0, "end")
+        self.message.insert(0, flip)
+
+    #Uses random's randint method to 'randomly' 
+    #   choose between a head or tail side.
+    def flipCoin(self):
+        posArr = ["Heads", "Tails"]
+        return posArr[randint(0, 1)]
 
 def main():
     root = Tk()
