@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-08.91
+#Version: 2023-05-08.99
 
 import random
 from time import sleep
@@ -130,28 +130,28 @@ class Connect4(object):
     #Plays sound of chip hitting falling into place.
     def chipSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/chipDrop.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("connectFourSoundEffects/chipDrop.wav", winsound.SND_ASYNC)
 
     #Plays sound of player winning game.
     def winningSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/playerWin.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("connectFourSoundEffects/playerWin.wav", winsound.SND_ASYNC)
 
     #Plays sound of AI winning game.
     def loosingSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/aiWin.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("connectFourSoundEffects/aiWin.wav", winsound.SND_ASYNC)
 
     #Plays if stalemate occurs.
     def stalemateSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/stalemate.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("connectFourSoundEffects/stalemate.wav", winsound.SND_ASYNC)
 
     #Plays a clip of my dumb voice saying "Click" which is pretty 
     #   much used to confirm if the sound is enabled or not.
     def clickSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
+            winsound.PlaySound("connectFourSoundEffects/click.wav", winsound.SND_ASYNC)
 
     #This is called if the sound on button is pressed.
     #   Enables sound and plays the confirmation sound.
