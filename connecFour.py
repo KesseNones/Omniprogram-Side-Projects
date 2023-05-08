@@ -11,8 +11,6 @@ import winsound
 #   This version of the game features animations, 
 #   sound effects, as well as a rewind after a game is finished.
 
-#SOUND IS CURRENTLY BROKEN IN THIS VERSION!!!!
-
 class Connect4(object):
 
     #Sets up the GUI.
