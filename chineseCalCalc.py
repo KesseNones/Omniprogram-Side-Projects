@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-09.11
+#Version: 2023-05-09.93
 
 from tkinter import *
 import math
@@ -76,191 +76,27 @@ class ChineseCalCalc(object):
         zodNum = ((cycleNum - 1) % 12)
         elemNum = ((cycleNum - 1) // 12)
         
-        #Calculates element name for case Rat.
-        if zodNum == 0:
-            amnimal = "Rat"
-            yangYin = "Yang"
-            if elemNum == 0:
-                el = "Wood"
-            if elemNum == 1:
-                el = "Fire"
-            if elemNum == 2:
-                el = "Earth"
-            if elemNum == 3:
-                el = "Metal"
-            if elemNum == 4:
-                el = "Water"
+        #Useful arrays necessary for calculations.
+        zodNameArr = ["Rat", "Ox", "Tiger",
+                    "Rabbit", "Dragon", "Snake",
+                    "Horse", "Goat", "Monkey", 
+                    "Rooster", "Dog", "Pig"]
+        yangYinArr = ["Yang", "Yin"]
+        elementNameArr = ["Wood", "Fire", "Earth", "Metal", "Water"]
 
-        #Calculates element name for case Ox.
-        if zodNum == 1:
-            amnimal = "Ox"
-            yangYin = "Yin"
-            if elemNum == 0:
-                el = "Wood"
-            if elemNum == 1:
-                el = "Fire"
-            if elemNum == 2:
-                el = "Earth"
-            if elemNum == 3:
-                el = "Metal"
-            if elemNum == 4:
-                el = "Water"
+        #Finds zodiac animal.
+        animal = zodNameArr[zodNum]
         
-        #Calculates element name for case Tiger.
-        if zodNum == 2:
-            amnimal = "Tiger"
-            yangYin = "Yang"
-            if elemNum == 0:
-                el = "Fire"
-            if elemNum == 1:
-                el = "Earth"
-            if elemNum == 2:
-                el = "Metal"
-            if elemNum == 3:
-                el = "Water"
-            if elemNum == 4:
-                el = "Wood"
-
-        #Calculates element name for case Rabbit.
-        if zodNum == 3:
-            amnimal = "Rabbit"
-            yangYin = "Yin"
-            if elemNum == 0:
-                el = "Fire"
-            if elemNum == 1:
-                el = "Earth"
-            if elemNum == 2:
-                el = "Metal"
-            if elemNum == 3:
-                el = "Water"
-            if elemNum == 4:
-                el = "Wood"
-
-        #Calculates element name for case Dragon.
-        if zodNum == 4:
-            amnimal = "Dragon"
-            yangYin = "Yang"
-            if elemNum == 0:
-                el = "Earth"
-            if elemNum == 1:
-                el = "Metal"
-            if elemNum == 2:
-                el = "Water"
-            if elemNum == 3:
-                el = "Wood"
-            if elemNum == 4:
-                el = "Fire"
-
-        #Calculates element name for case Snake.
-        if zodNum == 5:
-            amnimal = "Snake"
-            yangYin = "Yin"
-            if elemNum == 0:
-                el = "Earth"
-            if elemNum == 1:
-                el = "Metal"
-            if elemNum == 2:
-                el = "Water"
-            if elemNum == 3:
-                el = "Wood"
-            if elemNum == 4:
-                el = "Fire"
-
-        #Calculates element name for case Horse.
-        if zodNum == 6:
-            amnimal = "Horse"
-            yangYin = "Yang"
-            if elemNum == 0:
-                el = "Metal"
-            if elemNum == 1:
-                el = "Water"
-            if elemNum == 2:
-                el = "Wood"
-            if elemNum == 3:
-                el = "Fire"
-            if elemNum == 4:
-                el = "Earth"
-
-        #Calculates element name for case Goat.
-        if zodNum == 7:
-            amnimal = "Goat"
-            yangYin = "Yin"
-            if elemNum == 0:
-                el = "Metal"
-            if elemNum == 1:
-                el = "Water"
-            if elemNum == 2:
-                el = "Wood"
-            if elemNum == 3:
-                el = "Fire"
-            if elemNum == 4:
-                el = "Earth"
-
-        #Calculates element name for case Monkey.
-        if zodNum == 8:
-            amnimal = "Monkey"
-            yangYin = "Yang"
-            if elemNum == 0:
-                el = "Water"
-            if elemNum == 1:
-                el = "Wood"
-            if elemNum == 2:
-                el = "Fire"
-            if elemNum == 3:
-                el = "Earth"
-            if elemNum == 4:
-                el = "Metal"
-
-        #Calculates element name for case Rooster.
-        if zodNum == 9:
-            amnimal = "Rooster"
-            yangYin = "Yin"
-            if elemNum == 0:
-                el = "Water"
-            if elemNum == 1:
-                el = "Wood"
-            if elemNum == 2:
-                el = "Fire"
-            if elemNum == 3:
-                el = "Earth"
-            if elemNum == 4:
-                el = "Metal"
-
-        #Calculates element name for case Dog.
-        if zodNum == 10:
-            amnimal = "Dog"
-            yangYin = "Yang"
-            if elemNum == 0:
-                el = "Wood"
-            if elemNum == 1:
-                el = "Fire"
-            if elemNum == 2:
-                el = "Earth"
-            if elemNum == 3:
-                el = "Metal"
-            if elemNum == 4:
-                el = "Water"
-
-        #Calculates element name for case Pig.
-        if zodNum == 11:
-            amnimal = "Pig"
-            yangYin = "Yin"
-            if elemNum == 0:
-                el = "Wood"
-            if elemNum == 1:
-                el = "Fire"
-            if elemNum == 2:
-                el = "Earth"
-            if elemNum == 3:
-                el = "Metal"
-            if elemNum == 4:
-                el = "Water"
+        #Finds yin or yang.
+        yangYin = yangYinArr[zodNum % 2]
+        
+        #Finds element name.
+        el = elementNameArr[(elemNum + (zodNum // 2)) % 5]
 
         #Builds final string and returns it.
-        calString = "Cycle: " + str(cyc) + ", Year: " + str(cycleNum) + ", " + yangYin + " " + el + "-" + amnimal
+        calString = "Cycle: " + str(cyc) + ", Year: " + str(cycleNum) + ", " + yangYin + " " + el + "-" + animal
         return calString
         
-
 def main():
     root = Tk()
     root.title("Chinese Calendar Year Calclator")
