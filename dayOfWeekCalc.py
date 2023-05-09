@@ -1,3 +1,6 @@
+#Jesse A. Jones
+#Version: 2023-05-09.84
+
 from tkinter import *
 import math
 import time
@@ -5,7 +8,10 @@ import datetime
 import dateHandling
 import leapDetect
 
+#This class calculates a weekday from an 
+#   input date and displays the result to the user.
 class WeekCalc(object):
+    #Sets up GUI and other useful items.
     def __init__(self, window = None):
         self.window = window
 
@@ -16,116 +22,71 @@ class WeekCalc(object):
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
-        self.isStupid = True
-
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 55")
+        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 20")
         self.messageI.grid(row = 0, column = 0)
 
-        self.yearE = Entry(self.frameBottom, font = "Times 45")
-        self.yearE.grid(row = 0, column = 1)
+        self.year = Entry(self.frameBottom, font = "Ariel 20")
+        self.year.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 55")
+        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 20")
         self.messageII.grid(row = 2, column = 0)
 
-        self.monthE = Entry(self.frameBottom, font = "Times 45")
-        self.monthE.grid(row = 2, column = 1)
+        self.month = Entry(self.frameBottom, font = "Ariel 20")
+        self.month.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 55")
+        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 20")
         self.messageIII.grid(row = 3, column = 0)
 
-        self.dayE = Entry(self.frameBottom, font = "Times 45")
-        self.dayE.grid(row = 3, column = 1)
+        self.day = Entry(self.frameBottom, font = "Ariel 20")
+        self.day.grid(row = 3, column = 1)
     
         self.convButton = Button(self.frameBottom, text = "Find Weekday", 
-            font = "Ariel 50", command = self.wCalCalc)
+            font = "Ariel 20", command = self.wCalCalc)
         self.convButton.grid(row = 4, column = 0)
 
-        self.cOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 65", justify = LEFT)
-        self.cOutput.grid(row = 4, column = 1)
+        self.output = Label(self.frameBottom, text = "", 
+            font = "Ariel 20", justify = LEFT)
+        self.output.grid(row = 4, column = 1)
 
+        #Used for leap year detection and date parsing.
+        self.leap = leapDetect.IsLeap()
+        self.dateParse = dateHandling.GetDate()
+
+    #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Calls calculation function and displays result to user.
     def wCalCalc(self):
-        day = self.cal_calc()
-        self.cOutput["text"] = day
+        #Fetches input.
+        year = self.dateParse.getYear(self.year.get())
+        month = self.dateParse.getMonth(self.month.get())
+        day = self.dateParse.getDay(self.day.get())
 
-    def cal_calc(self):
-        date = dateHandling.GetDate()
-        year = date.getYear(self.yearE.get())
-        month = date.getMonth(self.monthE.get())
-        day = date.getDay(self.dayE.get())
-        weekDay = self.week_fdn(year, month, day)
-        print(year, month, day)
-        return weekDay
+        #Finds week day and displays it.
+        self.output["text"] = self.weekFind(year, month, day)
 
-    def week_fdn(self, year, month, day):
-        leap = leapDetect.IsLeap()
-        isLeap = leap.isLeapYear(year)
-        if isLeap and month < 3:
-            subtract = -1
-        else:
-            subtract = 0
-        y = year % 100
-        yII = int(y / 4)
-        yIII = yII + y
-        yC = yIII % 7
-        if (year - y) % 400 == 0:
-            cC = 6
-        if ((year - y) - 100) % 400 == 0:
-            cC = 4
-        if ((year - y) - 200) % 400 == 0:
-            cC = 2
-        if ((year - y) - 300) % 400 == 0:
-            cC = 0
-        net = yC + cC
-        if month == 1:
-            mC = 0
-        if month == 2:
-            mC = 3
-        if month == 3:
-            mC = 3
-        if month == 4:
-            mC = 6
-        if month == 5:
-            mC = 1
-        if month == 6:
-            mC = 4
-        if month == 7:
-            mC = 6
-        if month == 8:
-            mC = 2
-        if month == 9:
-            mC = 5
-        if month == 10:
-            mC = 0
-        if month == 11:
-            mC = 3
-        if month == 12:
-            mC = 5
-        net = net + mC
-        net = net + int(day)
-        net = net + subtract
-        net = net % 7
-        if net == 0:
-            wk = "Sunday"
-        elif net == 1:
-            wk = "Monday"
-        elif net == 2:
-            wk = "Tuesday"
-        elif net == 3:
-            wk = "Wednesday"
-        elif net == 4:
-            wk = "Thursday"
-        elif net == 5:
-            wk = "Friday"
-        else:
-            wk = "Saturday"
-        return wk
+    #Finds day of week from input year, month, and day.
+    def weekFind(self, year, month, day):
+        #Determines if 1 needs to be subtracted from calculations or not.
+
+        #Useful arrays for calculating week stuff.
+        centuryCodeArr = [6, 4, 2, 0]
+        monthCodeArr = [0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5]
+        weekNameArr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+        #Numbers used in the week calculation.
+        leapSubtract = 0 - ((month < 3) and self.leap.isLeapYear(year))
+        cenCode = centuryCodeArr[(year // 100) % 4]
+        monthCode = monthCodeArr[month - 1]
+        decAndYr = year % 100
+        yearNum = decAndYr + (decAndYr // 4)
+
+        #Performs final calculation and returns string representing week day.
+        return weekNameArr[((cenCode + yearNum + monthCode + day + leapSubtract) % 7)]
 
 def main():
     root = Tk()
