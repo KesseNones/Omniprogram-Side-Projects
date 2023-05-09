@@ -5,7 +5,7 @@ import leapDetect
 
 #This class calculates a weekday of a date passed in it.
 class WeekFinder():
-	def __init__():
+	def __init__(self):
 		self.leap = leapDetect.IsLeap()
 
 	#Finds day of week from input year, month, and day.
