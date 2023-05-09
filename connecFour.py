@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-08.99
+#Version: 2023-05-09.06
 
 import random
 from time import sleep
@@ -15,7 +15,6 @@ class Connect4(object):
 
     #Sets up the GUI.
     def __init__(self, width, height, window=None):
-        self.clickFlag = 0
 
         #Sets up board dimensions, data, and current player.
         self.width = width
@@ -39,7 +38,7 @@ class Connect4(object):
 
         self.linePadding = 60
         
-        self.drawFlag = 0
+        self.victoryLineIsDrawn = False
         
         #Translates board data dimensions into GUI dimensions.
         self.window = window
@@ -242,43 +241,49 @@ class Connect4(object):
     #Creates a blue line that highlights a player 
     #   or AI victory configuration.
     def lineDraw(self):
-        if self.drawFlag == 0:
+        if not(self.victoryLineIsDrawn):
             self.winLine = self.draw.create_line(
             self.victoryList[-3] * self.diameterX + self.linePadding, 
             self.victoryList[-4] * self.diameterY + self.linePadding, 
             self.victoryList[-1] * self.diameterX + self.linePadding, 
             self.victoryList[-2] * self.diameterY + self.linePadding, 
                 width = 15, fill = "blue")
-        self.drawFlag += 1
+        self.victoryLineIsDrawn = True
+        self.window.update()
 
-    #Checks for a win for the passed in player                                                  THIS CODE IS TRASH, REFACTOR LATER!!
-    #   and checks if the column is full.
-    def winFullChecker(self, ox):
-        if self.winsFor(ox):
-            return True
-        if self.isFull():
-            return True
+    #Returns a list that has info on if x wins, o wins, or the board is full.
+    def winFullChecker(self):
+        retArr = [None, None, None]
+        retArr[0] = self.isFull()
+        retArr[1] = self.winsFor("x")
+        retArr[2] = self.winsFor("o")
+
+        return retArr
 
     #Returns true if board is full or a player 
     #   has won and updates the text appropriately.
-    def winFullMessageMaker(self):                                                              # REFACTOR TRASH CODE!!!!!!!!!!!!!!
-        if self.winFullChecker("x") or self.winFullChecker("o"):
-            if self.winFullChecker("x"):
-                player = "You "
-                sEnd = ""
-                self.winningSound()
-            else:
-                player = "AI "
-                sEnd = "s" 
-                self.loosingSound()
-            if self.isFull():
-                self.message["text"] = "Stalemate! Board is full!"
-                self.stalemateSound()
-                return True
+    def winFullMessageMaker(self):
+        resArr = self.winFullChecker()
+        
+        #If board is full, true is returned. 
+        #   Otherwise, further evaluation happens.
+        if resArr[0]:
+            self.message["text"] = "Stalemate! Board is full!"
+            self.stalemateSound()
+            return True
+
+        if resArr[1]:
+            self.message["text"] = "You win!"
             self.lineDraw()
-            self.message["text"] = player + "win" + sEnd + "!"
-            self.window.update()
-            return True 
+            self.winningSound()
+            return True
+
+        if resArr[2]:
+            self.message["text"] = "AI wins!"
+            self.lineDraw()
+            self.loosingSound()
+            return True
+
         return False
 
     #Animates a chip falling into a given column if it can.
@@ -300,34 +305,48 @@ class Connect4(object):
     #Sets game text to default message.
     def defaultMessage(self):
         self.message["text"] = "Choose a move location"
+        self.window.update()
 
     #Notifies the player where the AI moves.
     def AIMoveMessage(self):
-        self.message["text"] = "The AI moved in col: " + str(self.col)            
+        self.message["text"] = "The AI moved in col: " + str(self.col)
+        self.window.update()            
 
     #Sets the text to the loading text when an AI is moving.
     def loadingMessage(self):
         self.message["text"] = "Loading..."
+        self.window.update()
 
     #Fills in all the circles their appropriate colors based on the board data.
     def colorFiller(self):
-        rowAccum = -1
+        rowAccum = 0
+        colAccum = 0
+        
+        #Dictionary used in filling of circles.
+        fillDict = {}
+        fillDict["x"] = "red"
+        fillDict["o"] = "black"
+        fillDict[" "] = "white"
+
+        #Iterates through board and fills circles appropriately.
         for row in self.data:
+            for element in row:
+                self.draw.itemconfig(self.circles[rowAccum][colAccum], fill = fillDict[element])
+                colAccum += 1
+
             rowAccum += 1
             colAccum = 0
-            for element in row:
-                if element == "x":
-                    self.draw.itemconfig(self.circles[rowAccum][colAccum], fill = "red")                                            #THIS IS BAD CODE THAT CAN BE REFACTORED TO ARRAY INDEXING. FIX LATER!
-                if element == "o":
-                    self.draw.itemconfig(self.circles[rowAccum][colAccum], fill = "black")
-                if element == " ":
-                    self.draw.itemconfig(self.circles[rowAccum][colAccum], fill = "white")
-                colAccum += 1
     
     #Called when quit button is pressed. Quits game.
     def quitButtonAction(self):
         self.window.destroy()
         self.clickSound()
+
+    #Removes victory line if it exists.
+    def removeVictoryLine(self):
+        if self.victoryLineIsDrawn:
+            self.winLine = self.draw.delete(self.winLine)
+            self.victoryLineIsDrawn = False
 
     #Initiates game replay when called due to player clicking replay button.
     def replayFunc(self):
@@ -337,13 +356,10 @@ class Connect4(object):
         self.clear()
         self.colorFiller()
 
-        #Deletes any victory lines.
-        if self.drawFlag > 0:
-            self.winLine = self.draw.delete(self.winLine)
+        self.removeVictoryLine()
         
         #Updates game text to notify player a replay is occuring.
         self.message["text"] = "Replaying..."
-        self.drawFlag = 0
         self.window.update()
 
         turn = "x"
@@ -366,14 +382,9 @@ class Connect4(object):
                 turn = "x"
             sleep(0.5)
 
-        #If the player won or the board was full,                                                                       THIS WHOLE BLOCK OF CODE IS INCREDIBLY JANK. FIX THIS PLZ
+        #If the player won or the board was full,
         #   the window is updated, otherwise default message is set.
-        if self.winFullMessageMaker():
-            self.winFullMessageMaker()                  #WHY TF IS THIS BEING CALLED TWICE???? UGLY! FIX THIS LATER!
-            self.window.update()
-        else:
-            self.defaultMessage()
-            self.window.update()
+        self.winFullMessageMaker()
        
     #Creates a new game when called. 
     def newGame(self):
@@ -386,10 +397,7 @@ class Connect4(object):
         self.victoryList = []
         self.defaultMessage()
         
-        #Deletes any win line that exists.
-        if self.drawFlag > 0:                                                                                                           #DELETION OF WIN LINE SHOULD BE ITS OWN DISCRETE FUNCTION BECAUSE IT'S THE SAME CHECK EVERY TIME!
-            self.winLine = self.draw.delete(self.winLine)
-        self.drawFlag = 0
+        self.removeVictoryLine()
 
         #Clears board data and updates GUI to show it. 
         self.clear()
@@ -428,15 +436,13 @@ class Connect4(object):
                 if self.data[row][col] != " ":
                     self.data[row][col] = " "
                     return
-        elif self.allowsMove(col) == False:                                             #GET RID OF THIS GROSS ELIF SOMEHOW
+        else:
             self.data[0][col] = " "
 
     #Determines if a move can be made in the desired column.
     def allowsMove(self, col):
         boardData = self.data
-        if col < 0 or col > self.width - 1:
-            return False
-        if boardData[0][col] != " ":
+        if (col < 0 or col > self.width - 1) or boardData[0][col] != " ":
             return False
         else:
             return True
@@ -449,19 +455,12 @@ class Connect4(object):
     
     #Checks to see if the board is full.
     def isFull(self):
-        condit = None
         total = 0
-        for col in range(self.width):                                                   #CAN BE REFACTORED TO BE A LOT LESS DISGUSTING
-            if self.allowsMove(col) == False:
-                condit = True
-                total += condit
-            else:
-                condit = False
-                total += condit
-        if total == self.width:
-            return True
-        else:
-            return False 
+        #Checks to see if can't move in reach column.
+        for col in range(self.width):
+            total += not(self.allowsMove(col))
+
+        return total == self.width
 
     #Checks if a win occured for the player or the AI.
     def winsFor(self, ox):
@@ -472,11 +471,11 @@ class Connect4(object):
                    self.data[row][col+1] == ox and \
                     self.data[row][col+2] == ox and \
                     self.data[row][col + 3] == ox:
-                    self.victoryList.append(row)
-                    self.victoryList.append(col)
-                    self.victoryList.append(row)
-                    self.victoryList.append(col + 3)
-                    return True
+                        self.victoryList.append(row)
+                        self.victoryList.append(col)
+                        self.victoryList.append(row)
+                        self.victoryList.append(col + 3)
+                        return True
 
         #Checks for vertical victory.
         for row in range(0, self.height - 3):
@@ -485,11 +484,11 @@ class Connect4(object):
                    self.data[row + 1][col] == ox and \
                     self.data[row + 2][col] == ox and \
                     self.data[row + 3][col] == ox:
-                    self.victoryList.append(row)
-                    self.victoryList.append(col)
-                    self.victoryList.append(row + 3)
-                    self.victoryList.append(col)
-                    return True
+                        self.victoryList.append(row)
+                        self.victoryList.append(col)
+                        self.victoryList.append(row + 3)
+                        self.victoryList.append(col)
+                        return True
 
         #Checks for down right diagonal victory.
         for row in range(0, self.height - 3):
@@ -498,11 +497,11 @@ class Connect4(object):
                    self.data[row + 1][col + 1] == ox and \
                     self.data[row + 2][col + 2] == ox and \
                     self.data[row + 3][col + 3] == ox:
-                    self.victoryList.append(row)
-                    self.victoryList.append(col)
-                    self.victoryList.append(row + 3)
-                    self.victoryList.append(col + 3)
-                    return True
+                        self.victoryList.append(row)
+                        self.victoryList.append(col)
+                        self.victoryList.append(row + 3)
+                        self.victoryList.append(col + 3)
+                        return True
         
         #Checks for down left diagonal victory.
         for row in range(3, self.height):
@@ -511,11 +510,12 @@ class Connect4(object):
                    self.data[row - 1][col + 1] == ox and \
                     self.data[row - 2][col + 2] == ox and \
                     self.data[row - 3][col + 3] == ox:
-                    self.victoryList.append(row)
-                    self.victoryList.append(col)
-                    self.victoryList.append(row - 3)
-                    self.victoryList.append(col + 3)
-                    return True
+                        self.victoryList.append(row)
+                        self.victoryList.append(col)
+                        self.victoryList.append(row - 3)
+                        self.victoryList.append(col + 3)
+                        return True
+
         return False
 
     #This is a leftover from the text based version of the game.
