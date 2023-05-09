@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-09.86
+#Version: 2023-05-09.87
 
 import leapDetect
 
@@ -9,7 +9,7 @@ class WeekFinder():
 		self.leap = leapDetect.IsLeap()
 
 	#Finds day of week from input year, month, and day.
-	def weekFind(year, month, day):
+	def weekFind(self, year, month, day):
 	    #Determines if 1 needs to be subtracted from calculations or not.
 
 	    #Useful arrays for calculating week stuff.
