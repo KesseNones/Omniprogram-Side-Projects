@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-09.10
+#Version: 2023-05-09.16
 
 from tkinter import *
 import coinFlipGUI
@@ -92,13 +92,13 @@ class C(object):
         chineseCalCalc.main()
 
     #Calculates a grade from weighted grade portions. This is not a GUI.
-    def grdCalc(self):                          #HERE
+    def grdCalc(self):                          #DONE
         gradeCalc.main()
 
     #Displays a calendar month page for a given year and month.
     #   Is kind of garbage and could use improving.
     def mnthCalc(self):
-        calMonthDisplayGUI.main()
+        calMonthDisplayGUI.main()               #HERE
 
     #Performs the classic Caeser Cipher encrption or decryption on a string.
     def caesarCode(self):

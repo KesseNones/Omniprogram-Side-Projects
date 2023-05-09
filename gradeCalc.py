@@ -1,15 +1,25 @@
+#Jesse A. Jones
+#Version: 2023-05-09.15
+
+#This class calculates the weighted grade based 
+#   on input percentages and values. 
+#   This is NOT a GUI.
 class GradeCalc(object):
 
+    #Sets up lists and bool necessary.
     def __init__(self):
         self.catScoreList = []
         self.catValList = []
         self.calcList = []
         self.isHundred = False
 
+    #The main loop of the program that takes 
+    #   in user input and eventually calculates a grade.
     def process(self):
         while self.isHundred == False:
             self.inp()
             self.checkHundred()
+            #Calculates grade if 100 percent reached from category weights.
             if self.isHundred:
                 self.isHundred = True
                 grade = self.grdCalc()
@@ -17,6 +27,7 @@ class GradeCalc(object):
                 print("Grade is: " + str(grade) + "% (" + self.letterGradeCalc(float(grade)) + ")")
                 self.reset()
 
+    #Resets data for new grade calculation if requested.
     def reset(self):
         resetOrNo = input("Calculate Another Grade (Y/N)? ").upper()
         print("------------------------------------------------------------")
@@ -29,8 +40,12 @@ class GradeCalc(object):
         else:
             exit()
 
+    #Fetches input from user and parses it.
     def inp(self):
         isFinished = input("Finished (Y/N)? ").upper()
+
+        #If user not finished, collects input from user, 
+        #   otherwise equilizes weights and finishes program.
         if isFinished == "N":
             score = float(input("Enter Category Score (0 to 100): ")) / 100
             val = float(input("Enter Category Value (0 to 100): ")) / 100
@@ -44,8 +59,6 @@ class GradeCalc(object):
                 val = 0
             self.catScoreList.append(score)
             self.catValList.append(val)
-            # print(self.catScoreList)
-            # print(self.catValList)
             return
         else:
             if len(self.catScoreList) == 0:
@@ -54,23 +67,20 @@ class GradeCalc(object):
             else:
                 self.equilizer()
                 self.isHundred = True
-        # print(self.catScoreList)
-        # print(self.catValList)
 
+    #Equilizes the weights if 100 percent not reached.
     def equilizer(self):
         sumat = 0
         for el in self.catValList:
             sumat += el
         diff = 1 - sumat
         diff = diff / len(self.catValList)
-        # print(diff)
-        # print(self.catValList)
         pos = 0
         while pos < len(self.catValList):
             self.catValList[pos] += diff
             pos += 1
-        #print(self.catValList)
 
+    #Determines if all the weights sum to 100.
     def checkHundred(self):
         sumat = 0
         for el in self.catValList:
@@ -80,6 +90,7 @@ class GradeCalc(object):
                 return True
         return False
 
+    #Calculates grade based on lists.
     def grdCalc(self):
         pos = 0
         grdSum = 0
@@ -94,6 +105,7 @@ class GradeCalc(object):
         grdSum *= 100
         return grdSum
 
+    #Converts percentage to letter grade.
     def letterGradeCalc(self, perc):
         t = perc
         if t >= 92.5:
