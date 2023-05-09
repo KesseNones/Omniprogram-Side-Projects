@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-09.81
+#Version: 2023-05-09.88
 
 from tkinter import *
 import math
@@ -46,6 +46,7 @@ class CalendarDisp(object):
             font = "Ariel 20", justify = LEFT, anchor = "w")
         self.cOutput.grid(row = 3, column = 1)
 
+        #Used for date parsing and leap detection.
         self.dateParse = dateHandling.GetDate()
         self.leaper = leapDetect.IsLeap()
         self.weekCalc = weekCalculator.WeekFinder()
@@ -56,32 +57,13 @@ class CalendarDisp(object):
 
     #Creates month display string based on input year and month.
     def calDisp(self, year, month):
-        year = int(year)
-        month = int(month)
-        if month == 1:                                                                      
-            m = "January"
-        if month == 2:
-            m = "February"
-        if month == 3:
-            m = "March"
-        if month == 4:
-            m = "April"
-        if month == 5:
-            m = "May"
-        if month == 6:
-            m = "June"
-        if month == 7:
-            m = "July"
-        if month == 8:
-            m = "August"
-        if month == 9:
-            m = "September"
-        if month == 10:
-            m = "October"
-        if month == 11:
-            m = "November"
-        if month == 12:
-            m = "December"
+        #Determines month name.
+        monthNameArr = ["January", "February", "March",
+                        "April", "May", "June",
+                        "July", "August", "September",
+                        "October", "November", "December"]
+        m = monthNameArr[month - 1]
+
         startingDay = self.weekCalc.weekFind(year, month, 1)
         calDeeta = self.calCalc(year, month, startingDay)
         monthDisp = "   " + m + " " + str(year) + "\n Mo Tu We Th Fr Sa Su \n"
@@ -91,22 +73,10 @@ class CalendarDisp(object):
             monthDisp += "\n"
         return monthDisp
 
-    #Determines if input year is a leap year or not.
-    def isLeapYear(self, year):
-        if year % 4 == 0:
-            leap = True
-            if year % 100 == 0:
-                leap = False
-                if year % 400 == 0:
-                    leap = True
-        else:
-            leap = False
-        return leap
-
     #Creates the matrix that represents the calendar month page.
     def calCalc(self, year, month, weekDayStart):
         #Determines month length.
-        leap = self.isLeapYear(year)
+        leap = self.leaper.isLeapYear(year)
         if month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12:
             dayMax = 31
         if month == month == 4 or month == 6 or month == 9 or month == 11:
