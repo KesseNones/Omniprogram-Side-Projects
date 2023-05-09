@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-09.16
+#Version: 2023-05-09.89
 
 from tkinter import *
 import coinFlipGUI
@@ -98,11 +98,11 @@ class C(object):
     #Displays a calendar month page for a given year and month.
     #   Is kind of garbage and could use improving.
     def mnthCalc(self):
-        calMonthDisplayGUI.main()               #HERE
+        calMonthDisplayGUI.main()               #DONE
 
     #Performs the classic Caeser Cipher encrption or decryption on a string.
     def caesarCode(self):
-        caesarCipher.main()
+        caesarCipher.main()                     #HERE
 
     #Displays the present Centaurian time that m.i.b Headquarters uses.
     def centaurian(self):
