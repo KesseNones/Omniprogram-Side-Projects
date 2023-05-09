@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-28.2
+#Version: 2023-05-09.10
 
 from tkinter import *
 import coinFlipGUI
@@ -84,15 +84,15 @@ class C(object):
 
     #Runs a GUI connect four game with several bells and wistles. 
     #   The sound is currently a bit broken and needs to be fixed.
-    def connecFour(self):                       #HERE
+    def connecFour(self):                       #DONE
         connecFour.main()
 
     #Converts a year to the equivalent year in the Chinese Calendar.
-    def chineseCalc(self):
+    def chineseCalc(self):                      #DONE (Could use refactoring)
         chineseCalCalc.main()
 
     #Calculates a grade from weighted grade portions. This is not a GUI.
-    def grdCalc(self):
+    def grdCalc(self):                          #HERE
         gradeCalc.main()
 
     #Displays a calendar month page for a given year and month.
