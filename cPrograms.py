@@ -109,7 +109,7 @@ class C(object):
         centaurianTime.main()
 
     #Calculates a grade from weighted grade portions.
-    def guiGrade(self):                         #HERE
+    def guiGrade(self):                         #DONE
         gradeCalcGUI.main()
 
 def main():
