@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-11.4
+#Version: 2023-05-10.11
 
 from tkinter import *
 import math
@@ -88,12 +88,12 @@ class baseConv(object):
         self.cOutput["text"] = f"Base {self.sliderNumberII()}: {otherBaseInt}"
 
     #Returns the present value of the first base slider.
-    def sliderNumber(self):
+    def sliderNumber(self, num):
         baseNum = int(self.baseScalar.get())
         return baseNum
 
     #Returns the value of the second base slider.
-    def sliderNumberII(self):
+    def sliderNumberII(self, num2):
         baseNum = int(self.baseScalarII.get())
         return baseNum
 
