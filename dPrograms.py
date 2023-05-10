@@ -1,5 +1,7 @@
+#Jesse A. Jones
+#Version: 2023-05-10.13
+
 from tkinter import *
-#import winsound
 
 class D(object):
     def __init__(self, window = None):
@@ -45,16 +47,11 @@ class D(object):
             font = "Ariel 30", command = self.degClock)
         self.degreesClockButton.grid(row = 2, column = 0)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
     def quitButtonAction(self):
         self.window.destroy()
 
-    def dstCal(self):
+    def dstCal(self):                       #HERE
         import dstCalendarCalcGUI
-        #self.clickSound()
         dstCalendarCalcGUI.main()   
 
     def dateDiff(self):
