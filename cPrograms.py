@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-09.93
+#Version: 2023-05-10.11
 
 from tkinter import *
 import coinFlipGUI
@@ -102,10 +102,10 @@ class C(object):
 
     #Performs the classic Caeser Cipher encrption or decryption on a string.
     def caesarCode(self):
-        caesarCipher.main()                     #HERE
+        caesarCipher.main()                     #DONE
 
     #Displays the present Centaurian time that m.i.b Headquarters uses.
-    def centaurian(self):
+    def centaurian(self):                       #HERE
         centaurianTime.main()
 
     #Calculates a grade from weighted grade portions.
