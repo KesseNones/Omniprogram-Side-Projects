@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-10.11
+#Version: 2023-05-10.13
 
 from tkinter import *
 import coinFlipGUI
@@ -105,11 +105,11 @@ class C(object):
         caesarCipher.main()                     #DONE
 
     #Displays the present Centaurian time that m.i.b Headquarters uses.
-    def centaurian(self):                       #HERE
+    def centaurian(self):                       #DONE
         centaurianTime.main()
 
     #Calculates a grade from weighted grade portions.
-    def guiGrade(self):
+    def guiGrade(self):                         #HERE
         gradeCalcGUI.main()
 
 def main():
