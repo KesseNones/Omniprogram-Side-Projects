@@ -1,55 +1,77 @@
+#Jesse A. Jones
+#Version: 2023-05-12.16
+
 from tkinter import *
 import datetime
 import dateHandling
+import weekCalculator
+import leapDetect
 
+#This class calculates the date after applying a day offshift.
 class DayCalCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Top frame holds the quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quit button.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Bottom frame holds day difference field, 
+        #   date calculation button, and date output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "Enter Day Difference", font = "Ariel 75", anchor = "w")
+        #Day offset field.
+        self.message = Label(self.frameBottom, text = "Enter Day Difference", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 0, column = 0)
+        self.dayOffset = Entry(self.frameBottom, font = "Ariel 20")
+        self.dayOffset.grid(row = 1, column = 0)
 
-        self.dayE = Entry(self.frameBottom, font = "Times 69")
-        self.dayE.grid(row = 1, column = 0)
-
+        #Date calculation button.
         self.convButtonI = Button(self.frameBottom, text = "Calculate Date", 
-            font = "Ariel 60", command = self.dayToCal)
+            font = "Ariel 20", command = self.dayToCal)
         self.convButtonI.grid(row = 2, column = 0)
 
+        #Converted date output.
         self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 69", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 3, column = 0)
+
+        #Used in leap year detection, weekday 
+        #   from date calculation, and date parsing.
+        self.leapFind = leapDetect.IsLeap()
+        self.weekFinder = weekCalculator.WeekFinder()
+        #self.dateGet = dateHandling.GetDate()
     
+    #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
         
+    #Calls functions to convert input days to date and displays result.                                                             FIX THIS TRASH
     def dayToCal(self):
         self.dateCalc()
         monthArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         month = monthArr[self.monthFinal - 1]
         self.tOutput["text"] = self.weekDay + " " + str(self.dayFinal) + " " + str(month) + ", " + str(self.yearFinal)
 
+    #Fetches current date.
     def currentDate(self):
         self.dateISO = datetime.date.today()
         self.currentYear = int(self.dateISO.year)
         self.currentMonth = int(self.dateISO.month)
         self.currentDay = int(self.dateISO.day)
 
+    #Fetches day difference 
     def getDifference(self):
         dateGet = dateHandling.GetDate()
-        return dateGet.getYear(self.dayE.get())
+        return dateGet.getYear(self.dayOffset.get())
 
-    def isLeapYear(self, year):
+    def isLeapYear(self, year):                                                                                             #GARBAGE
         if year % 400 == 0:
             return True
         if year % 100 == 0:
@@ -59,16 +81,23 @@ class DayCalCalc(object):
         else:
             return False
 
+    #Calculates date with input day offset.
     def dateCalc(self):
+        #Fetches current date and day difference.
         self.currentDate()
         year = self.currentYear
         month = self.currentMonth
         day = self.currentDay
         diff = self.getDifference()
-        if diff >= 3000000:
+        
+        #If the difference is too large, 
+        #   cut down on the difference using some math.
+        if diff >= 3000000:                 #REFACTOR THIS TO BE LESS ARBITRARY
             yearAdd = diff // 146097
             year += (yearAdd * 400)
             diff = diff % 146097
+
+        #Finds date in the future to match this.
         if diff > 0:
             while diff > 0:
                 leap = self.isLeapYear(year)
@@ -95,10 +124,14 @@ class DayCalCalc(object):
             self.dayFinal = day
             self.weekDay = self.week_fdn()
             return
-        if diff <= -3000000:
+
+        #If date is too far back, shift it to be less far back.
+        if diff <= -3000000:                    #REFACTOR THIS TO BE LESS ARBITRARY
             yearSub = diff // -146097
             year -= (yearSub * 400)
             diff = diff % -146097
+
+        #Finds date in past.
         if diff < 0:
             while diff < 0:
                 leap = self.isLeapYear(year)
@@ -128,6 +161,8 @@ class DayCalCalc(object):
             self.dayFinal = day
             self.weekDay = self.week_fdn()
             return
+
+        #If there is no difference, current date and week day are returned.
         if diff == 0:
             self.yearFinal = year
             self.monthFinal = month
@@ -135,6 +170,7 @@ class DayCalCalc(object):
             self.weekDay = self.week_fdn()
             return
 
+    #Finds current day of week.
     def week_fdn(self):
             subtract = 0
             year = int(self.yearFinal)
