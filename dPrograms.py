@@ -58,11 +58,11 @@ class D(object):
         import dateDaysFromOrAgo
         dateDaysFromOrAgo.main()
 
-    def nightCalc(self):                    #HERE
+    def nightCalc(self):                    #DONE
         import dstNightmareCycleCalc
         dstNightmareCycleCalc.main()
     
-    def differentCountdown(self):
+    def differentCountdown(self):           #HERE
         import nonMetricCountDown
         nonMetricCountDown.main()
 
