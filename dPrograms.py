@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-12.17
+#Version: 2023-05-12.19
 
 from tkinter import *
 
@@ -54,11 +54,11 @@ class D(object):
         import dstCalendarCalcGUI
         dstCalendarCalcGUI.main()   
 
-    def dateDiff(self):                     #DONE (Needs major refactoring)
+    def dateDiff(self):                     #DONE
         import dateDaysFromOrAgo
         dateDaysFromOrAgo.main()
 
-    def nightCalc(self):                    #
+    def nightCalc(self):                    #HERE
         import dstNightmareCycleCalc
         dstNightmareCycleCalc.main()
     

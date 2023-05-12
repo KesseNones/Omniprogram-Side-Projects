@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-12.16
+#Version: 2023-05-12.19
 
 from tkinter import *
 import datetime
@@ -46,189 +46,132 @@ class DayCalCalc(object):
         #   from date calculation, and date parsing.
         self.leapFind = leapDetect.IsLeap()
         self.weekFinder = weekCalculator.WeekFinder()
-        #self.dateGet = dateHandling.GetDate()
+        self.dateGet = dateHandling.GetDate()
     
     #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
         
-    #Calls functions to convert input days to date and displays result.                                                             FIX THIS TRASH
+    #Calls functions to convert input days to date and displays result.
     def dayToCal(self):
-        self.dateCalc()
-        monthArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        month = monthArr[self.monthFinal - 1]
-        self.tOutput["text"] = self.weekDay + " " + str(self.dayFinal) + " " + str(month) + ", " + str(self.yearFinal)
+        self.tOutput["text"] = self.dateCalc()
 
     #Fetches current date.
     def currentDate(self):
-        self.dateISO = datetime.date.today()
-        self.currentYear = int(self.dateISO.year)
-        self.currentMonth = int(self.dateISO.month)
-        self.currentDay = int(self.dateISO.day)
+        dateISO = datetime.date.today()
+        currentYear = int(dateISO.year)
+        currentMonth = int(dateISO.month)
+        currentDay = int(dateISO.day)
 
-    #Fetches day difference 
-    def getDifference(self):
-        dateGet = dateHandling.GetDate()
-        return dateGet.getYear(self.dayOffset.get())
-
-    def isLeapYear(self, year):                                                                                             #GARBAGE
-        if year % 400 == 0:
-            return True
-        if year % 100 == 0:
-            return False
-        if year % 4 == 0:
-            return True
-        else:
-            return False
+        return [currentYear, currentMonth, currentDay]
 
     #Calculates date with input day offset.
     def dateCalc(self):
         #Fetches current date and day difference.
-        self.currentDate()
-        year = self.currentYear
-        month = self.currentMonth
-        day = self.currentDay
-        diff = self.getDifference()
-        
-        #If the difference is too large, 
-        #   cut down on the difference using some math.
-        if diff >= 3000000:                 #REFACTOR THIS TO BE LESS ARBITRARY
+        dateArr = self.currentDate()
+        year = dateArr[0]
+        month = dateArr[1]
+        day = dateArr[2]
+        diff = self.dateGet.getYear(self.dayOffset.get())
+        monthNameArr = ["Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", 
+                        "Oct", "Nov", "Dec"]
+
+        #Finds date in the future to match this.
+        if diff > 0:
+            #Crunches difference down to less than 146097.
             yearAdd = diff // 146097
             year += (yearAdd * 400)
             diff = diff % 146097
 
-        #Finds date in the future to match this.
-        if diff > 0:
+            #Moves time forward while difference is not 0.
             while diff > 0:
-                leap = self.isLeapYear(year)
+                #Determines if year is currently leap year and moves day forward by 1.
+                leap = self.leapFind.isLeapYear(year)
                 day += 1
+
+                #31 day month flip over case.
                 if (month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10) and day > 31:
                     month += 1
                     day -= 31
+                
+                #30 day month flip over case.
                 if (month == 4 or month == 6 or month == 9 or month == 11) and day > 30:
                     month += 1
                     day -= 30
+
+                #Non leap februrary flip over case.
                 if (month == 2 and leap == False and day > 28):
                     month += 1
                     day -= 28
+
+                #Leap year februrary flip over case.
                 if (month == 2 and leap == True and day > 29):
                     month += 1
                     day -= 29
+
+                #Year end flip over case.
                 if month == 12 and day > 31:
                     year += 1
                     month -= 11
                     day -= 31
-                diff -= 1
-            self.yearFinal = year
-            self.monthFinal = month
-            self.dayFinal = day
-            self.weekDay = self.week_fdn()
-            return
 
-        #If date is too far back, shift it to be less far back.
-        if diff <= -3000000:                    #REFACTOR THIS TO BE LESS ARBITRARY
+                #Diff subtracted once transactions completed.
+                diff -= 1
+
+        #Finds date in past.
+        if diff < 0:
+            #Crunches difference to be closer to 0 and avoid linear time iterations.
             yearSub = diff // -146097
             year -= (yearSub * 400)
             diff = diff % -146097
 
-        #Finds date in past.
-        if diff < 0:
+            #Keeps moving time backwards until difference is down to 0.
             while diff < 0:
-                leap = self.isLeapYear(year)
+                #Day moves backwards and it's determined if leap year exists.
+                leap = self.leapFind.isLeapYear(year)
                 day -= 1
+
+                #March back to feb non leap case.
                 if month == 3 and leap == False and day < 1:
                     month -= 1
                     day += 28
+
+                #March back to feb leap year case.
                 if month == 3 and leap == True and day < 1:
                     month -= 1
                     day += 29
+
+                #Back to previous year case.
                 if month == 1 and day < 1:
                     year -= 1
                     month += 11
                     day += 31
+
+                #Back to previous 31 day month.
                 if (month == 2 or month == 4 or month == 6 or month == 9 or month == 11) and day < 1:
                     month -= 1
                     day += 31
+
+                #Back to previous 30 day month.
                 if (month == 5 or month == 10 or month == 12 or month == 7) and day < 1:
                     month -= 1
                     day += 30
+
+                #Back from august to july case.
                 if (month == 8) and day < 1:
                     month -= 1
                     day += 31
+
+                #Difference adjusted once all has occured.
                 diff += 1
-            self.yearFinal = year
-            self.monthFinal = month
-            self.dayFinal = day
-            self.weekDay = self.week_fdn()
-            return
 
-        #If there is no difference, current date and week day are returned.
-        if diff == 0:
-            self.yearFinal = year
-            self.monthFinal = month
-            self.dayFinal = day
-            self.weekDay = self.week_fdn()
-            return
-
-    #Finds current day of week.
-    def week_fdn(self):
-            subtract = 0
-            year = int(self.yearFinal)
-            month = int(self.monthFinal)
-            day = int(self.dayFinal)
-            if self.isLeapYear(year) and month < 3:
-                subtract = -1
-            else:
-                subtract = 0
-            y = year % 100
-            yII = int(y / 4)
-            yIII = yII + y
-            yC = yIII % 7
-            if (year - y) % 400 == 0:
-                cC = 6
-            if ((year - y) - 100) % 400 == 0:
-                cC = 4
-            if ((year - y) - 200) % 400 == 0:
-                cC = 2
-            if ((year - y) - 300) % 400 == 0:
-                cC = 0
-            net = yC + cC
-            if month == 1:
-                mC = 0
-            if month == 2:
-                mC = 3
-            if month == 3:
-                mC = 3
-            if month == 4:
-                mC = 6
-            if month == 5:
-                mC = 1
-            if month == 6:
-                mC = 4
-            if month == 7:
-                mC = 6
-            if month == 8:
-                mC = 2
-            if month == 9:
-                mC = 5
-            if month == 10:
-                mC = 0
-            if month == 11:
-                mC = 3
-            if month == 12:
-                mC = 5
-            net = net + mC
-            net = net + int(day)
-            net = net + subtract
-            net = net % 7
-            weekArr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-            wk = weekArr[net]
-            return wk                    
- 
-            
+        return f"{self.weekFinder.weekFind(year, month, day)} {day} {monthNameArr[month - 1]}, {year}"
+           
 def main():
     root = Tk()
-    root.title("Date In Some Number of Days From Now or Ago")
+    root.title("Date +/- Offset")
     temp = DayCalCalc(root)
     root.mainloop()
 
