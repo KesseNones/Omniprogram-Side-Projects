@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-10.13
+#Version: 2023-05-12.16
 
 from tkinter import *
 
@@ -50,11 +50,11 @@ class D(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def dstCal(self):                       #HERE
+    def dstCal(self):                       #DONE (Needs some serious refactoring to look less gross)
         import dstCalendarCalcGUI
         dstCalendarCalcGUI.main()   
 
-    def dateDiff(self):
+    def dateDiff(self):                     #HERE
         import dateDaysFromOrAgo
         dateDaysFromOrAgo.main()
 
