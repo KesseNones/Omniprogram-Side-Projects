@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-11.19
+#Version: 2023-05-11.20
 
 from tkinter import *
 from tkinter import messagebox
@@ -25,28 +25,28 @@ class NightmareCalc(object):
         self.frameBottom.pack(side = BOTTOM)
 
         #Day number input field.
-        self.message = Label(self.frameBottom, text = "Enter Day Number:", font = "Ariel 55", anchor = "w")
+        self.message = Label(self.frameBottom, text = "Enter Day Number:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 0, column = 0)
-        self.dayE = Entry(self.frameBottom, font = "Times 55")
+        self.dayE = Entry(self.frameBottom, font = "Ariel 20")
         self.dayE.grid(row = 1, column = 0)
 
         #Sliver input field.
-        self.message = Label(self.frameBottom, text = "Enter Sliver Number:", font = "Ariel 55", anchor = "w")
+        self.message = Label(self.frameBottom, text = "Enter Sliver Number:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 2, column = 0)
-        self.slv = Entry(self.frameBottom, font = "Times 55")
+        self.slv = Entry(self.frameBottom, font = "Ariel 20")
         self.slv.grid(row = 3, column = 0)
 
         #Conversion button.
         self.convButtonI = Button(self.frameBottom, text = "Find Approximate Nightmare Phase", 
-            font = "Ariel 55", command = self.timeToCy)
+            font = "Ariel 20", command = self.timeToCy)
         self.convButtonI.grid(row = 4, column = 0)
 
         #Nightmare cycle output.
         self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 55", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 5, column = 0)
         self.tOutputII = Label(self.frameBottom, text = "", 
-            font = "Ariel 55")
+            font = "Ariel 20")
         self.tOutputII.grid(row = 6, column = 0)
     
     #Quits program.
