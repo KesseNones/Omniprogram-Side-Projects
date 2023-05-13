@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-12.19
+#Version: 2023-05-13.15
 
 from tkinter import *
 
@@ -62,11 +62,11 @@ class D(object):
         import dstNightmareCycleCalc
         dstNightmareCycleCalc.main()
     
-    def differentCountdown(self):           #HERE
+    def differentCountdown(self):           #DONE
         import nonMetricCountDown
         nonMetricCountDown.main()
 
-    def differentCountdownII(self):
+    def differentCountdownII(self):         #HERE
         import nonMetricCountDown_MKII
         nonMetricCountDown_MKII.main()
 
