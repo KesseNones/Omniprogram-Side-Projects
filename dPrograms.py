@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-13.16
+#Version: 2023-05-13.18
 
 from tkinter import *
 
@@ -70,11 +70,11 @@ class D(object):
         import nonMetricCountDown_MKII
         nonMetricCountDown_MKII.main()
 
-    def diffClk(self):                      #HERE
+    def diffClk(self):                      #DONE
         import differentClock
         differentClock.main()
 
-    def degClock(self):
+    def degClock(self):                     #HERE
         import degreesClock
         degreesClock.main()
 
