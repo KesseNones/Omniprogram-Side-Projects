@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-13.15
+#Version: 2023-05-13.16
 
 from tkinter import *
 
@@ -66,11 +66,11 @@ class D(object):
         import nonMetricCountDown
         nonMetricCountDown.main()
 
-    def differentCountdownII(self):         #HERE
+    def differentCountdownII(self):         #DONE
         import nonMetricCountDown_MKII
         nonMetricCountDown_MKII.main()
 
-    def diffClk(self):
+    def diffClk(self):                      #HERE
         import differentClock
         differentClock.main()
 
