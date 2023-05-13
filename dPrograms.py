@@ -1,21 +1,25 @@
 #Jesse A. Jones
-#Version: 2023-05-13.19
+#Version: 2023-05-13.20
 
 from tkinter import *
 
+#This class contains all programs that start with the letter D.
 class D(object):
     def __init__(self, window = None):
         self.window = window
 
         self.soundsAllowed = False
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quit button.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 30", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds all other program buttons.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
