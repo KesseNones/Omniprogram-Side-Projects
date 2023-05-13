@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-13.20
+#Version: 2023-05-13.21
 
 from tkinter import *
 
@@ -55,11 +55,11 @@ class E(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def eightClock(self):                           #HERE
+    def eightClock(self):                           #DONE
         import eightPortionClock
         eightPortionClock.main()
 
-    def eightClockCalc(self):
+    def eightClockCalc(self):                       #HERE
         import eightPortionClockCalc
         eightPortionClockCalc.main()
 
