@@ -1,6 +1,9 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2023-05-13.20
 
+from tkinter import *
+
+#Contains all programs that start with the letter E
 class E(object):
     def __init__(self, window = None):
         self.window = window
@@ -49,14 +52,10 @@ class E(object):
             font = "Ariel 30", command = self.eriClock)
         self.elfCalcButton.grid(row = 2, column = 1)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
     def quitButtonAction(self):
         self.window.destroy()
 
-    def eightClock(self):
+    def eightClock(self):                           #HERE
         import eightPortionClock
         eightPortionClock.main()
 
