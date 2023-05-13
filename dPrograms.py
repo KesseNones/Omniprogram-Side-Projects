@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-13.18
+#Version: 2023-05-13.19
 
 from tkinter import *
 
@@ -74,7 +74,7 @@ class D(object):
         import differentClock
         differentClock.main()
 
-    def degClock(self):                     #HERE
+    def degClock(self):                     #DONE
         import degreesClock
         degreesClock.main()
 
