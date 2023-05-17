@@ -1,47 +1,60 @@
+#Jesse A. Jones
+#Version: 2023-05-17.94
+
 from tkinter import *
-import math
-from math import log
 from tkinter import messagebox
+import math
 import datetime
 import time
 
+#This class calculates easter based on an input year. 
+#   RIGHT NOW THIS CODE IS TERRIBLE EVEN THOUGH IT WORKS. SHOULD BE REFACTORED WHEN POSSIBLE!
 class EasterCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #When clicked program quits.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Bottom frame holds year input, conversion button and easter date output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 55", anchor = "w")
+        #Year input field.
+        self.message = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 0, column = 0)
-
-        self.yearE = Entry(self.frameBottom, font = "Times 55")
+        self.yearE = Entry(self.frameBottom, font = "Ariel 20")
         self.yearE.grid(row = 1, column = 0)
 
+        #When pressed easter date of given year is found.
         self.convButtonI = Button(self.frameBottom, text = "Find Easter Date", 
-            font = "Ariel 60", command = self.yearToCal)
+            font = "Ariel 20", command = self.yearToCal)
         self.convButtonI.grid(row = 2, column = 0)
 
+        #Converted easter output.
         self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 60", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 3, column = 0)
     
+        #Used for metric date.
         self.isStupid = True
 
+    #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Calls method to find easter date of input year and displays it.
     def yearToCal(self):
         date = self.eCal()
         self.tOutput["text"] = date 
 
+    #Pareses input year.
     def yearGet(self):
         if self.yearE.get() == "":
             messagebox.showerror("Empty Entry Error", "Enter a year!")
@@ -49,33 +62,45 @@ class EasterCalc(object):
         else:
             return int(self.yearE.get())
 
+    #Finds easter date.
     def eCal(self):
+        #Initial date.
         year = self.yearGet()
         month = 3
         day = 21
+
         moonAge = self.moonCalc(year, month, day)
         wkDay = self.week_fdn(year, month, day)
         curDay = self.currentDate(year, month, day)
         adv = 0
         self.dateCalc(adv)
+        
+        #Moves forward until full moon found.
         while not (14.765294 < moonAge < 15.765294):
             adv += 1
             self.dateCalc(adv)
             moonAge = self.moonCalc(self.yearFinal, self.monthFinal, self.dayFinal)
+
         wkDayII = self.week_fdn(self.yearFinal, self.monthFinal, self.dayFinal)
         adv = 0
         self.currentDate(self.yearFinal, self.monthFinal, self.dayFinal)
+        
+        #Moves date forward a day if date is sunday.
         if wkDayII == "Sunday":
             self.dateCalc(1)
             wkDayII = self.week_fdn(self.yearFinal, self.monthFinal, self.dayFinal)
+        
+        #Moves until date is sunday.
         while wkDayII != "Sunday":
             adv += 1
             self.dateCalc(adv)
             wkDayII = self.week_fdn(self.yearFinal, self.monthFinal, self.dayFinal)
+        #Builds and returns date string.
         mth = self.wordMonth()
         dateString = str(self.dayFinal) + " " + str(mth) + ", " +  str(self.yearFinal)
         return dateString
 
+    #Finds month name based on month number.
     def wordMonth(self):
         if self.monthFinal == 1:
             monthWord = "Jan"
@@ -103,12 +128,14 @@ class EasterCalc(object):
             monthWord = "Dec"
         return monthWord    
 
+    #Sets class variables based on input date.
     def currentDate(self, year, month, day):
         self.dateISO = datetime.date.today()
         self.currentYear = year
         self.currentMonth = month
         self.currentDay = day
 
+    #Determines if input year is a leap year.
     def isLeapYear(self, year):
         if year % 400 == 0:
             return True
@@ -119,6 +146,7 @@ class EasterCalc(object):
         else:
             return False
 
+    #Determines new date based on offset.
     def dateCalc(self, diff):
         year = self.currentYear
         month = self.currentMonth
@@ -190,6 +218,7 @@ class EasterCalc(object):
             self.dayFinal = day
             return
 
+    #Finds day of week from input year, month, and day.
     def week_fdn(self, year, month, day):
         subtract = 0
         if (month < 3) and ((year % 4) == 0 or (year % 400) == 0):
@@ -258,6 +287,7 @@ class EasterCalc(object):
         return wk
 
 
+    #Calculates moon phase based on input date.
     def moonCalc(self, year, month, day):
         moonPhase = ""
         metricDateCalc = self.metric_calc(year, month, day)
@@ -286,6 +316,8 @@ class EasterCalc(object):
             moonPhase = "Waning Crescent 🌘"
         return moonAge
         
+    #One function used in calculating metric date. 
+    #   GARBAGE AND OUTDATED. CAST IT INTO THE FIRE! DESTROY IT!
     def print_metric_meme(self, year, month, day, hour, minute):
         if year % 4 == 0 or year % 400 == 0:
                 leap_year = True
@@ -362,6 +394,7 @@ class EasterCalc(object):
         MEMEXVII = MEMEXVI / 1000000
         return MEMEXVII
 
+    #Calculates metric date based on input.
     def metric_calc(self, year, month, day):
         if self.isStupid:
             lower = 1969
@@ -382,7 +415,6 @@ class EasterCalc(object):
             rounderIII = self.print_metric_meme(year, month, day, hour, minute)
         return rounderIII
         
-
 def main():
     root = Tk()
     root.title("Easter Date Calclator")
