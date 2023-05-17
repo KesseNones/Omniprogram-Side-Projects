@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-13.21
+#Version: 2023-05-17.12
 
 from tkinter import *
 
@@ -59,11 +59,11 @@ class E(object):
         import eightPortionClock
         eightPortionClock.main()
 
-    def eightClockCalc(self):                       #HERE
+    def eightClockCalc(self):                       #DONE
         import eightPortionClockCalc
         eightPortionClockCalc.main()
 
-    def easterCalc(self):
+    def easterCalc(self):                           #HERE
         import easterCalc
         easterCalc.main()
 
