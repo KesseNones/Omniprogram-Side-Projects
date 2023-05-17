@@ -63,11 +63,11 @@ class E(object):
         import eightPortionClockCalc
         eightPortionClockCalc.main()
 
-    def easterCalc(self):                           #HERE
+    def easterCalc(self):                           #DONE (STILL NEEDS MAJOR REFACTORING TO LOOK LESS GROSS)
         import easterCalc
         easterCalc.main()
 
-    def eruClock(self):
+    def eruClock(self):                             #HERE
         import eruvarianClock
         eruvarianClock.main()
 
