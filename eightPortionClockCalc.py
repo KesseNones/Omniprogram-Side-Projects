@@ -1,62 +1,78 @@
+#Jesse A. Jones
+#Version: 2023-05-17.12
+
 from tkinter import *
 import dateHandling
 
-class EightClock(object):
+#This class displays the resulting 
+#   eight poriton clock time based on user input time.
+class EightClockCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quit button that calls function to quit program.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Bottom frame holds input fields and converted time.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageTime = Label(self.frameBottom, text = "", font = "Times 75", anchor = "w")
-        self.messageTime.grid(row = 5, column = 0)
-
-        self.messageTimeSeg = Label(self.frameBottom, text = "", font = "Times 75", anchor = "w", bg = "#373737")
-        self.messageTimeSeg.grid(row = 6, column = 0)
-
-        self.messageI = Label(self.frameBottom, text = "Enter Hour:", font = "Ariel 55")
+        #Hour input field.
+        self.messageI = Label(self.frameBottom, text = "Enter Hour:", font = "Ariel 20")
         self.messageI.grid(row = 0, column = 0)
-
-        self.hourE = Entry(self.frameBottom, font = "Times 45")
+        self.hourE = Entry(self.frameBottom, font = "Ariel 20")
         self.hourE.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Minute:", font = "Ariel 55")
+        #Minute input field.
+        self.messageII = Label(self.frameBottom, text = "Enter Minute:", font = "Ariel 20")
         self.messageII.grid(row = 2, column = 0)
-
-        self.minE = Entry(self.frameBottom, font = "Times 45")
+        self.minE = Entry(self.frameBottom, font = "Ariel 20")
         self.minE.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Second:", font = "Ariel 55")
+        #Second input field.
+        self.messageIII = Label(self.frameBottom, text = "Enter Second:", font = "Ariel 20")
         self.messageIII.grid(row = 3, column = 0)
-
-        self.secE = Entry(self.frameBottom, font = "Times 45")
+        self.secE = Entry(self.frameBottom, font = "Ariel 20")
         self.secE.grid(row = 3, column = 1)
     
-        self.convButton = Button(self.frameBottom, text = "Convert to Fun Clock", 
-            font = "Ariel 50", command = self.clockConv)
+        #Button that calls function to convert input time to 3 hour time.
+        self.convButton = Button(self.frameBottom, text = "Convert to Eight Portion Clock", 
+            font = "Ariel 20", command = self.clockConv)
         self.convButton.grid(row = 4, column = 0)
 
+        #Clock time.        
+        self.messageTime = Label(self.frameBottom, text = "", font = "Ariel 50", anchor = "w")
+        self.messageTime.grid(row = 5, column = 0)
+
+        #Day portion name display.
+        self.messageTimeSeg = Label(self.frameBottom, text = "", font = "Ariel 50", anchor = "w", bg = "#373737")
+        self.messageTimeSeg.grid(row = 6, column = 0)
+
+    #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Converts input time to eight day portion time.
     def clockConv(self):
         time = self.convFunTime()
         self.messageTime["text"] = time
         self.messageTimeSeg["text"] = self.portion
 
+    #Fetches time input fields.
     def timeGet(self):
         dateFind = dateHandling.GetDate()
         self.hourUnalt = dateFind.getHour(self.hourE.get())
         self.minute = dateFind.getMinOrSec(self.minE.get())
         self.second = dateFind.getMinOrSec(self.secE.get())
 
+    #Converts input time to eight day portion time 
+    #   and sets the display accordingly.
     def convFunTime(self):
         self.timeGet()
         if 0 <= self.hourUnalt < 3:
@@ -98,7 +114,7 @@ class EightClock(object):
 def main():
     root = Tk()
     root.title("Clock With Eight Day Portions")
-    dateAndTime = EightClock(root)
+    dateAndTime = EightClockCalc(root)
     root.mainloop()
 
 if __name__ == "__main__":
