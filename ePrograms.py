@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-18.90
+#Version: 2023-05-18.93
 
 from tkinter import *
 
@@ -67,11 +67,11 @@ class E(object):
         import easterCalc
         easterCalc.main()
 
-    def eruClock(self):                             #HERE
+    def eruClock(self):                             #DONE
         import eruvarianClock
         eruvarianClock.main()
 
-    def eruCal(self):
+    def eruCal(self):                               #HERE
         import eruvarianCalendarAndClock
         eruvarianCalendarAndClock.main()
 
