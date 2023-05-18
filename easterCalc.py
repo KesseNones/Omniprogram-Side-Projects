@@ -1,420 +1,230 @@
 #Jesse A. Jones
-#Version: 2023-05-17.94
+#Version: 2023-05-18.88
 
 from tkinter import *
-from tkinter import messagebox
-import math
-import datetime
-import time
+import weekCalculator
+import dateHandling
+import metricTime
+import leapDetect
 
-#This class calculates easter based on an input year. 
-#   RIGHT NOW THIS CODE IS TERRIBLE EVEN THOUGH IT WORKS. SHOULD BE REFACTORED WHEN POSSIBLE!
+
+#This class takes in an input year 
+#   and calculates the date easter occurs in the given year.
 class EasterCalc(object):
     def __init__(self, window = None):
         self.window = window
 
-        #Holds quit button.
+        #Top frame has quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
-        #When clicked program quits.
+        #Quit button that calls method to quit program.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
-        #Bottom frame holds year input, conversion button and easter date output.
+        #Bottom frame holds year input, conversion button, and date output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         #Year input field.
         self.message = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 0, column = 0)
-        self.yearE = Entry(self.frameBottom, font = "Ariel 20")
-        self.yearE.grid(row = 1, column = 0)
+        self.year = Entry(self.frameBottom, font = "Ariel 20")
+        self.year.grid(row = 1, column = 0)
 
-        #When pressed easter date of given year is found.
-        self.convButtonI = Button(self.frameBottom, text = "Find Easter Date", 
+        #Easter date finding button.
+        self.convButton = Button(self.frameBottom, text = "Find Easter Date", 
             font = "Ariel 20", command = self.yearToCal)
-        self.convButtonI.grid(row = 2, column = 0)
+        self.convButton.grid(row = 2, column = 0)
 
-        #Converted easter output.
+        #Easter date output
         self.tOutput = Label(self.frameBottom, text = "", 
             font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 3, column = 0)
-    
-        #Used for metric date.
-        self.isStupid = True
+
+        #Used in finding day of week, parsing year input, 
+        #   finding metric dates, and if a year is a leap year.
+        self.weekfind = weekCalculator.WeekFinder()
+        self.yearParse = dateHandling.GetDate()
+        self.tMetric = metricTime.MetricTime()
+        self.findLeap = leapDetect.IsLeap()
 
     #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
 
-    #Calls method to find easter date of input year and displays it.
+    #Calls function calculate easter and displays result.
     def yearToCal(self):
-        date = self.eCal()
-        self.tOutput["text"] = date 
+        self.tOutput["text"] = self.eCal(self.year.get())
 
-    #Pareses input year.
-    def yearGet(self):
-        if self.yearE.get() == "":
-            messagebox.showerror("Empty Entry Error", "Enter a year!")
-            return
-        else:
-            return int(self.yearE.get())
-
-    #Finds easter date.
-    def eCal(self):
-        #Initial date.
-        year = self.yearGet()
+    #Calculates easter based on input year.
+    def eCal(self, y):
+        #Sets date to start of spring of given year.
+        year = self.yearParse.getYear(y)
         month = 3
         day = 21
 
+        newDate = None
+        months = ["Jan", "Feb", "Mar",
+                "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep",
+                "Oct", "Nov", "Dec"]
+        
+        #Finds moon age of spring start.
         moonAge = self.moonCalc(year, month, day)
-        wkDay = self.week_fdn(year, month, day)
-        curDay = self.currentDate(year, month, day)
-        adv = 0
-        self.dateCalc(adv)
-        
-        #Moves forward until full moon found.
+
+        #Finds weekday of spring start.
+        wkDay = self.weekfind.weekFind(year, month, day)
+
+        #Advances date forward until a full moon happens.
         while not (14.765294 < moonAge < 15.765294):
-            adv += 1
-            self.dateCalc(adv)
-            moonAge = self.moonCalc(self.yearFinal, self.monthFinal, self.dayFinal)
+            #Moves date one day forward and updates date.
+            newDate = self.dateCalc(1, year, month, day)
+            year = newDate[0]
+            month = newDate[1]
+            day = newDate[2]
 
-        wkDayII = self.week_fdn(self.yearFinal, self.monthFinal, self.dayFinal)
-        adv = 0
-        self.currentDate(self.yearFinal, self.monthFinal, self.dayFinal)
-        
-        #Moves date forward a day if date is sunday.
-        if wkDayII == "Sunday":
-            self.dateCalc(1)
-            wkDayII = self.week_fdn(self.yearFinal, self.monthFinal, self.dayFinal)
-        
-        #Moves until date is sunday.
-        while wkDayII != "Sunday":
-            adv += 1
-            self.dateCalc(adv)
-            wkDayII = self.week_fdn(self.yearFinal, self.monthFinal, self.dayFinal)
-        #Builds and returns date string.
-        mth = self.wordMonth()
-        dateString = str(self.dayFinal) + " " + str(mth) + ", " +  str(self.yearFinal)
-        return dateString
+            #Calculates moon age of updated date.
+            moonAge = self.moonCalc(year, month, day)
 
-    #Finds month name based on month number.
-    def wordMonth(self):
-        if self.monthFinal == 1:
-            monthWord = "Jan"
-        if self.monthFinal == 2:
-            monthWord = "Feb"
-        if self.monthFinal == 3:
-            monthWord = "Mar"
-        if self.monthFinal == 4:
-            monthWord = "Apr"
-        if self.monthFinal == 5:
-            monthWord = "May"
-        if self.monthFinal == 6:
-            monthWord = "Jun"
-        if self.monthFinal == 7:
-            monthWord = "Jul"
-        if self.monthFinal == 8:
-            monthWord = "Aug"
-        if self.monthFinal == 9:
-            monthWord = "Sep"
-        if self.monthFinal == 10:
-            monthWord = "Oct"
-        if self.monthFinal == 11:
-            monthWord = "Nov"
-        if self.monthFinal == 12:
-            monthWord = "Dec"
-        return monthWord    
+        #If full moon is on a sunday, date moves one day forward 
+        #   in order to find the sunday *after* the full moon, 
+        #   as the laws of easter dictate.
+        if self.weekfind.weekFind(year, month, day) == "Sunday":
+            newDate = self.dateCalc(1, year, month, day)
+            year = newDate[0]
+            month = newDate[1]
+            day = newDate[2]
 
-    #Sets class variables based on input date.
-    def currentDate(self, year, month, day):
-        self.dateISO = datetime.date.today()
-        self.currentYear = year
-        self.currentMonth = month
-        self.currentDay = day
+        #Moves date forward until a sunday is found.
+        while self.weekfind.weekFind(year, month, day) != "Sunday":
+            #Moves date one day forward and updates date.
+            newDate = self.dateCalc(1, year, month, day)
+            year = newDate[0]
+            month = newDate[1]
+            day = newDate[2]
 
-    #Determines if input year is a leap year.
-    def isLeapYear(self, year):
-        if year % 400 == 0:
-            return True
-        if year % 100 == 0:
-            return False
-        if year % 4 == 0:
-            return True
-        else:
-            return False
+        return f"{day} {months[month - 1]}, {year}"
 
-    #Determines new date based on offset.
-    def dateCalc(self, diff):
-        year = self.currentYear
-        month = self.currentMonth
-        day = self.currentDay
-        if diff >= 3000000:
+    #Calculates date with input day offset. 
+    #   This is modified for the easter calculator.
+    def dateCalc(self, diff, year, month, day):
+        #Fetches current date and day difference.
+        monthNameArr = ["Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", 
+                        "Oct", "Nov", "Dec"]
+
+        #Finds date in the future to match this.
+        if diff > 0:
+            #Crunches difference down to less than 146097.
             yearAdd = diff // 146097
             year += (yearAdd * 400)
             diff = diff % 146097
-        if diff > 0:
+
+            #Moves time forward while difference is not 0.
             while diff > 0:
-                leap = self.isLeapYear(year)
+                #Determines if year is currently leap year and moves day forward by 1.
+                leap = self.findLeap.isLeapYear(year)
                 day += 1
+
+                #31 day month flip over case.
                 if (month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10) and day > 31:
                     month += 1
                     day -= 31
+                
+                #30 day month flip over case.
                 if (month == 4 or month == 6 or month == 9 or month == 11) and day > 30:
                     month += 1
                     day -= 30
+
+                #Non leap februrary flip over case.
                 if (month == 2 and leap == False and day > 28):
                     month += 1
                     day -= 28
+
+                #Leap year februrary flip over case.
                 if (month == 2 and leap == True and day > 29):
                     month += 1
                     day -= 29
+
+                #Year end flip over case.
                 if month == 12 and day > 31:
                     year += 1
                     month -= 11
                     day -= 31
+
+                #Diff subtracted once transactions completed.
                 diff -= 1
-            self.yearFinal = year
-            self.monthFinal = month
-            self.dayFinal = day
-            return
-        if diff <= -3000000:
+
+        #Finds date in past.
+        if diff < 0:
+            #Crunches difference to be closer to 0 and avoid linear time iterations.
             yearSub = diff // -146097
             year -= (yearSub * 400)
             diff = diff % -146097
-        if diff < 0:
+
+            #Keeps moving time backwards until difference is down to 0.
             while diff < 0:
-                leap = self.isLeapYear(year)
+                #Day moves backwards and it's determined if leap year exists.
+                leap = self.findLeap.isLeapYear(year)
                 day -= 1
+
+                #March back to feb non leap case.
                 if month == 3 and leap == False and day < 1:
                     month -= 1
                     day += 28
+
+                #March back to feb leap year case.
                 if month == 3 and leap == True and day < 1:
                     month -= 1
                     day += 29
+
+                #Back to previous year case.
                 if month == 1 and day < 1:
                     year -= 1
                     month += 11
                     day += 31
+
+                #Back to previous 31 day month.
                 if (month == 2 or month == 4 or month == 6 or month == 9 or month == 11) and day < 1:
                     month -= 1
                     day += 31
+
+                #Back to previous 30 day month.
                 if (month == 5 or month == 10 or month == 12 or month == 7) and day < 1:
                     month -= 1
                     day += 30
+
+                #Back from august to july case.
                 if (month == 8) and day < 1:
                     month -= 1
                     day += 31
+
+                #Difference adjusted once all has occured.
                 diff += 1
-            self.yearFinal = year
-            self.monthFinal = month
-            self.dayFinal = day
-            return
-        if diff == 0:
-            self.yearFinal = year
-            self.monthFinal = month
-            self.dayFinal = day
-            return
 
-    #Finds day of week from input year, month, and day.
-    def week_fdn(self, year, month, day):
-        subtract = 0
-        if (month < 3) and ((year % 4) == 0 or (year % 400) == 0):
-            subtract = -1
-            if year % 100 == 0:
-                subtract = 0
-            if (year % 100 == 0) and (year % 400 == 0):
-                subtract = -1
-        if (month > 2):
-            subtract = 0
-        y = year % 100
-        yII = int(y / 4)
-        yIII = yII + y
-        yC = yIII % 7
-        if (year - y) % 400 == 0:
-            cC = 6
-        if ((year - y) - 100) % 400 == 0:
-            cC = 4
-        if ((year - y) - 200) % 400 == 0:
-            cC = 2
-        if ((year - y) - 300) % 400 == 0:
-            cC = 0
-        net = yC + cC
-        if month == 1:
-            mC = 0
-        if month == 2:
-            mC = 3
-        if month == 3:
-            mC = 3
-        if month == 4:
-            mC = 6
-        if month == 5:
-            mC = 1
-        if month == 6:
-            mC = 4
-        if month == 7:
-            mC = 6
-        if month == 8:
-            mC = 2
-        if month == 9:
-            mC = 5
-        if month == 10:
-            mC = 0
-        if month == 11:
-            mC = 3
-        if month == 12:
-            mC = 5
-        net = net + mC
-        net = net + int(day)
-        net = net + subtract
-        net = net % 7
-        if net == 0:
-            wk = "Sunday"
-        if net == 1:
-            wk = "Monday"
-        if net == 2:
-            wk = "Tuesday"
-        if net == 3:
-            wk = "Wednesday"
-        if net == 4:
-            wk = "Thursday"
-        if net == 5:
-            wk = "Friday"
-        if net == 6:
-            wk = "Saturday"
-        return wk
+        return [year, month, day]
 
-
-    #Calculates moon phase based on input date.
+    #Finds moonphase from input date.
     def moonCalc(self, year, month, day):
         moonPhase = ""
-        metricDateCalc = self.metric_calc(year, month, day)
-        moonBase = 4390.559679166
+        #Finds metric date of date.
+        metricDateCalc = self.tMetric.metric_calc(year, month, day, 0, 0)
+
+        #Using the metric date base, a day delta is found 
+        #   which is modded by the number of days in a moon cycle.
+        moonBase = 4390.562761805
         metricDiff = metricDateCalc - moonBase
         moonAge = (metricDiff * 1000) % 29.530588
+
+        #Prevents negative moon age.
         if moonAge < 0:
             moonAge += 29.530588
-        moonAgeII = round(moonAge, 6)
-        moonAgeII = format(moonAgeII, ".6f")
-        if 0.0 <= moonAge < 3.6913235:
-            moonPhase = "New Moon 🌑"
-        if 3.6913235 <= moonAge < 7.382647:
-            moonPhase = "Waxing Crescent 🌒"
-        if 7.382647 <= moonAge < 11.0739705:
-            moonPhase = "First Quarter 🌓"
-        if 11.0739705 <= moonAge < 14.765294:
-            moonPhase = "Waxing Gibbous 🌔"
-        if 14.765294 <= moonAge < 18.4566175:
-            moonPhase = "Full Moon 🌕"
-        if 18.4566175 <= moonAge < 22.147941:
-            moonPhase = "Waning Gibbous 🌖"
-        if 22.147941 <= moonAge < 25.8392645:
-            moonPhase = "Third Quarter 🌗"
-        if 25.8392645 <= moonAge < 29.530588:
-            moonPhase = "Waning Crescent 🌘"
-        return moonAge
-        
-    #One function used in calculating metric date. 
-    #   GARBAGE AND OUTDATED. CAST IT INTO THE FIRE! DESTROY IT!
-    def print_metric_meme(self, year, month, day, hour, minute):
-        if year % 4 == 0 or year % 400 == 0:
-                leap_year = True
-        if year % 4 != 0 or year % 100 == 0:
-                leap_year = False
-        if month == 1:
-                D_Code_MKI = 0
-        if month == 2:
-                D_Code_MKI = 31
-        if month == 3:
-                D_Code_MKI = 59
-                if leap_year == True:
-                    D_Code_MKI = 60
-        if month == 4:
-                D_Code_MKI = 90
-                if leap_year == True:
-                    D_Code_MKI = 91
-        if month == 5:
-                D_Code_MKI = 120
-                if leap_year == True:
-                    D_Code_MKI = 121
-        if month == 6:
-                D_Code_MKI = 151
-                if leap_year == True:
-                    D_Code_MKI = 152
-        if month == 7:
-                D_Code_MKI = 181
-                if leap_year == True:
-                    D_Code_MKI = 182
-        if month == 8:
-                D_Code_MKI = 212
-                if leap_year == True:
-                    D_Code_MKI = 213
-        if month == 9:
-                D_Code_MKI = 243
-                if leap_year == True:
-                    D_Code_MKI = 244
-        if month == 10:
-                D_Code_MKI = 273
-                if leap_year == True:
-                    D_Code_MKI = 274
-        if month == 11:
-                D_Code_MKI = 304
-                if leap_year == True:
-                    D_Code_MKI = 305
-        if month == 12:
-                D_Code_MKI = 334
-                if leap_year == True:
-                    D_Code_MKI = 335
-        D_Code_MKII = D_Code_MKI + day
-        if leap_year == False:
-            divider = 365
-        if leap_year == True:
-            divider = 366
-        H = hour
-        M = minute
-        year = year + 10000
-        MEMEI = D_Code_MKII - 1
-        MEMEII = MEMEI / divider
-        MEMEIII = MEMEII + year
-        MEMEIV = MEMEIII / 2.7379093307922614306961635510947
-        MEMEV = MEMEIV * 1000
-        MEMEVI = math.trunc(MEMEV)
-        MEMEVII = MEMEVI / 1000
-        MEMEVIII = M / 60
-        MEMEIX = H + MEMEVIII
-        MEMEX = MEMEIX / 24
-        MEMEXI = MEMEX * 1000
-        MEMEXII = math.trunc(MEMEXI)
-        MEMEXIII = MEMEXII / 1000000
-        MEMEXIV = MEMEVII + MEMEXIII
-        MEMEXV = MEMEXIV * 1000000
-        MEMEXVI = math.trunc(MEMEXV)
-        MEMEXVII = MEMEXVI / 1000000
-        return MEMEXVII
 
-    #Calculates metric date based on input.
-    def metric_calc(self, year, month, day):
-        if self.isStupid:
-            lower = 1969
-            upper = 3002
-        else:
-            lower = 0
-            upper = 10000
-        hour = 0
-        minute = 0
-        if lower < year < upper:
-            dt = datetime.datetime(year, month, day, hour, minute)
-            t = (time.mktime(dt.timetuple()))
-            metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.949
-            rounderI = metric_time * 1000000000
-            rounderII = math.trunc(rounderI)
-            rounderIII = rounderII / 1000000000
-        if year >= upper or year <= lower:
-            rounderIII = self.print_metric_meme(year, month, day, hour, minute)
-        return rounderIII
-        
+        return moonAge
+
 def main():
     root = Tk()
     root.title("Easter Date Calclator")
