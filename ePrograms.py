@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-19.96
+#Version: 2023-05-19.98
 
 from tkinter import *
 
@@ -48,7 +48,7 @@ class E(object):
             font = "Ariel 30", command = self.elfCalc)
         self.elfCalcButton.grid(row = 2, column = 0)
 
-        self.elfCalcButton = Button(self.frameBottom, text = "Eridanian Clock", 
+        self.elfCalcButton = Button(self.frameBottom, text = "Eridian Clock", 
             font = "Ariel 30", command = self.eriClock)
         self.elfCalcButton.grid(row = 2, column = 1)
 
@@ -83,7 +83,7 @@ class E(object):
         import rivendellCalendarCalc
         rivendellCalendarCalc.main()
 
-    def eriClock(self):                             #HERE
+    def eriClock(self):                             #DONE
         import eridanianClock
         eridanianClock.main()
 
