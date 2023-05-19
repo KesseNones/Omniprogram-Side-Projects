@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-19.04
+#Version: 2023-05-19.09
 
 import time
 from tkinter import *
@@ -57,10 +57,9 @@ class EruCal(object):
     #Finds time and date in Eru'varian calendar and updates stuff as such.
     def timeUpdate(self):
         #88400
-        t = time.time()
-        timeString = self.eruConv(t)
-        self.message["text"] = timeString
-        self.messageII["text"] = self.otherTimeString
+        timeArr = self.eruConv(time.time())
+        self.message["text"] = timeArr[0]
+        self.messageII["text"] = timeArr[1]
         self.message.after(1, self.timeUpdate)
 
     #Calculates Eru'varian date and time and returns 
@@ -111,10 +110,10 @@ class EruCal(object):
         trueEruLunarCycle = base.baseConv(int(lunarCycle), 12)
         trueEruDay = base.baseConv(int(eruDay), 12)
 
-        #Constructs time strings and returns what is needed to be returned.
-        self.otherTimeString = trueEruYear + "-" + trueEruLunarCycle + "-" + trueEruDay.zfill(2) + ", " + eruWeekday
+        #Constructs time strings and returns them.
         timeString = firstPlace + "." + secondPlace + thirdPlace + fourthPlace + fifthPlace
-        return timeString
+        otherTimeString = trueEruYear + "-" + trueEruLunarCycle + "-" + trueEruDay.zfill(2) + ", " + eruWeekday
+        return [timeString, otherTimeString]
 
 def main():
     root = Tk()
