@@ -1,5 +1,7 @@
+#Jesse A. Jones
+#Version: 2023-05-19.98
+
 from tkinter import *
-#import winsound
 
 class K(object):
     def __init__(self, window = None):
@@ -25,14 +27,10 @@ class K(object):
             font = "Ariel 30", command = self.kesseNonesAlias)
         self.connecButton.grid(row = 0, column = 1)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
     def quitButtonAction(self):
         self.window.destroy()
 
-    def karCalc(self):
+    def karCalc(self):                  #HERE
         import kardeshevCalcGUI
         kardeshevCalcGUI.main()
 
