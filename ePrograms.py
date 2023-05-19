@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-19.88
+#Version: 2023-05-19.96
 
 from tkinter import *
 
@@ -79,11 +79,11 @@ class E(object):
         import eruvarianReckoningCalculator
         eruvarianReckoningCalculator.main()
 
-    def elfCalc(self):                              #HERE
+    def elfCalc(self):                              #DONE
         import rivendellCalendarCalc
         rivendellCalendarCalc.main()
 
-    def eriClock(self):
+    def eriClock(self):                             #HERE
         import eridanianClock
         eridanianClock.main()
 

@@ -1,150 +1,145 @@
+#Jesse A. Jones
+#Version: 2023-05-19.90
+
 from tkinter import *
 import dateHandling
 import leapDetect
+import metricTime
 
 class RivCalendarCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button, english name button, and elvish name button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program if pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.grid(row = 0, column = 0)
 
+        #Converts elf names to english names when pressed.
         self.engButton = Button(self.frameTop, text = "To English Names", font = "Ariel 20", command = self.toTolkien)
         self.engButton.grid(row = 0, column = 1)
 
+        #Converts names to elvish when pressed.
         self.elfButton = Button(self.frameTop, text = "To Elvish Names", font = "Ariel 20", command = self.toShire)
         self.elfButton.grid(row = 0, column = 2)
 
+        #Bottom frame holds date input fields, 
+        #   conversion button, and date output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 55")
+        #Year input field.
+        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 20")
         self.messageI.grid(row = 0, column = 0)
-
-        self.yearE = Entry(self.frameBottom, font = "Times 45")
+        self.yearE = Entry(self.frameBottom, font = "Ariel 20")
         self.yearE.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 55")
+        #Month input field.
+        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 20")
         self.messageII.grid(row = 2, column = 0)
-
-        self.monthE = Entry(self.frameBottom, font = "Times 45")
+        self.monthE = Entry(self.frameBottom, font = "Ariel 20")
         self.monthE.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 55")
+        #Day input field.
+        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 20")
         self.messageIII.grid(row = 3, column = 0)
-
-        self.dayE = Entry(self.frameBottom, font = "Times 45")
+        self.dayE = Entry(self.frameBottom, font = "Ariel 20")
         self.dayE.grid(row = 3, column = 1)
     
+        #Converts to Elven calendar when pressed.
         self.convButton = Button(self.frameBottom, text = "Convert to Elven Calendar", 
-            font = "Times 50", command = self.shireCalCalc)
+            font = "Ariel 20", command = self.elvenCalCalc)
         self.convButton.grid(row = 4, column = 0)
 
+        #Resulting date of Elven calendar displayed here.
         self.cOutput = Label(self.frameBottom, text = "", 
-            font = "Times 60", justify = LEFT, bg = "#f0f0f0")
-        self.cOutput.grid(row = 5, column = 0)
+            font = "Ariel 20", justify = LEFT, bg = "#f0f0f0")
+        self.cOutput.grid(row = 4, column = 1)
 
+        #Boolean used to toggle between displaying english names 
+        #   and elvish names.
         self.anglAte = False
 
+        #Used in date parsing and leap year detection.
+        self.date = dateHandling.GetDate()
+        self.leap = leapDetect.IsLeap()
+        self.dayFind = metricTime.MetricTime()
+
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
-    def shireCalCalc(self):
-        shireDate = self.cal_calc()
-        self.cOutput["text"] = shireDate
+    #Calls function to calculate elf calendar and displays result.
+    def elvenCalCalc(self):
+        self.cOutput["text"] = self.elfCalc()
 
+    #When called, sets english boolean to true and recalculates date, 
+    #   in order to redisplay it as english.
     def toTolkien(self):
         self.anglAte = True
-        self.shireCalCalc()
+        self.elvenCalCalc()
 
+    #When called, sets english boolean to false and recalculates date, 
+    #   in order to redisplay it as elfish.
     def toShire(self):
         self.anglAte = False
-        self.shireCalCalc()
+        self.elvenCalCalc()
 
-    #5030 years later greg year
-    def cal_calc(self):
-        date = dateHandling.GetDate()
-        leap = leapDetect.IsLeap()
-        year = date.getYear(self.yearE.get())
-        month = date.getMonth(self.monthE.get())
-        day = date.getDay(self.dayE.get())
+    #Calculates the elven calendar based on input.
+    def elfCalc(self):
+        #Fetches date from input fields.
+        year = self.date.getYear(self.yearE.get())
+        month = self.date.getMonth(self.monthE.get())
+        day = self.date.getDay(self.dayE.get())
+        
+        #5031 is an arbitrary addition to the year.
         rivYear = year + 5031
-        leap_year = leap.isLeapYear(year)
-        if month == 1:
-            D_Code_MKI = 0
-        if month == 2:
-            D_Code_MKI = 31
-        if month == 3:
-            D_Code_MKI = 59
-            if leap_year == True:
-                D_Code_MKI = 60
-        if month == 4:
-            D_Code_MKI = 90
-            if leap_year == True:
-                D_Code_MKI = 91
-        if month == 5:
-            D_Code_MKI = 120
-            if leap_year == True:
-                D_Code_MKI = 121
-        if month == 6:
-            D_Code_MKI = 151
-            if leap_year == True:
-                D_Code_MKI = 152
-        if month == 7:
-            D_Code_MKI = 181
-            if leap_year == True:
-                D_Code_MKI = 182
-        if month == 8:
-            D_Code_MKI = 212
-            if leap_year == True:
-                D_Code_MKI = 213
-        if month == 9:
-            D_Code_MKI = 243
-            if leap_year == True:
-                D_Code_MKI = 244
-        if month == 10:
-            D_Code_MKI = 273
-            if leap_year == True:
-                D_Code_MKI = 274
-        if month == 11:
-            D_Code_MKI = 304
-            if leap_year == True:
-                D_Code_MKI = 305
-        if month == 12:
-            D_Code_MKI = 334
-            if leap_year == True:
-                D_Code_MKI = 335
-        D_Code_MKII = D_Code_MKI + day
-        elfWeekday = self.getElfWeekday(year, D_Code_MKII)
-        rivCode = D_Code_MKII + 285
-        if rivCode > 366 and leap_year:
+
+        #Finds if current year is leap year and current day in gregorian year.
+        isLeap = self.leap.isLeapYear(year)
+        dayOfGregorianYear = self.dayFind.findDayNumOfYear(year, month, day)
+
+        #Finds elf day of the week.
+        elfWeekday = self.getElfWeekday(year, dayOfGregorianYear)
+        
+        #Finds day of year in the elven calendar.
+        rivCode = dayOfGregorianYear + 285
+        if rivCode > 366 and isLeap:
             rivCode -= 366
             rivYear += 1
-        elif rivCode > 365 and leap_year == False:
+        elif rivCode > 365 and isLeap == False:
             rivCode -= 365
             rivYear += 1
-        date = self.rivendellDateFind(rivYear, rivCode, leap_year)
+
+        #Calls function to calculate date in rivendel calendar 
+        #   and returns resulting date string.
+        date = self.rivendellDateFind(rivYear, rivCode, isLeap)
         dateString = elfWeekday + ", " + date + ", " + str(rivYear)
         return dateString
 
-    #146097 days per 400 year cycle
+    #Calculates elven week day based on current day count and year.
     def getElfWeekday(self, year, dayCount):
+        #Finds initial day count based on number of elaspsed 400 year cycles.
         fourCenturyCount = year // 400
         remainingYears = year % 400
         totalDays = fourCenturyCount * 146097
-        leapNess = leapDetect.IsLeap()
+
+        #Calculates the remaining days elapsed based on the years left.
         while remainingYears > 0:
-            leap = leapNess.isLeapYear(remainingYears)
+            leap = self.leap.isLeapYear(remainingYears)
             if leap:
                 totalDays += 366
             else:
                 totalDays += 365
             remainingYears -= 1
         totalDays += dayCount
+
+        #Uses modulo and indexing to return either 
+        #   an elfish week day name or englsh week day name.
         elfWeekdayNum = totalDays % 6
         elfWeekDays = ["Elenya", "Anarya", "Isilya", "Aldúya", "Menelya", "Valanya"]
         englishElfWeekdays = ["Stars Day", "Sun Day", "Moon Day", 
@@ -155,6 +150,8 @@ class RivCalendarCalc(object):
             elvishWeekDay = elfWeekDays[elfWeekdayNum]
         return elvishWeekDay
 
+    #Finds the elven calendar date based on the year, 
+    #   day number and if it's a leap year.
     def rivendellDateFind(self, rivYear, rivCode, isLeapYear):
         self.cOutput["bg"] = "#373737"
         if rivCode == 1:
