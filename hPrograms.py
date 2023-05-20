@@ -1,6 +1,9 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2023-05-20.95
 
+from tkinter import *
+
+#Contains programs that have titles starting with the letter H.
 class H(object):
     def __init__(self, window = None):
         self.window = window
@@ -29,16 +32,11 @@ class H(object):
             font = "Ariel 30", command = self.hexClock)
         self.hexClockButton.grid(row = 0, column = 2)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
     def quitButtonAction(self):
         self.window.destroy()
 
-    def hugeNumber(self):
+    def hugeNumber(self):                   #HERE
         import bigNumberUnderstander
-        #self.clickSound()
         bigNumberUnderstander.main()
 
     def hexCode(self):
