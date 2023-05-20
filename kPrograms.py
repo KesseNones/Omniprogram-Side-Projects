@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-19.98
+#Version: 2023-05-20.11
 
 from tkinter import *
 
@@ -30,7 +30,7 @@ class K(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def karCalc(self):                  #HERE
+    def karCalc(self):                  #DONE
         import kardeshevCalcGUI
         kardeshevCalcGUI.main()
 
