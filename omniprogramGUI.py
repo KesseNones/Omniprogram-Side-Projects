@@ -119,10 +119,10 @@ class Omni(object):
     def eFunc(self): #DONE
         ePrograms.main()
 
-    def hFunc(self): 
+    def hFunc(self): #HERE
         hPrograms.main()
 
-    def kFunc(self): #HERE
+    def kFunc(self): #DONE
         kPrograms.main()
 
     def mFunc(self):

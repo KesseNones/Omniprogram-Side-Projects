@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-20.11
+#Version: 2023-05-20.95
 
 from tkinter import *
 
@@ -34,7 +34,7 @@ class K(object):
         import kardeshevCalcGUI
         kardeshevCalcGUI.main()
 
-    def kesseNonesAlias(self):
+    def kesseNonesAlias(self):          #DONE
         import kessNonesAliasGen
         kessNonesAliasGen.main()
 

@@ -1,56 +1,60 @@
+#Jesse A. Jones
+#Version: 2023-05-20.95
+
 from tkinter import *
-import math
-from math import log
 from random import choice
 
+#This class generates an alias for Kesse Nones 
+#   to use for one of its incarnations.
 class KesseNamGen(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds alias generation button and text output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
+        #Generates alias for Kesse Nones when pressed.
         self.convButtonI = Button(self.frameBottom, text = "Generate Alias", 
-            font = "Times 45", command = self.nameGen)
+            font = "Ariel 30", command = self.nameGen)
         self.convButtonI.grid(row = 0, column = 0)
 
-        self.message = Label(self.frameBottom, text = "Name:", font = "times 55", anchor = "w")
+        #Kesse Nones alias output text.
+        self.message = Label(self.frameBottom, text = "Name:", font = "Ariel 30", anchor = "w")
         self.message.grid(row = 1, column = 0)
-
         self.tOutput = Label(self.frameBottom, text = "Kesse Nones", 
-            font = "Times 50", justify = LEFT, wraplength = 600 )
-        self.tOutput.grid(row = 1, column = 1)
+            font = "Ariel 30", justify = LEFT, wraplength = 600 )
+        self.tOutput.grid(row = 2, column = 0)
 
-    def copy(self, string):
-        clip = Tk()
-        clip.withdraw()
-        clip.clipboard_clear()
-        clip.clipboard_append(string)
-        clip.destroy()
-
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Generates Kesse Nones alias and displays result.
     def nameGen(self):
         alphaArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 
                 "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", ""]
+
+        #Randomly picks first letter of each name chunk.
         firstWordIndex = choice(range(0, 27))
         secondWordIndex = choice(range(0, 27))
+        
+        #Derives chars to be added to alias string.
         firstChar = alphaArr[firstWordIndex]
         secondChar = alphaArr[secondWordIndex]
+
+        #Builds and displays alias string.
         alias = firstChar + "esse " + secondChar + "ones" 
         self.tOutput["text"] = alias
-        self.copy(alias)
-
-    def quitButtonAction(self):
-        self.window.destroy()
 
 def main():
     root = Tk()
