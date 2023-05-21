@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-20.95
+#Version: 2023-05-21.08
 
 from tkinter import *
 
@@ -35,11 +35,11 @@ class H(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def hugeNumber(self):                   #HERE
+    def hugeNumber(self):                   #DONE (NEEDS MAJOR REFACTORING TO MAKE ME NOT DIE OF CRINGE)
         import bigNumberUnderstander
         bigNumberUnderstander.main()
 
-    def hexCode(self):
+    def hexCode(self):                      #HERE
         import hexEncoder
         hexEncoder.main()
 

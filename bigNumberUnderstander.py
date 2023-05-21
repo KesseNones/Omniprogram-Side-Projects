@@ -1,55 +1,70 @@
+#Jesse A. Jones
+#Version: 2023-05-20.96
+
 from tkinter import *
 from tkinter import messagebox
-import math
-from math import log
-from time import sleep
 
+#This class takes in an input number and displays the number 
+#   in scientific notation as well as the name of the number.
 class BigNumbUnderstander(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button and clear entry button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack(side = RIGHT)
 
+        #Clears number input field when pressed.
         self.clearButton = Button(self.frameTop, text = "Clear Entry",
             font = "Ariel 20", command = self.clear)
         self.clearButton.pack(side = LEFT)
 
+        #Bottom frame holds number input field, 
+        #   conversion button, and number output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "Enter an Integer:", font = "Ariel 75", anchor = "w")
+        #Number input field.
+        self.message = Label(self.frameBottom, text = "Enter an Integer:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 0, column = 0)
-
-        self.numE = Entry(self.frameBottom, font = "Times 69")
+        self.numE = Entry(self.frameBottom, font = "Ariel 20")
         self.numE.grid(row = 1, column = 0)
 
+        #Converts input number to something readable when pressed.
         self.convButtonI = Button(self.frameBottom, text = "Convert to Understandibleness", 
-            font = "Ariel 60", command = self.numbConverter)
+            font = "Ariel 20", command = self.numbConverter)
         self.convButtonI.grid(row = 2, column = 0)
 
+        #Outputs number decimal.
         self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 69", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 3, column = 0)
 
+        #Outputs number name.
         self.tOutputII = Label(self.frameBottom, text = "", 
-            font = "Ariel 69", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.tOutputII.grid(row = 4, column = 0)
 
+        #Outputs scientific notation button.
         self.tOutputIII = Label(self.frameBottom, text = "", 
-            font = "Ariel 69", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.tOutputIII.grid(row = 5, column = 0)
     
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Clears number input field.
     def clear(self):
         self.numE.delete(0, "end")
 
+    #Calls functions to convert input number to something 
+    #   with a name and scientific notation to a limit.
     def numbConverter(self):
         self.stringNumber = ""
         self.tOutputIII["text"] = ""
@@ -60,6 +75,7 @@ class BigNumbUnderstander(object):
         self.tOutputIII["text"] = str(self.scienceNotePI) + "x10" + " to the " + str(int(self.scienceNotePII)) + self.scienceNotePIII
         self.frameBottom.update()
 
+    #Fetches the exponent of the input number.
     def logGet(self, numb):
         iterator = 0
         numb = abs(numb)
@@ -73,11 +89,17 @@ class BigNumbUnderstander(object):
                 break
         return iterator
 
+    #Turns a given number into a scientific notation representation.
     def scienceNotifier(self):
+        #Fetches number decimal and exponent.
         numbOrig = float(self.numE.get())
         logo = self.logGet(numbOrig)
+
+        #Creates number decimal representation.
         numbAlt = numbOrig / (10 ** logo)
         numbAlt = round(numbAlt, 3)
+
+        #Creates ordinal suffix of power.
         ORD = logo % 10
         if ORD == 0:
             ORDII = 'th'
@@ -105,10 +127,13 @@ class BigNumbUnderstander(object):
             ORDII = "th"
         if ORD == 9:
             ORDII = "th"
+
+        #Sets appropriate class variables accordingly.
         self.scienceNotePI = numbAlt
         self.scienceNotePII = logo
         self.scienceNotePIII = ORDII        
 
+    #Converts the input number into something understandable.
     def numbConv(self):
         if self.numE.get() == "":
             messagebox.showerror("Empty Input Error", "Input an integer!")
@@ -122,6 +147,7 @@ class BigNumbUnderstander(object):
             messagebox.showerror("Out of Bounds Error", "Number is too big!")
             return
         self.numbAlt = numbAlt
+        #THIS IS FUCKING DISGRACEFUL. FIX THIS ASAP!!!!
         if 0 < logo < 3:
             self.stringNumber = ""
         elif 6 > logo >= 3:
@@ -330,6 +356,7 @@ class BigNumbUnderstander(object):
             self.stringNumber = "uncentillion"
         return
 
+#This is like the previous one except it takes the number as an arugment instead. (why does this exist????)
 def numbConvArgTaking(self, num):
         numbOrig = num
         logo = self.logGet(numbOrig)
