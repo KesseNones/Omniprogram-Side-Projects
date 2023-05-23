@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-22.2
+#Version: 2023-05-23.15
 
 from tkinter import *
 import baseConvertClass
@@ -91,7 +91,7 @@ class Binar(object):
 
         #Splits up binary string, converts each byte 
         #   to characters and adds them to a decoded string.
-        hexArr = entryString.split(" ")
+        hexArr = entryString.split()
         decodedString = ""
         for el in hexArr:
             dec = int(el, 2)
