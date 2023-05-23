@@ -1,11 +1,12 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2023-05-23.17
 
+from tkinter import *
+
+#Holds programs that start with the letter M.
 class M(object):
     def __init__(self, window = None):
         self.window = window
-
-        self.soundsAllowed = False
 
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
@@ -57,41 +58,32 @@ class M(object):
             font = "Ariel 30", command = self.toNormConv)
         self.metricToNormButton.grid(row = 3, column = 0)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
+    #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
 
-    def metricDateLiveAct(self):
+    def metricDateLiveAct(self):            #HERE
         import metricDateGUILIVE
-        #self.clickSound()
         metricDateGUILIVE.main()
 
     def metricCalculator(self):
         import differentMetricDateCalc
-        #self.clickSound()
         differentMetricDateCalc.main()
 
     def stopwatch(self):
         import metricStopwatch
-        #self.clickSound()
         metricStopwatch.main()
 
     def metricCountDown(self):
         import metricCountDown
-        #self.clickSound()
         metricCountDown.main()
 
     def moonCalc(self):
         import newMoonPhaseCalc
-        #self.clickSound()
         newMoonPhaseCalc.main()
 
     def magicEightBall(self):
         import magicEightBall
-        #self.clickSound()
         magicEightBall.main()
 
     def mcCalc(self):
