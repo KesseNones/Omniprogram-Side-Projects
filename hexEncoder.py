@@ -1,114 +1,112 @@
-from tkinter import *
-import math
-from math import log
+#Jesse A. Jones
+#Version: 2023-05-23.13
 
+from tkinter import *
+import baseConvertClass
+
+#This class contains members and methods that transforms strings 
+#   to hexadecimal chunks representing each character in the ASCII convention.
 class Hexa(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Top frame holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quit button.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Bottom frame holds input fields as well 
+        #   as conversion button and output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "Enter String:", font = "Ariel 55", anchor = "w")
+        #String/hex entry.
+        self.message = Label(self.frameBottom, text = "Enter String:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 0, column = 0)
-
-        self.msg = Entry(self.frameBottom, font = "Times 50")
+        self.msg = Entry(self.frameBottom, font = "Ariel 20")
         self.msg.grid(row = 0, column = 1)
 
+        #Encryption button.
         self.convButtonI = Button(self.frameBottom, text = "Encrypt", 
-            font = "Ariel 45", command = self.encipher)
+            font = "Ariel 20", command = self.encipher)
         self.convButtonI.grid(row = 1, column = 0)
 
+        #Decryption button.
         self.convButtonII = Button(self.frameBottom, text = "Decrypt", 
-            font = "Ariel 45", command = self.decipher)
+            font = "Ariel 20", command = self.decipher)
         self.convButtonII.grid(row = 1, column = 1)
 
-        self.message = Label(self.frameBottom, text = "Output:", font = "Ariel 55", anchor = "w")
+        #Resulting conversion.
+        self.message = Label(self.frameBottom, text = "Output:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 3, column = 0)
-
-        self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 50", justify = LEFT, wraplength = 600 )
+        self.tOutput = Entry(self.frameBottom, font = "Ariel 20")
         self.tOutput.grid(row = 3, column = 1)
 
-    def copy(self, string):
-        clip = Tk()
-        clip.withdraw()
-        clip.clipboard_clear()
-        clip.clipboard_append(string)
-        clip.destroy()
+        self.baseConv = baseConvertClass.BaseConvert()
 
+    #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Makes sure each byte is eight bits long. Adds leading zeroes.
+    def formatByte(self, origNum):
+        altNum = origNum
+        fillerZero = "0"
+        #Adds leading zeroes if needed.
+        while (len(altNum) < 2):
+            altNum = fillerZero + altNum
+        return altNum
+
+    #Turns text to hex.
     def encipher(self):
+        #Acquires user input.
         entryString = self.msg.get()
         encodedString = ""
+
+        maximum = len(entryString) - 1
+        index = 0
+
+        #Extracts each character from the string, turns it 
+        #   to its ASCII value, and converts the ASCII value to hexadecimal.
         for char in entryString:
             val = ord(char)
-            hexVal = self.tenToOtherBase(val, 16)
-            encodedString += hexVal + " "
-        self.tOutput["text"] = encodedString
-        self.copy(encodedString)
-        return encodedString
+            hexVal = self.baseConv.tenToOtherBase(val, 16)
+            hexVal = self.formatByte(hexVal)
+            if index < maximum:
+                encodedString += hexVal + " "
+            else:
+                encodedString += hexVal
 
+        #Displays output hex to user.
+        self.tOutput.delete(0, "end")
+        self.tOutput.insert(0, encodedString)
+
+    #Turns hex code to text.
     def decipher(self):
+        #Fetches user input hex string and checks for emptyness.
         entryString = self.msg.get()
-        hexArr = entryString.split(" ")
+        if (entryString == ""):
+            decodedString = ""
+            self.tOutput.delete(0, "end")
+            self.tOutput.insert(0, decodedString)
+            return
+
+        #Splits up hex string, converts each byte 
+        #   to characters and adds them to a decoded string.
+        hexArr = entryString.split()
         decodedString = ""
         for el in hexArr:
             dec = int(el, 16)
             char = chr(dec)
             decodedString += char
-        self.tOutput["text"] = decodedString
-        self.copy(decodedString)
-        return decodedString
 
-
-    def baseAlg(self, num, base):
-        digitArr = []
-        if num == 0:
-            return ["0"]
-        while num > 0:
-            digitArr.append(str(num % base))
-            num = num // base
-        return digitArr
-
-    def tenToOtherBase(self, num, base):
-        convNum = str()
-        if base < 11:
-            digits = self.baseAlg(num, base)
-            digits.reverse()
-            for el in digits:
-                convNum = convNum + el
-        if base >= 11:
-            digits = self.baseAlg(num, base)
-            digits.reverse()
-            letterDigits = self.toLetters(digits, base)
-            for el in letterDigits:
-                convNum = convNum + el
-        return convNum
-
-    def toLetters(self, digitArr, base):
-        letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 
-                "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-        loc = 0
-        for el in digitArr:
-            if int(el) > 9:
-                index = int(el) - 10
-                el = letters[index]
-                digitArr[loc] = el
-            loc += 1
-        return digitArr
-
-    def quitButtonAction(self):
-        self.window.destroy()
+        #Displays decoded string to user.
+        self.tOutput.delete(0, "end")
+        self.tOutput.insert(0, decodedString)
 
 def main():
     root = Tk()

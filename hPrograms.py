@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-23.13
+#Version: 2023-05-23.15
 
 from tkinter import *
 
@@ -39,11 +39,11 @@ class H(object):
         import bigNumberUnderstander
         bigNumberUnderstander.main()
 
-    def hexCode(self):                      #HERE
+    def hexCode(self):                      #DONE
         import hexEncoder
         hexEncoder.main()
 
-    def hexClock(self):
+    def hexClock(self):                     #HERE
         import hexClock
         hexClock.main()
 
