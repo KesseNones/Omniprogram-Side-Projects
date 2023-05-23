@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-23.15
+#Version: 2023-05-23.17
 
 from tkinter import *
 
@@ -43,7 +43,7 @@ class H(object):
         import hexEncoder
         hexEncoder.main()
 
-    def hexClock(self):                     #HERE
+    def hexClock(self):                     #DONE
         import hexClock
         hexClock.main()
 
