@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-18.92
+#Version: 2023-05-23.17
 
 import time
 from tkinter import *
@@ -12,6 +12,9 @@ import baseConvertClass
 class EruTime(object):
     def __init__(self, window = None):
         self.window = window
+
+        #Fixes window width to prevent text shifting the window size.
+        self.window.geometry("400x200")
 
         #Holds quit button.
         self.frameTop = Frame(self.window)
