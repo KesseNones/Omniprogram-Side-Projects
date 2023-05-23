@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-21.08
+#Version: 2023-05-23.13
 
 from tkinter import *
 
@@ -35,7 +35,7 @@ class H(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def hugeNumber(self):                   #DONE (NEEDS MAJOR REFACTORING TO MAKE ME NOT DIE OF CRINGE)
+    def hugeNumber(self):                   #DONE
         import bigNumberUnderstander
         bigNumberUnderstander.main()
 
