@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-25.83
+#Version: 2023-05-25.87
 
 from tkinter import *
 
@@ -66,11 +66,11 @@ class M(object):
         import metricDateGUILIVE
         metricDateGUILIVE.main()
 
-    def metricCalculator(self):             #HERE
+    def metricCalculator(self):             #DONE
         import differentMetricDateCalc
         differentMetricDateCalc.main()
 
-    def stopwatch(self):
+    def stopwatch(self):                    #HERE
         import metricStopwatch
         metricStopwatch.main()
 

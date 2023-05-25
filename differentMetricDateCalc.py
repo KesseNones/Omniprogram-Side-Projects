@@ -1,3 +1,6 @@
+#Jesse A. Jones
+#Version: 2023-05-25.85
+
 from tkinter import *
 import math
 import time
@@ -5,117 +8,153 @@ import datetime
 import leapDetect
 import dateHandling
 
+#Calculates a metric date based on input and displays result.
 class OtherMetricCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds date and time input fields as well 
+        #   as conversion button and metric time output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 55", anchor = "w")
+        #Year input field.
+        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 20", anchor = "w")
         self.messageI.grid(row = 0, column = 0)
-
-        self.year = Entry(self.frameBottom, font = "Times 55")
+        self.year = Entry(self.frameBottom, font = "Ariel 20")
         self.year.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 55", anchor = "w")
+        #Month input field.
+        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 20", anchor = "w")
         self.messageII.grid(row = 2, column = 0)
-
-        self.month = Entry(self.frameBottom, font = "Times 55")
+        self.month = Entry(self.frameBottom, font = "Ariel 20")
         self.month.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 55", anchor = "w")
+        #Day input field.
+        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 20", anchor = "w")
         self.messageIII.grid(row = 3, column = 0)
-
-        self.day = Entry(self.frameBottom, font = "Times 55")
+        self.day = Entry(self.frameBottom, font = "Ariel 20")
         self.day.grid(row = 3, column = 1)
 
-        self.messageIV = Label(self.frameBottom, text = "Enter Hour:", font = "Ariel 55", anchor = "w")
+        #Hour input field.
+        self.messageIV = Label(self.frameBottom, text = "Enter Hour:", font = "Ariel 20", anchor = "w")
         self.messageIV.grid(row = 4, column = 0)
-
-        self.hour = Entry(self.frameBottom, font = "Times 55")
+        self.hour = Entry(self.frameBottom, font = "Ariel 20")
         self.hour.grid(row = 4, column = 1)
 
-        self.messageV = Label(self.frameBottom, text = "Enter minute:", font = "Ariel 55", anchor = "w")
+        #Minute input field.
+        self.messageV = Label(self.frameBottom, text = "Enter minute:", font = "Ariel 20", anchor = "w")
         self.messageV.grid(row = 5, column = 0)
-
-        self.minute = Entry(self.frameBottom, font = "Times 55")
+        self.minute = Entry(self.frameBottom, font = "Ariel 20")
         self.minute.grid(row = 5, column = 1)
     
+        #Converts to metric date when pressed.
         self.convButton = Button(self.frameBottom, text = "Convert to Metric Date", 
-            font = "Ariel 55", command = self.calcMetric)
+            font = "Ariel 20", command = self.calcMetric)
         self.convButton.grid(row = 6, column = 0)
 
+        #Metric date output.
         self.mOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 55")
+            font = "Ariel 20")
         self.mOutput.grid(row = 6, column = 1)
 
+        #Used to specify if OS is windows or not.
         self.isStupid = True
-        self.leap = leapDetect.IsLeap()
 
+        #Used in leap year detection and date parsing.
+        self.leap = leapDetect.IsLeap()
+        self.date = dateHandling.GetDate()
+
+    #Quits program when pressed.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Calculates metric date and displays result.
     def calcMetric(self):
-        metricDate = self.metric_calc()
-        self.mOutput["text"] = metricDate
+        self.mOutput["text"] = self.metric_calc()
 
+    #Used to calculate metric date when year is out 
+    #   of range where unix time stamp library works.
     def metricCalcII(self, year, dayNum, hour, minute):
         year += 10000
+
+        #Takes out all 400 year cycles and adds them to total.
         fourCenturyCount = year // 400
         remainingYears = year % 400
         totalDays = fourCenturyCount * 146097
+
+        #Takes down remaining years until no years remain.
         while remainingYears > 0:
-            leap = self.leap.isLeapYear(remainingYears)
-            if leap:
-                totalDays += 366
-            else:
-                totalDays += 365
+            totalDays += (365 + self.leap.isLeapYear(remainingYears))
             remainingYears -= 1
+
+        #Adds fractional chunk of year and turns it into a metric date.
         totalDays += dayNum - 1
         totalDays = totalDays / 1000
         totalDays = round(totalDays, 3)
+
+        #Calculates day fraction and turns it into a metric decimal.
         secTotal = (hour * 3600) + (minute * 60)
         dayDec = secTotal / 86400
         dayDec *= 1000000
         dayDec = math.floor(dayDec)
         dayDec = dayDec / 1000000000
+
+        #Adds day fraction to metric date and returns it.
         finalMetric = totalDays + dayDec
         return finalMetric 
-        #4390.694 200 666
 
+    #Calculates metric date either using time library 
+    #   or using the metricCalcII function.
     def metric_calc(self):
-        date = dateHandling.GetDate()
+        #Year range set based on if it's on Windows or not.
         if self.isStupid:
             lower = 1969
             upper = 3002
         else:
             lower = 0
             upper = 10000
-        year = date.getYear(self.year.get())
-        month = date.getMonth(self.month.get())
-        day = date.getDay(self.day.get())
-        hour = date.getHour(self.hour.get())
-        minute = date.getMinOrSec(self.minute.get())
+
+        #Fetches date and time input.
+        year = self.date.getYear(self.year.get())
+        month = self.date.getMonth(self.month.get())
+        day = self.date.getDay(self.day.get())
+        hour = self.date.getHour(self.hour.get())
+        minute = self.date.getMinOrSec(self.minute.get())
+        
+        #If the year is in the range, 
+        #   calculate the metric time using datetime and do some quick maths.
+        #   If it's out of range two helper functions are called 
+        #   and metric date is calculated that way.
         if lower < year < upper:
+            #Calculates unix time stamp from datetime.
             dt = datetime.datetime(year, month, day, hour, minute)
             t = (time.mktime(dt.timetuple()))
-            metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
-            rounderI = metric_time * 1000000000
-            rounderII = math.trunc(rounderI)
-            rounderIII = rounderII / 1000000000
-        if year >= upper or year <= lower:
-            dayCount = self.findDayNumOfYear(year, month, day)
-            rounderIII = self.metricCalcII(year, dayCount, hour, minute)
-        return rounderIII
 
+            #Uses unix time stamp to calculate metric date.
+            metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
+            metric_time = metric_time * 1000000000
+            metric_time = math.trunc(metric_time)
+            metric_time = metric_time / 1000000000 
+        else:
+            #Finds current day number of date.
+            dayCount = self.findDayNumOfYear(year, month, day)
+
+            #Uses day number, year, and time to calculate metric date.
+            metric_time = self.metricCalcII(year, dayCount, hour, minute)
+
+        return metric_time
+
+    #Finds current day number of year.
     def findDayNumOfYear(self, year, month, day):
         leap_year = self.leap.isLeapYear(year)
         if month == 1:
