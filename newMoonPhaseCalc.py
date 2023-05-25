@@ -1,79 +1,100 @@
+#Jesse A. Jones
+#Version: 2023-05-25.93
+
 from tkinter import *
 import math
 import time
 import datetime
 
-class moonCalc(object):
+#Takes in an input date and time and calculates the moon phase from it.
+class MoonCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds date input fields, conversion button, and moon phase output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 75", anchor = "w")
+        #Year input field.
+        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 20", anchor = "w")
         self.messageI.grid(row = 0, column = 0)
-
-        self.year = Entry(self.frameBottom, font = "Times 69")
+        self.year = Entry(self.frameBottom, font = "Ariel 20")
         self.year.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 75", anchor = "w")
+        #Month input field.
+        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 20", anchor = "w")
         self.messageII.grid(row = 2, column = 0)
-
-        self.month = Entry(self.frameBottom, font = "Times 69")
+        self.month = Entry(self.frameBottom, font = "Ariel 20")
         self.month.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 75", anchor = "w")
+        #Day input field.
+        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 20", anchor = "w")
         self.messageIII.grid(row = 3, column = 0)
-
-        self.day = Entry(self.frameBottom, font = "Times 69")
+        self.day = Entry(self.frameBottom, font = "Ariel 20")
         self.day.grid(row = 3, column = 1)
 
-        self.messageIV = Label(self.frameBottom, text = "Enter Hour:", font = "Ariel 75", anchor = "w")
+        #Hour input field.
+        self.messageIV = Label(self.frameBottom, text = "Enter Hour:", font = "Ariel 20", anchor = "w")
         self.messageIV.grid(row = 4, column = 0)
-
-        self.hour = Entry(self.frameBottom, font = "Times 69")
+        self.hour = Entry(self.frameBottom, font = "Ariel 20")
         self.hour.grid(row = 4, column = 1)
 
-        self.messageV = Label(self.frameBottom, text = "Enter minute:", font = "Ariel 75", anchor = "w")
+        #Minute input field.
+        self.messageV = Label(self.frameBottom, text = "Enter minute:", font = "Ariel 20", anchor = "w")
         self.messageV.grid(row = 5, column = 0)
-
-        self.minute = Entry(self.frameBottom, font = "Times 69")
+        self.minute = Entry(self.frameBottom, font = "Ariel 20")
         self.minute.grid(row = 5, column = 1)
     
+        #Moon phase calculation.
         self.convButton = Button(self.frameBottom, text = "Calculate Moon Phase", 
-            font = "Ariel 60", command = self.moonCalc)
+            font = "Ariel 20", command = self.moonCalc)
         self.convButton.grid(row = 6, column = 0)
 
+        #Displays moon age.
         self.mOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 69")
+            font = "Ariel 20")
         self.mOutput.grid(row = 6, column = 1)
 
+        #Displays moon phase.
         self.mOutputII = Label(self.frameBottom, text = "", 
-            font = "Ariel 69")
+            font = "Ariel 20")
         self.mOutputII.grid(row = 7, column = 1)
 
         self.isStupid = True
 
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
+
+    #Calculates moon phase based on metric date and displays results.
     def moonCalc(self):
         moonPhase = ""
+
+        #Finds current metric date and finds difference from base metric date.
         metricDateCalc = self.metric_calc()
         moonBase = 4390.562679166
         metricDiff = metricDateCalc - moonBase
+        
+        #Metric delta used to find moon age.
         moonAge = (metricDiff * 1000) % 29.530588
         if moonAge < 0:
             moonAge += 29.530588
+        
+        #Formats moon age decimal and displays result.
         moonAgeII = round(moonAge, 6)
         moonAgeII = format(moonAgeII, ".6f")
         self.mOutput["text"] = moonAgeII
+        
+        #Determines which moon phase the moon is currently in.
         if 0.0 <= moonAge < 3.6913235:
             moonPhase = "New Moon 🌑"
         if 3.6913235 <= moonAge < 7.382647:
@@ -90,8 +111,11 @@ class moonCalc(object):
             moonPhase = "Third Quarter 🌗"
         if 25.8392645 <= moonAge < 29.530588:
             moonPhase = "Waning Crescent 🌘"
+
+        #Resulting moon phase displayed.
         self.mOutputII["text"] = moonPhase
         
+    #Determines if input year is a leap year or not.
     def isLeapYear(self, year):
         if year % 4 == 0:
             leap = True
@@ -103,6 +127,7 @@ class moonCalc(object):
             leap = False
         return leap
 
+    #Calculates metric date based on input year, day number, hour, and minute.
     def metricCalcII(self, year, dayNum, hour, minute):
         year += 10000
         fourCenturyCount = year // 400
@@ -127,6 +152,7 @@ class moonCalc(object):
         return finalMetric 
         #4390.694 200 666
 
+    #Calculates metric date somehow after fetchign input.
     def metric_calc(self):
         if self.isStupid:
             lower = 1969
@@ -151,6 +177,7 @@ class moonCalc(object):
             rounderIII = self.metricCalcII(year, dayCount, hour, minute)
         return rounderIII
 
+    #Finds day number of year based on date.
     def findDayNumOfYear(self, year, month, day):
         leap_year = self.isLeapYear(year)
         if month == 1:
@@ -203,7 +230,7 @@ class moonCalc(object):
 def main():
     root = Tk()
     root.title("Moon Phase Calculator")
-    moon = moonCalc(root)
+    moon = MoonCalc(root)
     root.mainloop()
 
 if __name__ == "__main__":
