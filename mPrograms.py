@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-23.17
+#Version: 2023-05-25.83
 
 from tkinter import *
 
@@ -62,11 +62,11 @@ class M(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def metricDateLiveAct(self):            #HERE
+    def metricDateLiveAct(self):            #DONE
         import metricDateGUILIVE
         metricDateGUILIVE.main()
 
-    def metricCalculator(self):
+    def metricCalculator(self):             #HERE
         import differentMetricDateCalc
         differentMetricDateCalc.main()
 
