@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-25.91
+#Version: 2023-05-25.92
 
 from tkinter import *
 
@@ -74,11 +74,11 @@ class M(object):
         import metricStopwatch
         metricStopwatch.main()
 
-    def metricCountDown(self):              #HERE
+    def metricCountDown(self):              #DONE
         import metricCountDown
         metricCountDown.main()
 
-    def moonCalc(self):
+    def moonCalc(self):                     #HERE
         import newMoonPhaseCalc
         newMoonPhaseCalc.main()
 
