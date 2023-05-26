@@ -1,8 +1,9 @@
 #Jesse A. Jones
-#Version: 2023-05-26.16
+#Version: 2023-05-26.17
 
 from tkinter import *
 from tkinter import messagebox
+import dateHandling
 
 #Class contains a calculator that calculates the date 
 #   in the made up minecraft calendar based on the input day number. 
@@ -29,8 +30,8 @@ class MinecraftCalCalc(object):
         #Day input field.
         self.message = Label(self.frameBottom, text = "Enter Day Number:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 0, column = 0)
-        self.dayE = Entry(self.frameBottom, font = "Ariel 20")
-        self.dayE.grid(row = 1, column = 0)
+        self.day = Entry(self.frameBottom, font = "Ariel 20")
+        self.day.grid(row = 1, column = 0)
 
         #Converts to minecraft calendar.
         self.convButtonI = Button(self.frameBottom, text = "Convert to Minecraft Calendar", 
@@ -41,86 +42,40 @@ class MinecraftCalCalc(object):
         self.tOutput = Label(self.frameBottom, text = "", 
             font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 3, column = 0)
+
+        self.dayParse = dateHandling.GetDate()
     
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
-    #Converts input date to calendar and displays result.
+    #Fetches user input day and converts it 
+    #   to minecraft calendar, displaying result.
     def dayToCal(self):
-        self.mcCal()
-        self.tOutput["text"] = self.dateString
+        day = self.dayParse.getYear(self.day.get())
+        self.tOutput["text"] = self.mcCal(day)
 
     #Takes in input day and finds resulting minecraft calendar date.
-    def mcCal(self):
-        #Fetches day input.
-        day = self.dayE.get()
-        if day == "":
-            messagebox.showerror("Empty Entry Error", "Enter something into the day box!")
-            return
-        day = int(day)
-
+    def mcCal(self, day):
         #Calculates minecraft date.
         year = (day // 96) + 1
         dayOfYear = day % 96
         month = dayOfYear // 8 + 1
         dayOfMonth = dayOfYear % 8 + 1
+
+        #Finds month name.
+        monthNames = ["Silverfish", "Cow", "Ocelot",\
+                    "Rabbit", "Ender", "Skeleton", \
+                    "Horse", "Sheep", "Steve",\
+                    "Chicken", "Wolf", "Pig"]
+        monthString = f"{monthNames[month - 1]} ({month})"
         
         #Calculates ordinal day suffix.
-        ORD = dayOfMonth % 10
-        if month == 1:
-            monthString = "Silverfish (1)"
-        if month == 2:
-            monthString = "Cow (2)"
-        if month == 3:
-            monthString = "Ocelot (3)"
-        if month == 4:
-            monthString = "Rabbit (4)"
-        if month == 5:
-            monthString = "Ender (5)"
-        if month == 6:
-            monthString = "Skeleton (6)"
-        if month == 7:
-            monthString = "Horse (7)"
-        if month == 8:
-            monthString = "Sheep (8)"
-        if month == 9:
-            monthString = "Steve (9)"
-        if month == 10:
-            monthString = "Chicken (10)"
-        if month == 11:
-            monthString = "Wolf (11)"
-        if month == 12:
-            monthString = "Pig (12)"
-        if ORD == 0:
-            ORDII = 'th'
-        if ORD == 1:
-            ORDII = "st"
-            if ORD == 1 and 20 > dayOfMonth > 10:
-                ORDII = 'th'
-        if ORD == 2:
-            ORDII = "nd"
-            if ORD == 2 and 20 > dayOfMonth > 10:
-                ORDII = 'th'
-        if ORD == 3:
-            ORDII = "rd"
-            if ORD == 3 and 20 > dayOfMonth > 10:
-                ORDII = 'th'
-        if ORD == 4:
-            ORDII = "th"
-        if ORD == 5:
-            ORDII = "th"
-        if ORD == 6:
-            ORDII = "th"
-        if ORD == 7:
-            ORDII = "th"
-        if ORD == 8:
-            ORDII = "th"
-        if ORD == 9:
-            ORDII = "th"
+        ordSuffixes = ["st", "nd", "rd", "th", "th", "th", "th", "th"]
+        ordSuffix = ordSuffixes[dayOfMonth - 1]
 
-        #Builds date string and sets class variable as such.
-        self.dateString = str(dayOfMonth) + ORDII + " of " + monthString + ", " + "Year " + str(year)
+        #Returns date string.
+        return f"{dayOfMonth}{ordSuffix} {monthString}, Year {year}\n New Redland Reckoning"
 
 def main():
     root = Tk()

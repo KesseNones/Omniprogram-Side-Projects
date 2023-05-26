@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-26.16
+#Version: 2023-05-26.18
 
 from tkinter import *
 
@@ -86,11 +86,11 @@ class M(object):
         import magicEightBall
         magicEightBall.main()
 
-    def mcCalc(self):                       #HERE
+    def mcCalc(self):                       #DONE
         import minecraftCalCalc
         minecraftCalCalc.main()
 
-    def mayanCalc(self):
+    def mayanCalc(self):                    #HERE
         import mayanLongCount
         mayanLongCount.main()
 
