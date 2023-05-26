@@ -82,7 +82,7 @@ class M(object):
         import newMoonPhaseCalc
         newMoonPhaseCalc.main()
 
-    def magicEightBall(self):               #DONE (needs refactoring)
+    def magicEightBall(self):               #DONE
         import magicEightBall
         magicEightBall.main()
 
