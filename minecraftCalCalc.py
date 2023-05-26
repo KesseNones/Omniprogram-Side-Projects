@@ -1,53 +1,72 @@
+#Jesse A. Jones
+#Version: 2023-05-26.16
+
 from tkinter import *
-import math
-from math import log
 from tkinter import messagebox
 
+#Class contains a calculator that calculates the date 
+#   in the made up minecraft calendar based on the input day number. 
+#   It's a calendar of 12 months of 8 days each, making a 96 day year. 
+#   The months start on the full moon.
 class MinecraftCalCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds day input field and minecraft 
+        #   calendar conversion and converted calendar output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "Enter Day Number:", font = "Ariel 55", anchor = "w")
+        #Day input field.
+        self.message = Label(self.frameBottom, text = "Enter Day Number:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 0, column = 0)
-
-        self.dayE = Entry(self.frameBottom, font = "Times 55")
+        self.dayE = Entry(self.frameBottom, font = "Ariel 20")
         self.dayE.grid(row = 1, column = 0)
 
+        #Converts to minecraft calendar.
         self.convButtonI = Button(self.frameBottom, text = "Convert to Minecraft Calendar", 
-            font = "Ariel 60", command = self.dayToCal)
+            font = "Ariel 20", command = self.dayToCal)
         self.convButtonI.grid(row = 2, column = 0)
 
+        #Minecraft calendar output.
         self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 60", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 3, column = 0)
     
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Converts input date to calendar and displays result.
     def dayToCal(self):
         self.mcCal()
         self.tOutput["text"] = self.dateString
 
+    #Takes in input day and finds resulting minecraft calendar date.
     def mcCal(self):
+        #Fetches day input.
         day = self.dayE.get()
         if day == "":
             messagebox.showerror("Empty Entry Error", "Enter something into the day box!")
             return
         day = int(day)
+
+        #Calculates minecraft date.
         year = (day // 96) + 1
         dayOfYear = day % 96
         month = dayOfYear // 8 + 1
         dayOfMonth = dayOfYear % 8 + 1
+        
+        #Calculates ordinal day suffix.
         ORD = dayOfMonth % 10
         if month == 1:
             monthString = "Silverfish (1)"
@@ -99,6 +118,8 @@ class MinecraftCalCalc(object):
             ORDII = "th"
         if ORD == 9:
             ORDII = "th"
+
+        #Builds date string and sets class variable as such.
         self.dateString = str(dayOfMonth) + ORDII + " of " + monthString + ", " + "Year " + str(year)
 
 def main():
