@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-26.10
+#Version: 2023-05-26.16
 
 import random
 from tkinter import *
@@ -79,6 +79,14 @@ class EightBall(object):
 
     #Generates magic eight ball answer.
     def eightBallAsk(self):
+        #Lists used to contain all responses.
+        positiveResponses = ["It is certain.", "It is decidedly so.", "Without a doubt.", \
+                            "Yes - definitely.", "You may rely on it.", "As I see it, yes.", \
+                            "Most likely.", "Outlook good.", "Yes", "Signs point to yes."]
+        neutralResponses = ["Reply hazy, try again.", "Ask again later.", "Better not tell you now.", \
+                            "Cannot predict\n now.", "Concentrate\n and ask again."]
+        negativeResponses = ["Don't count on it.", "My reply is no.", "My sources say no.", \
+                            "Outlook not so good.", "Very doubtful."]
 
         #Randomly picks response type.
         responseType = random.randint(1, 3)
@@ -86,75 +94,21 @@ class EightBall(object):
         #Positive answers.
         if responseType == 1:
             affirmativeChoice = random.randint(1, 10)
-            if affirmativeChoice == 1:
-                ballOutput = "It is certain."
-                self.ballSounds(1)
-            if affirmativeChoice == 2:
-                ballOutput = "It is decidedly so."
-                self.ballSounds(2)
-            if affirmativeChoice == 3:
-                ballOutput = "Without a doubt."
-                self.ballSounds(3)
-            if affirmativeChoice == 4:
-                ballOutput = "Yes - definitely."
-                self.ballSounds(4)
-            if affirmativeChoice == 5:
-                ballOutput = "You may rely on it."
-                self.ballSounds(5)
-            if affirmativeChoice == 6:
-                ballOutput = "As I see it, yes."
-                self.ballSounds(6)
-            if affirmativeChoice == 7:
-                ballOutput = "Most likely."
-                self.ballSounds(7)
-            if affirmativeChoice == 8:
-                ballOutput = "Outlook good."
-                self.ballSounds(8)
-            if affirmativeChoice == 9:
-                ballOutput = "Yes."
-                self.ballSounds(9)
-            if affirmativeChoice == 10:
-                ballOutput = "Signs point to yes."
-                self.ballSounds(10)
+            ballOutput = positiveResponses[affirmativeChoice - 1]
+            self.ballSounds(affirmativeChoice)
 
         #Neutral answers.
         elif responseType == 2:
             nonComittalChoice = random.randint(1,5)
-            if nonComittalChoice == 1:
-                ballOutput = "Reply hazy, try again."
-                self.ballSounds(11)
-            if nonComittalChoice == 2:
-                ballOutput = "Ask again later."
-                self.ballSounds(12)
-            if nonComittalChoice == 3:
-                ballOutput = "Better not tell you now."
-                self.ballSounds(13)
-            if nonComittalChoice == 4:
-                ballOutput = "Cannot predict\n now."
-                self.ballSounds(14)
-            if nonComittalChoice == 5:
-                ballOutput = "Concentrate\n and ask again."
-                self.ballSounds(15)
+            ballOutput = neutralResponses[nonComittalChoice - 1]
+            self.ballSounds(nonComittalChoice + 10)
 
         #Negative answers.
         else:
             negativeChoice = random.randint(1,5)
-            if negativeChoice == 1:
-                ballOutput = "Don't count on it."
-                self.ballSounds(16)
-            if negativeChoice == 2:
-                ballOutput = "My reply is no."
-                self.ballSounds(17)
-            if negativeChoice == 3:
-                ballOutput = "My sources say no."
-                self.ballSounds(18)
-            if negativeChoice == 4:
-                ballOutput = "Outlook not so good."
-                self.ballSounds(19)
-            if negativeChoice == 5:
-                ballOutput = "Very doubtful."
-                self.ballSounds(20)
-                
+            ballOutput = negativeResponses[negativeChoice - 1]
+            self.ballSounds(negativeChoice + 15)
+
         return ballOutput
 
 def main():
