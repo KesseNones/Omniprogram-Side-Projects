@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-25.94
+#Version: 2023-05-26.09
 
 from tkinter import *
 
@@ -78,11 +78,11 @@ class M(object):
         import metricCountDown
         metricCountDown.main()
 
-    def moonCalc(self):                     #DONE (Refactoring needed)
+    def moonCalc(self):                     #DONE
         import newMoonPhaseCalc
         newMoonPhaseCalc.main()
 
-    def magicEightBall(self):
+    def magicEightBall(self):               #HERE
         import magicEightBall
         magicEightBall.main()
 
