@@ -1,6 +1,9 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2023-05-31.22
 
+from tkinter import *
+
+#Holds all programs that start with the letter R.
 class R(object):
     def __init__(self, window = None):
         self.window = window
@@ -37,19 +40,12 @@ class R(object):
             font = "Ariel 30", command = self.refCalLive)
         self.refLiveButton.grid(row = 1, column = 1)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
     def quitButtonAction(self):
         self.window.destroy()
 
-    def refCalCalc(self):
+    def refCalCalc(self):                       #HERE              
         import reformedCalendarCalcGUI
-        #self.clickSound()
         reformedCalendarCalcGUI.main()
-
-    #REFACTOR ROMAN NUMERAL SHIT LATER!!!!!!!!!!!!!!!!!!!!!!!!
 
     def romanNum(self):
         import romeNumConv
