@@ -1,10 +1,11 @@
 #Jesse A. Jones
-#Version: 2023-05-31.19
+#Version: 2023-05-31.21
 
 from tkinter import *
 import datetime
 import dateHandling
 import leapDetect
+import weekCalculator
 
 #This class takes in a metric date and converts it to a date in standard time.
 class MetricToDate(object):
@@ -40,6 +41,12 @@ class MetricToDate(object):
         self.tOutput = Label(self.frameBottom, text = "", 
             font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 3, column = 0)
+
+        #Used in parsing metric date, detecting leap years, 
+        #   and finding weekday from date.
+        self.dateParse = dateHandling.GetDate()
+        self.leap = leapDetect.IsLeap()
+        self.week = weekCalculator.WeekFinder()
     
     #Quits program when called.
     def quitButtonAction(self):
@@ -47,25 +54,19 @@ class MetricToDate(object):
 
     #Calculates date from input metric date and displays result.
     def metricToCal(self):
-        date = self.dateCalc()
-        self.tOutput["text"] = date
-
-    #Fetches metric date from input.
-    def getMetric(self):
-        metricGet = dateHandling.GetDate()
-        return round(metricGet.getGeneral(self.metricDate.get()), 9)
+        metric = round(self.dateParse.getGeneral(self.metricDate.get()), 9)
+        self.tOutput["text"] = self.dateCalc(metric)
 
     #Calculates date based on metric date.
-    def dateCalc(self):
-        isLeap = leapDetect.IsLeap()
+    def dateCalc(self, metricDate):
         monthNameArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         
         #Fetches input metric date * 1000 to be in day units.
-        metric = self.getMetric() * 1000
+        metricDayCount = metricDate * 1000
         
         #Finds decimal fraction of day and day count. 
-        metricDay = int(metric)
-        metricDec = metric - metricDay
+        metricDay = int(metricDayCount)
+        metricDec = metricDayCount - metricDay
         
         #Determines how many years elapsed based 
         #   on the fixed number of days in 400 years.
@@ -76,7 +77,7 @@ class MetricToDate(object):
         #Calculates through remaining years.
         remainingDays = metricDay % 146097
         while (remainingDays >= 366):
-            if (isLeap.isLeapYear(year)):
+            if (self.leap.isLeapYear(year)):
                 sub = 366
             else:
                 sub = 365
@@ -85,7 +86,7 @@ class MetricToDate(object):
             
         #Based on leap year and remaining days, 
         #   calculates date from remaining days.
-        leap = isLeap.isLeapYear(year)
+        leap = self.leap.isLeapYear(year)
         dateArr = self.findDateFromDay(remainingDays, leap)
         month = dateArr[0]
         day = dateArr[1]
@@ -93,7 +94,7 @@ class MetricToDate(object):
         #Finds month name and day of week from date.
         year -= 10000
         monthString = monthNameArr[month - 1]
-        weekDay = self.week_fdn(year, month, day)
+        weekDay = self.week.weekFind(year, month, day)
         
         #Calculates time based on metric decimal. Time is in UTC.
         daySec = 86400 * metricDec
@@ -103,7 +104,8 @@ class MetricToDate(object):
         second = int(daySec % 60)
 
         #Creates time string and returns it.
-        dateString = str(int(year)).zfill(4) + "-" + monthString + "-" + str(day).zfill(2) + " " + weekDay + ", " + str(int(hour)).zfill(2) + ":" + str(int(minute)).zfill(2) + ":" + str(int(second)).zfill(2)
+        dateString = str(int(year)).zfill(4) + "-" + monthString + "-" + str(day).zfill(2) + " " + weekDay + ", " \
+            + str(int(hour)).zfill(2) + ":" + str(int(minute)).zfill(2) + ":" + str(int(second)).zfill(2)
         return dateString
 
     #Given day cound and if it's a leap year, the date is found from the day.
@@ -171,61 +173,8 @@ class MetricToDate(object):
             returnArr[0] = 12
             returnArr[1] = (day + 1) - (334 + leapCondit)
             
-        return returnArr
-
-    #Finds day of the week from input.
-    def week_fdn(self, year, month, day):
-            leapIs = leapDetect.IsLeap()
-            if leapIs.isLeapYear(year) and month < 3:
-                subtract = -1
-            else:
-                subtract = 0
-            y = year % 100
-            yII = int(y / 4)
-            yIII = yII + y
-            yC = yIII % 7
-            if (year - y) % 400 == 0:
-                cC = 6
-            if ((year - y) - 100) % 400 == 0:
-                cC = 4
-            if ((year - y) - 200) % 400 == 0:
-                cC = 2
-            if ((year - y) - 300) % 400 == 0:
-                cC = 0
-            net = yC + cC
-            if month == 1:
-                mC = 0
-            if month == 2:
-                mC = 3
-            if month == 3:
-                mC = 3
-            if month == 4:
-                mC = 6
-            if month == 5:
-                mC = 1
-            if month == 6:
-                mC = 4
-            if month == 7:
-                mC = 6
-            if month == 8:
-                mC = 2
-            if month == 9:
-                mC = 5
-            if month == 10:
-                mC = 0
-            if month == 11:
-                mC = 3
-            if month == 12:
-                mC = 5
-            net = net + mC
-            net = net + int(day)
-            net = net + subtract
-            net = net % 7
-            weekArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            wk = weekArr[net]
-            return wk                
- 
-            
+        return returnArr               
+  
 def main():
     root = Tk()
     root.title("Metric to Normal Date Calculator")

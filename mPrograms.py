@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-31.19
+#Version: 2023-05-31.22
 
 from tkinter import *
 
@@ -98,7 +98,7 @@ class M(object):
         import nineMaker
         nineMaker.main()
 
-    def toNormConv(self):                   #HERE
+    def toNormConv(self):                   #DONE
         import metricDateToDate
         metricDateToDate.main()
 
