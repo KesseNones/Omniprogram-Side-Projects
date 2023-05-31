@@ -1,4 +1,6 @@
-import random
+#Jesse A. Jones
+#Version: 2023-05-31.08
+
 from time import sleep
 import time
 import datetime
@@ -6,86 +8,77 @@ from tkinter import *
 import math
 from tkinter import messagebox
 import tkinter as tk
-
+                                                                                                                        #THIS ENTIRE PROGRAM IS INCREDIBLY CURSED. REFACTOR TO BE LESS SO.
+#This class hosts a crappy bootleg of cookie clicker 
+#   that involves making nines. You can click the nine 
+#   and also buy some upgrades using nines. It's kinda ass.
 class NineMake(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Top frame holds quit button, save button, and load button.
         self.frameTop = Frame(self.window)
         self.frameTop.grid(row = 0, column = 0)
 
+        #Quits game when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.grid(row = 0, column = 0)
         
+        #Saves game when pressed.
         self.saveButton = Button(self.frameTop, text = "Save",
             font = "Ariel 20", command = self.saveGame)
         self.saveButton.grid(row = 0, column = 1)
 
+        #Loads game when pressed.
         self.loadButton = Button(self.frameTop, text = "Load",
             font = "Ariel 20", command = self.loadGame)
         self.loadButton.grid(row = 0, column = 2)
 
+        #Holds clickable nine and nine amount.
         self.frameBottom = Frame(self.window)
         self.frameBottom.grid(row = 1, column = 0)
 
-        self.draw = Canvas(self.frameBottom, width = 800, height = 800, 
-            bg = "white", highlightbackground = "black", highlightthickness = 2)
+        #Clickable nine drawing made.
+        self.draw = Canvas(self.frameBottom, width = 400, height = 400, 
+            bg = "white", highlightbackground = "black", highlightthickness = 1)
         self.mouseInput = self.draw.bind("<Button-1>", self.mouse)
         self.draw.grid(row = 0, column = 0)
-        self.nine = self.draw.create_text(400, 500, text = "9", font = "Times 640")
+        self.nine = self.draw.create_text(200, 250, text = "9", font = "Times 320")
 
-        self.nineCount = self.draw.create_text(400, 100, text = "0", font = "Times 60", width = 600, anchor = CENTER)
+        #Displays how many nines exist.
+        self.nineCount = self.draw.create_text(200, 50, text = "0", font = "Times 30", width = 300, anchor = CENTER)
 
+        #Holds upgrade buttons, counts, and prices.
         self.sideFrame = Frame(self.window)
         self.sideFrame.grid(row = 1, column = 1)
         self.saveFlag = 0
 
+        #Tracks how many nines exist.
         self.nineAmount = 0.0
 
+        #Auto replication, manual conversion, 
+        #   and replication efficiency upgrade buttons.
         self.autoRep = UpgradeButton(self.sideFrame, "Auto Replication", 0, 9, 0, 0, 0, self.increaseRepRate, "AutoRep")
         self.manualConvert = UpgradeButton(self.sideFrame, "Manual Conversion Upgrade", 1, 9, 0, 1, 0, self.increaseManualDestruct, "ManualConvert")
         self.replicationEfficiencyUpgrade = UpgradeButton(self.sideFrame, "Replication Efficiency", 1, 9999, 0, 2, 0, self.increaseEfficiency, "RepEfficiency")
 
-        # self.replicationRate = 0
-        # self.autoRepPrice = 9
-        # self.autoRepUpgradCount = 0
-        # self.nineClickMult = 1
-        # self.manualConvPrice = 9
-        # self.manualConvQuant = 0
-
-        # #////////////////////////////
+        #Holds information about nine upgrades for saving and loading.
         self.nineInfoArr = [self.autoRep, self.manualConvert, self.replicationEfficiencyUpgrade]
+        #Creates some initial game displays for viewing.
         self.updateEff()
         self.updateManualDestructDisplay()
         self.updateRepCountAndPrice()
-        #self.nineInfoArr = [self.nineAmount, self.replicationRate, self.autoRepPrice, self.autoRepUpgradCount, self.nineClickMult, self.manualConvPrice, self.manualConvQuant]
-        # #////////////////////////////
 
-        # self.autoReplicationUpgradePrice = Label(self.sideFrame, text = "Price " + str(self.autoRepPrice), font = "Times 50", anchor = "e")
-        # self.autoReplicationUpgradePrice.grid(row = 1, column = 0)
-        
-        # self.autoReplicationUpgradeCount = Label(self.sideFrame, text = "AutoRep * " + str(self.autoRepUpgradCount), font = "Times 50", anchor = "w")
-        # self.autoReplicationUpgradeCount.grid(row = 2, column = 0)
-
-        # self.autoReplicationUpgrade = Button(self.sideFrame, text = "Auto-Replication",
-        #     font = "Ariel 30", command = self.increaseRepRate)
-        # self.autoReplicationUpgrade.grid(row = 0, column = 0)
-
-        # self.manDesPrice = Label(self.sideFrame, text = "Price " + str(self.manualConvPrice), font = "Times 50", anchor = "e")
-        # self.manDesPrice.grid(row = 4, column = 0)
-        
-        # self.manDesCount = Label(self.sideFrame, text = "ManualConvert * " + str(self.manualConvQuant), font = "Times 50", anchor = "w")
-        # self.manDesCount.grid(row = 5, column = 0)
-
-        # self.manualDestructUpgrade = Button(self.sideFrame, text = "Manual Conversion Boost",
-        #     font = "Ariel 30", command = self.increaseManualDestruct)
-        # self.manualDestructUpgrade.grid(row = 3, column = 0)
-
+        #Starts auto increasing loop if auto replication exists.
         self.autoIncrease()
 
+#//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                                                                #FIX THE CRAPPY SAVE AND LOADING MECHANICS. THEY'RE BAD AND NEED TO BE LESS ASS.
+
+    #Saves game to a txt called nineSave.
     def saveGame(self):
-        with open("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/nineSave.txt", "w") as save:
+        with open("nineSave.txt", "w") as save:
             save.write(str(self.nineAmount) + "\n")
             for el in self.nineInfoArr:
                 save.write(str(el.effect) + " ")
@@ -93,11 +86,13 @@ class NineMake(object):
                 save.write(str(el.count) + "\n")
             #save.close()
 
+    #Loads data from nine save into memory for game to work.
     def loadGame(self):
         nineIndex = 0
-        with open("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/nineSave.txt", "r") as load:
+        with open("nineSave.txt", "r") as load:
             for line in load:
                 if nineIndex == 0:
+                    #I hate this.
                     self.nineAmount = int(line[:-3].strip())
                     nineIndex += 1
                 else:
@@ -112,70 +107,105 @@ class NineMake(object):
         self.updateManualDestructDisplay()
         self.updateEff()
 
+    #Loops and automatically increases nine amount 
+    #   by any automatic effects while also updating the nine display.
     def autoIncrease(self):
         self.saveFlag += 1
+        #Increases nine amount and updates display.
         self.nineAmount += (self.nineInfoArr[0].effect * self.nineInfoArr[2].effect)
         self.updateNineDisp()
+
+        #Auto save mechanic.
         if self.saveFlag % 120 == 0:
             self.saveGame()
             print("saved")
+
+        #Recursively loops to auto update again.
         self.frameBottom.after(1000, self.autoIncrease)
 
+    #Increases replication efficiency when called 
+    #   if the player can affort the upgrade.
     def increaseEfficiency(self):
         if self.nineAmount - self.nineInfoArr[2].price >= 0:
+            #WTF does this do? Fuck you past me for not commenting!
             if self.nineInfoArr[2].effect == 1:
                 self.nineInfoArr[2].effect += 1
+
+            #Increases replication efficiency and makes it an int for some reason???
             self.nineInfoArr[2].effect *= 1.9
             self.nineInfoArr[2].effect = int(self.nineInfoArr[2].effect)
+
+            #Subtracts price of upgrade from nine amount and updates display.
             self.nineAmount -= self.nineInfoArr[2].price
             self.updateNineDisp()
+
+            #Increases price and count and updates to display new numbers.
             self.nineInfoArr[2].price *= 99
             self.nineInfoArr[2].price = int(self.nineInfoArr[2].price)
             self.nineInfoArr[2].count += 1
             self.updateEff()
 
+    #Updates the price and multiplyer for the replication efficiency.
     def updateEff(self):
         self.replicationEfficiencyUpgrade.priceLabel["text"] = "Price " + self.numbConv(self.nineInfoArr[2].price)
         self.replicationEfficiencyUpgrade.countLabel["text"] = "AutoRep * " + self.numbConv(self.nineInfoArr[2].count)
         self.window.update()
 
+    #Increases the manual destruct abilities of the user if they can afford it.
     def increaseManualDestruct(self):
         if self.nineAmount - self.nineInfoArr[1].price >= 0:
+            #This makes me cringe, fix this.
             if self.nineInfoArr[1].effect == 1:
                 self.nineInfoArr[1].effect += 1
+
+            #Increases manual destruction abilities 
+            #   and again casts it as an int because yes????
+            #Also updates amount of nines left.
             self.nineInfoArr[1].effect *= 1.5
             self.nineInfoArr[1].effect = int(self.nineInfoArr[1].effect)
             self.nineAmount -= self.nineInfoArr[1].price
             self.updateNineDisp()
+            
+            #Increases price, and updates result.
             self.nineInfoArr[1].price *= 1.8
             self.nineInfoArr[1].price = int(self.nineInfoArr[1].price)
             self.nineInfoArr[1].count += 1
             self.updateManualDestructDisplay()
 
+    #Increases auto replication rate of nines for user if they can afford it.
     def increaseRepRate(self):
         if self.nineAmount - self.nineInfoArr[0].price >= 0:
+            #Why tf is this here?
             if self.nineInfoArr[0].effect == 0:
                 self.nineInfoArr[0].effect = 2
             else:
+                #Increases effect of auto replication and casts it to an int *again* what the hell, past me?
                 self.nineInfoArr[0].effect *= 1.5
                 self.nineInfoArr[0].effect = int(self.nineInfoArr[0].effect)
+
+            #Decreases nine amount based on price and updates display.
             self.nineAmount -= self.nineInfoArr[0].price
             self.updateNineDisp()
+
+            #Updates upgrade price and count, displaying the result.
             self.nineInfoArr[0].price *= 1.6
             self.nineInfoArr[0].price = int(self.nineInfoArr[0].price)
             self.nineInfoArr[0].count += 1
             self.updateRepCountAndPrice()
 
+    #Updates price and multiplier of auto replication.
     def updateRepCountAndPrice(self):
         self.autoRep.priceLabel["text"] = "Price " + self.numbConv(self.nineInfoArr[0].price)
         self.autoRep.countLabel["text"] = "AutoRep * " + self.numbConv(self.nineInfoArr[0].count)
         self.window.update()
 
+    #Updates price and mult of manual destruction.
     def updateManualDestructDisplay(self):
         self.manualConvert.priceLabel["text"] = "Price " + self.numbConv(self.nineInfoArr[1].price)
         self.manualConvert.countLabel["text"] = "ManualConvert * " + self.numbConv(self.nineInfoArr[1].count)
         self.window.update()
 
+    #Updates count of nines existing.
     def updateNineDisp(self):
         nineCount = self.numbConv(self.nineAmount)
         if self.nineAmount > 1000:
@@ -183,28 +213,32 @@ class NineMake(object):
         self.draw.itemconfig(self.nineCount, text = (str(nineCount) + ""))
         self.draw.update()
 
+    #Increases number of nines.
     def increaseNine(self):
         self.nineAmount += 1 * self.nineInfoArr[1].effect
         self.updateNineDisp()
 
+    #Detects when the nine is clicked and acts accordingly.
     def mouse(self, event):
-        #print(event.x, event.y)
         x = event.x
         y = event.y
-        if (600 >= x >= 200) and (825 >= y >= 183):
+        if (300 >= x >= 100) and (413 >= y >= 92):
             self.increaseNine()
             self.animateNine()
 
+    #Animates the nine being clicked.
     def animateNine(self):
-        self.draw.itemconfig(self.nine, font = "Times 540")
+        self.draw.itemconfig(self.nine, font = "Times 270")
         self.draw.update()
         sleep(0.09)
-        self.draw.itemconfig(self.nine, font = "Times 640")
+        self.draw.itemconfig(self.nine, font = "Times 320")
         self.draw.update()
 
+    #Quits program when clicked.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #THIS IS GARBAGE OUTDATED CRAP THAT CAN BE MADE WAY BETTER
     def logGet(self, numb):
         iterator = 0
         numb = abs(numb)
@@ -218,6 +252,7 @@ class NineMake(object):
                 break
         return iterator
 
+    #GARBAGE CRAP THAT CAN BE GREATLEY IMPROVED.
     def numbConv(self, number):
         numbOrig = float(number)
         logo = self.logGet(numbOrig)
@@ -432,20 +467,25 @@ class NineMake(object):
             self.stringNumber = "uncentillion"
         return str(numbAlt) + " " + self.stringNumber
 
+#This class holds all info and sets up 
+#   a particular upgrade button for the nine maker.
 class UpgradeButton():
     def __init__(self, frame, name, baseEffect, price, count, row, col, cmd, nameOfCount = "num"):
         self.effect = baseEffect
         self.price = price
         self.count = count
 
+        #Actual button with the name.
         self.autoReplicationUpgrade = Button(frame, text = name,
             font = "Ariel 30", command = cmd)
         self.autoReplicationUpgrade.grid(row = row * 3, column = col)
 
-        self.priceLabel = Label(frame, text = "Price " + str(self.price), font = "Times 50", anchor = "e")
+        #Displays price of upgrade.
+        self.priceLabel = Label(frame, text = "Price " + str(self.price), font = "Times 25", anchor = "e")
         self.priceLabel.grid(row = row * 3 + 1, column = col)
         
-        self.countLabel = Label(frame, text = nameOfCount + " * " + str(self.count), font = "Times 50", anchor = "w")
+        #Displays multiplier of upgrade.
+        self.countLabel = Label(frame, text = nameOfCount + " * " + str(self.count), font = "Times 25", anchor = "w")
         self.countLabel.grid(row = row * 3 + 2, column = col)
 
 def main():

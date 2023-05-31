@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-31.07
+#Version: 2023-05-31.11
 
 from tkinter import *
 
@@ -94,11 +94,11 @@ class M(object):
         import mayanLongCount
         mayanLongCount.main()
 
-    def makeNines(self):                    #HERE
+    def makeNines(self):                    #DONE (THIS NEEDS SOME SERIOUS REFACTORING TO BE LESS YUCKY AND MAKE ME CRINGE LESS)
         import nineMaker
         nineMaker.main()
 
-    def toNormConv(self):
+    def toNormConv(self):                   #HERE
         import metricDateToDate
         metricDateToDate.main()
 
