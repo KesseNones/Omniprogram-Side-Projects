@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-31.11
+#Version: 2023-05-31.19
 
 from tkinter import *
 
@@ -94,7 +94,7 @@ class M(object):
         import mayanLongCount
         mayanLongCount.main()
 
-    def makeNines(self):                    #DONE (THIS NEEDS SOME SERIOUS REFACTORING TO BE LESS YUCKY AND MAKE ME CRINGE LESS)
+    def makeNines(self):                    #DONE
         import nineMaker
         nineMaker.main()
 
