@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-26.18
+#Version: 2023-05-31.07
 
 from tkinter import *
 
@@ -90,11 +90,11 @@ class M(object):
         import minecraftCalCalc
         minecraftCalCalc.main()
 
-    def mayanCalc(self):                    #HERE
+    def mayanCalc(self):                    #DONE
         import mayanLongCount
         mayanLongCount.main()
 
-    def makeNines(self):
+    def makeNines(self):                    #HERE
         import nineMaker
         nineMaker.main()
 

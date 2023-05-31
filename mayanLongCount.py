@@ -1,12 +1,9 @@
 #Jesse A. Jones
-#Version: 2023-05-30.91
+#Version: 2023-05-31.07
 
 from tkinter import *
-import math
-import time
-import datetime
-import leapDetect
 import dateHandling
+import metricTime
 
 #This class takes in an input date 
 #   and displays the resulting mayan long count, tzolkin, and haab.
@@ -63,38 +60,40 @@ class MayanCalendarCalc(object):
             font = "Ariel 20", justify = LEFT)
         self.cOutputII.grid(row = 5, column = 1)
 
+        #Used for date parsing and metric time calculations.
+        self.dateGet = dateHandling.GetDate()
+        self.metric = metricTime.MetricTime()
+
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
     #Calls function to convert input date 
-    #   to mayan calendar and displays result.
+    #   to Mayan calendar and displays result.
     def MCalCalc(self):
-        date = self.cal_calc()
-        self.cOutput["text"] = date
-        self.cOutputII["text"] = self.otherDateString
+        dateArr = self.mayCalc()
+        self.cOutput["text"] = dateArr[0]
+        self.cOutputII["text"] = dateArr[1]
 
     #Pefroms the calculations and function 
     #   calls necessary to calculate mayan calendar.
-    def cal_calc(self):
+    def mayCalc(self):
         #Fetches date input.
-        dateGet = dateHandling.GetDate()
-        year = dateGet.getYear(self.yearE.get())
-        month = dateGet.getMonth(self.monthE.get())
-        day = dateGet.getDay(self.dayE.get())
+        year = self.dateGet.getYear(self.yearE.get())
+        month = self.dateGet.getMonth(self.monthE.get())
+        day = self.dateGet.getDay(self.dayE.get())
         
         #Calculates current day of mayan calendar in terms of raw day count.
         dayBase = 2515647
-        currentDay = self.metric_calc(year, month, day)
-        currentDay = math.floor(currentDay * 1000)
+        currentDay = self.metric.metric_calc(year, month, day, 0, 0)
+        currentDay = int(currentDay * 1000)
         dayDelta = currentDay - dayBase
 
         #The day delta is used to calculate 
         #   the mayan long count and tzolkin and haab. 
-        #   Setting and returning the appropriate variables.
-        dateString = self.toMayan(dayDelta)
-        self.otherDateString = self.toTzolkinAndHaab(dayDelta)
-        return dateString
+        #   A list is returned of the long count string 
+        #   and Tzolkin and haab string.
+        return [self.toMayan(dayDelta), self.toTzolkinAndHaab(dayDelta)]
 
     #Takes in day delta and calculates Tzolkin and Haab.
     def toTzolkinAndHaab(self, dayDelta):
@@ -145,7 +144,7 @@ class MayanCalendarCalc(object):
         #Calculates lord of night and returns resulting time string.
         lordOfNightIndex = dayDelta % 9 - 1
         lordOfNightGod = lordOfNightArr[lordOfNightIndex]
-        return str(tzolDay) + " " + tzolGod + ", " + str(haabDay) + " " + haabMonth + ", G" + str(lordOfNightGod)
+        return f"{tzolDay} {tzolGod}, {haabDay} {haabMonth}, G{lordOfNightGod}"
 
     #Calculates the long count date based on the day delta.
     def toMayan(self, dayDelta):
@@ -196,107 +195,7 @@ class MayanCalendarCalc(object):
         kin = reducedDayDelta
 
         #Builds longcount time string and returns it.
-        dateString = str(alauTun) + "." + str(kinchilTun) + "." + str(kalapTun) + "." + str(piktun) + "." + str(baktun) + "." + str(katun) + "." + str(tun) + "." + str(winal) + "." + str(kin)
-        return dateString
-
-
-    #Calculates metric date based on year, dayNu, and time.
-    def metricCalcII(self, year, dayNum, hour, minute):
-        leapQuery = leapDetect.IsLeap()
-        year += 10000
-        fourCenturyCount = year // 400
-        remainingYears = year % 400
-        totalDays = fourCenturyCount * 146097
-        while remainingYears > 0:
-            leap = leapQuery.isLeapYear(remainingYears)
-            if leap:
-                totalDays += 366
-            else:
-                totalDays += 365
-            remainingYears -= 1
-        totalDays += dayNum - 1
-        totalDays = totalDays / 1000
-        totalDays = round(totalDays, 3)
-        secTotal = (hour * 3600) + (minute * 60)
-        dayDec = secTotal / 86400
-        dayDec *= 1000000
-        dayDec = math.floor(dayDec)
-        dayDec = dayDec / 1000000000
-        finalMetric = totalDays + dayDec
-        return finalMetric 
-        #4390.694 200 666
-
-    #Calcualtes metric date using time or metricCalcII
-    def metric_calc(self, year, month, day):
-        if self.isStupid:
-            lower = 1969
-            upper = 3002
-        else:
-            lower = 0
-            upper = 10000
-        hour = 0
-        minute = 0
-        if lower < year < upper:
-            dt = datetime.datetime(year, month, day, hour, minute)
-            t = (time.mktime(dt.timetuple()))
-            metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
-            rounderI = metric_time * 1000000000
-            rounderII = math.trunc(rounderI)
-            rounderIII = rounderII / 1000000000
-        if year >= upper or year <= lower:
-            dayCount = self.findDayNumOfYear(year, month, day)
-            rounderIII = self.metricCalcII(year, dayCount, hour, minute)
-        return rounderIII
-
-    def findDayNumOfYear(self, year, month, day):
-        leap = leapDetect.IsLeap()
-        leap_year = leap.isLeapYear(year)
-        if month == 1:
-                D_Code_MKI = 0
-        if month == 2:
-                D_Code_MKI = 31
-        if month == 3:
-                D_Code_MKI = 59
-                if leap_year == True:
-                    D_Code_MKI = 60
-        if month == 4:
-                D_Code_MKI = 90
-                if leap_year == True:
-                    D_Code_MKI = 91
-        if month == 5:
-                D_Code_MKI = 120
-                if leap_year == True:
-                    D_Code_MKI = 121
-        if month == 6:
-                D_Code_MKI = 151
-                if leap_year == True:
-                    D_Code_MKI = 152
-        if month == 7:
-                D_Code_MKI = 181
-                if leap_year == True:
-                    D_Code_MKI = 182
-        if month == 8:
-                D_Code_MKI = 212
-                if leap_year == True:
-                    D_Code_MKI = 213
-        if month == 9:
-                D_Code_MKI = 243
-                if leap_year == True:
-                    D_Code_MKI = 244
-        if month == 10:
-                D_Code_MKI = 273
-                if leap_year == True:
-                    D_Code_MKI = 274
-        if month == 11:
-                D_Code_MKI = 304
-                if leap_year == True:
-                    D_Code_MKI = 305
-        if month == 12:
-                D_Code_MKI = 334
-                if leap_year == True:
-                    D_Code_MKI = 335
-        D_Code_MKII = D_Code_MKI + day
-        return D_Code_MKII
+        return f"{alauTun}.{kinchilTun}.{kalapTun}.{piktun}.{baktun}.{katun}.{tun}.{winal}.{kin}"
 
 def main():
     root = Tk()
