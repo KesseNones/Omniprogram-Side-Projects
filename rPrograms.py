@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-31.22
+#Version: 2023-06-01.17
 
 from tkinter import *
 
@@ -43,11 +43,11 @@ class R(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def refCalCalc(self):                       #HERE              
+    def refCalCalc(self):                       #DONE              
         import reformedCalendarCalcGUI
         reformedCalendarCalcGUI.main()
 
-    def romanNum(self):
+    def romanNum(self):                         #HERE
         import romeNumConv
         romeNumConv.main()
 
