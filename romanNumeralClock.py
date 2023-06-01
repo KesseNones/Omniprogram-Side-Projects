@@ -1,55 +1,72 @@
 #Jesse A. Jones
-#Version: 2022-11-02.2
+#Version: 2023-06-01.26
 
 import datetime
-import time
 from tkinter import *
 
-class CenTime(object):
+#This clock displays the date and time using roman numerals.
+class RomeNumTime(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when called.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.grid(row = 0, column = 0)
 
+        #Holds date and time output fields.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.date = Label(self.frameBottom, text = "test", font = "Times 75", anchor = "w")
+        #Date output field.
+        self.date = Label(self.frameBottom, text = "", font = "Ariel 40", anchor = "w")
         self.date.grid(row = 0, column = 0)
         
-        self.time = Label(self.frameBottom, text = "", font = "Times 75")
+        #Time output field.
+        self.time = Label(self.frameBottom, text = "", font = "Ariel 40")
         self.time.grid(row = 1, column = 0)
     
+        #Starts recursive time update loop.
         self.timeUpdate()
 
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Finds roman numeral time strings and displays result.
     def timeUpdate(self):
-        t = time.time()
         timeString = self.timeConv()
         self.date["text"] = timeString[0]
         self.time["text"] = timeString[1]
         self.date.after(1, self.timeUpdate)
 
+    #Gets current time using datetime and converts each number 
+    #   to roman numerals, returning the date 
+    #   and time strings constructed as such.
     def timeConv(self):
         retArr = []
+        #Grabs current time and date, and saves it in list.
         local = datetime.datetime.now()
         dateTimeArr = [local.year, local.month, local.day, local.hour, local.minute, local.second]
+
         romeTimeArr = []
+        
+        #Converts each element of the dateTimeArr to roman numerals.
         for el in dateTimeArr:
             romeTimeArr.append(self.rome_conv(el))
+
+        #Builds date and time strings, returning them.
         dateString = str(romeTimeArr[0]) + "-" + str(romeTimeArr[1]) + "-" + str(romeTimeArr[2])
         timeString = str(romeTimeArr[3]) + ":" + str(romeTimeArr[4]) + ":" + str(romeTimeArr[5])
         retArr.append(dateString)
         retArr.append(timeString)
         return retArr
 
+    #Takes in an input number and converts it to a roman numeral.
     def rome_conv(self, decInt):
         #This function takes in an integer and returns 
         #   a string representing its equivalent roman numeral.
@@ -120,7 +137,7 @@ class CenTime(object):
 def main():
     root = Tk()
     root.title("Roman Numeral Time")
-    metric = CenTime(root)
+    metric = RomeNumTime(root)
     root.mainloop()
 
 if __name__ == "__main__":
