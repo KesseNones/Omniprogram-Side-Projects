@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-01.22
+#Version: 2023-06-01.26
 
 from tkinter import *
 
@@ -51,11 +51,11 @@ class R(object):
         import romeNumConv
         romeNumConv.main()
 
-    def relative(self):                         #HERE
+    def relative(self):                         #DONE
         import relativityCalculator
         relativityCalculator.main()
         
-    def romeCalClock(self):
+    def romeCalClock(self):                     #HERE
         import romanNumeralClock
         romanNumeralClock.main()
 

@@ -29,14 +29,14 @@ class RelCalc(object):
         #Distance input field.
         self.messageII = Label(self.frameBottom, text = "Enter Distance (m) ", font = "Ariel 20")
         self.messageII.grid(row = 0, column = 0)
-        self.dist = Entry(self.frameBottom, font = "Ariel 20")
-        self.dist.grid(row = 1, column = 0)
+        self.distance = Entry(self.frameBottom, font = "Ariel 20")
+        self.distance.grid(row = 1, column = 0)
 
         #Velocity input field.
         self.messageI = Label(self.frameBottom, text = "Enter Velocity (m/s)", font = "Ariel 20")
         self.messageI.grid(row = 2, column = 0)
-        self.speen = Entry(self.frameBottom, font = "Ariel 20")
-        self.speen.grid(row = 3, column = 0)
+        self.velocity = Entry(self.frameBottom, font = "Ariel 20")
+        self.velocity.grid(row = 3, column = 0)
 
         #Holds second count.
         self.messageTime = Label(self.frameBottom, text = "", font = "Ariel 20", anchor = "w")
@@ -55,6 +55,8 @@ class RelCalc(object):
             font = "Ariel 20", command = self.timeFind)
         self.convButton.grid(row = 4, column = 0)
 
+        self.convToStand = metricTimeToStandard.MetricToStandard()
+        
         self.C = 299792458
 
     #Quits program when called.
@@ -63,68 +65,76 @@ class RelCalc(object):
 
     #Determines time taken and displays result in seconds and standard time.
     def timeFind(self):
+        #Calculates time in seconds and displays result.
         time = self.calcRelative()
-        convToStand = metricTimeToStandard.MetricToStandard()
-        self.messageTime["text"] = time
+        self.messageTime["text"] = round(time, 3)
         self.messageTimeSeg["text"] = "Seconds"
+
+        #Displays time as infinite or a finite amount of converted time.
         if (time == math.inf):
             self.messageTimeSegOther["text"] = "Inf yr"
-            return
-        self.messageTimeSegOther["text"] = convToStand.metricToStandard((time / 86400), True)
-        return
+        else:
+            self.messageTimeSegOther["text"] = self.convToStand.metricToStandard(((round(time, 3)) / 86400), True)
+        
 
     #Fetches speed and distance from inputs 
     #   and sets class variables unnescesarily.
     def distAndSpeedGet(self):
-        self.vel = self.speen.get()
+        vel = self.velocity.get()
 
         #Checks for empty velocity input.
-        if self.vel == "":
-            self.vel = "0"
+        if vel == "":
+            vel = "0"
         
         #Checks to see if user intended percentage of light speed for velocity.
-        if "%" in self.vel:
-            self.vel = self.vel.replace("%", "")
-            self.vel = float(self.vel) / 100
-            self.vel = self.vel * self.C
+        if "%" in vel:
+            vel = vel.replace("%", "")
+            vel = float(vel) / 100
+            vel = vel * self.C
         else:
-            self.vel = float(self.vel)
+            vel = float(vel)
 
-        self.distance = self.dist.get()
+        dist = self.distance.get()
         
         #Checks for empty distance field.
-        if self.distance == "":
-            self.distance = "0"
-        if "ly" in self.distance:
-            self.distance = self.distance.replace("ly", "")
-            self.distance = float(self.distance) * 9.461e+15
+        if dist == "":
+            dist = "0"
+
+        #Determines if light years are units used in input.
+        if "ly" in dist:
+            dist = dist.replace("ly", "")
+            dist = float(dist) * 9.461e+15
         else:
-            self.distance = float(self.distance)
-        return
+            dist = float(dist)
+        return [dist, vel]
 
     #Calculates time distortion based on velocity and speed.
     def calcTime(self):
-        self.distAndSpeedGet()
+        retLs = self.distAndSpeedGet()
+        d = retLs[0]
+        v = retLs[1]
         #If velocity is equal to or larger than C, distortion is infinite.
-        if self.vel >= self.C:
-            return math.inf
+        if v >= self.C:
+            return [math.inf, d, v]
         else:
             #This calculation is based on Einstein's relativisitic equations.
-            time = (1 / math.sqrt(1 - ((self.vel) ** 2) / ((self.C) ** 2)))
-        return time
+            distortion = (1 / math.sqrt(1 - ((v) ** 2) / ((self.C) ** 2)))
+        return [distortion, d, v]
 
     #Calculates time with reletavistic distortion.
     def calcRelative(self):
-        timeDistort = self.calcTime()
+        retLs = self.calcTime()
+        distort = retLs[0]
+        d = retLs[1]
+        v = retLs[2]
 
         #Time is infinity if movement never occurs. 
-        if (self.vel == 0):
+        if (v == 0):
             return math.inf
 
         #Calculates time with distortion and returns it.
-        newtonTime = self.distance / abs(self.vel)
-        relTime = newtonTime / timeDistort
-        return relTime
+        newtonTime = d / abs(v) 
+        return newtonTime / distort 
 
 def main():
     root = Tk()
