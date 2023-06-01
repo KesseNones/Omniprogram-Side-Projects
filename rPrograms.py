@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-01.17
+#Version: 2023-06-01.22
 
 from tkinter import *
 
@@ -47,11 +47,11 @@ class R(object):
         import reformedCalendarCalcGUI
         reformedCalendarCalcGUI.main()
 
-    def romanNum(self):                         #HERE
+    def romanNum(self):                         #DONE
         import romeNumConv
         romeNumConv.main()
 
-    def relative(self): 
+    def relative(self):                         #HERE
         import relativityCalculator
         relativityCalculator.main()
         
