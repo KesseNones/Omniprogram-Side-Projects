@@ -1,71 +1,86 @@
+#Jesse A. Jones
+#Version: 2023-06-01.14
+
 from tkinter import *
 import math
 import dateHandling
 import leapDetect
-
+                                                                                                                        # THIS WHOLE THING IS INCREDIBLY GROSS AND YUCKY. FIX THIS ASAP!
+#This class takes in an input date 
+#   and displays the resulting reformed calendar date, 
+#   a calendar with 13 28 day periods and one or two days at the end.
 class ReformedCalendarCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds date input fields, conversion button, and date output field.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 55")
+        #Year input field.
+        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 20")
         self.messageI.grid(row = 0, column = 0)
-
-        self.yearE = Entry(self.frameBottom, font = "Times 45")
+        self.yearE = Entry(self.frameBottom, font = "Ariel 20")
         self.yearE.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 55")
+        #Month input field.
+        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 20")
         self.messageII.grid(row = 2, column = 0)
-
-        self.monthE = Entry(self.frameBottom, font = "Times 45")
+        self.monthE = Entry(self.frameBottom, font = "Ariel 20")
         self.monthE.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 55")
+        #Day input field.
+        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 20")
         self.messageIII.grid(row = 3, column = 0)
-
-        self.dayE = Entry(self.frameBottom, font = "Times 45")
+        self.dayE = Entry(self.frameBottom, font = "Ariel 20")
         self.dayE.grid(row = 3, column = 1)
     
+        #Converts to reformed calendar when pressed.
         self.convButton = Button(self.frameBottom, text = "Convert to Reformed Calendar", 
-            font = "Ariel 50", command = self.RCalCalc)
+            font = "Ariel 20", command = self.RCalCalc)
         self.convButton.grid(row = 4, column = 0)
 
+        #This is crappy labeling and needs to be redone.
+
         self.cOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 45", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.cOutput.grid(row = 5, column = 0)
 
         self.cOutputII = Label(self.frameBottom, text = "", 
-            font = "Ariel 45", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.cOutputII.grid(row = 6, column = 0)
         
         self.cOutputIII = Label(self.frameBottom, text = "", 
-            font = "Ariel 45", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.cOutputIII.grid(row = 7, column = 0)
         
         self.cOutputIV = Label(self.frameBottom, text = "", 
-            font = "Ariel 45", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.cOutputIV.grid(row = 8, column = 0)
 
         self.cOutputV = Label(self.frameBottom, text = "", 
-            font = "Ariel 45", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.cOutputV.grid(row = 9, column = 0)
 
         self.cOutputVI = Label(self.frameBottom, text = "", 
-            font = "Ariel 45", justify = LEFT)
+            font = "Ariel 20", justify = LEFT)
         self.cOutputVI.grid(row = 10, column = 0)
 
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Calculates reformed calendar date based on inputs 
+    #   and converts it, displaying the result.
     def RCalCalc(self):
         self.cal_calc()
         self.cOutput["text"] = str(self.wkIII) + (",") + " " + str(int(self.day)) + " " + self.mnth + str(",") + " " + str(abs(int(self.year))) + " " + self.EPC1 + " is: "
@@ -75,34 +90,49 @@ class ReformedCalendarCalc(object):
         self.cOutputV["text"] = "Luni-Solar Mini Cycle: " + str(int(self.luncy))
         self.cOutputVI["text"] = "Luni-Solar Mega Cycle: " + str(int(self.lunMcy))
 
+    #Bruh
     def mult28(self, mult):
         return 28 * mult
 
+    #Calculates dates and stuff based on input. 
+    #   !!!!This is one large ugly function that should be refactored.
     def cal_calc(self):
+        #Classes used in date handling and leap year detection.
         date = dateHandling.GetDate()
         leap = leapDetect.IsLeap()
 
+        #Gets year, month, and day from date input fields.
         year = date.getYear(self.yearE.get())
         month = date.getMonth(self.monthE.get())
         day = date.getDay(self.dayE.get())
+
+        #Pointless cast to float because Python is dynamically typed.
+        #   Why, past me, why???
         year = float(year)
         month = float(month)
         day = float(day)
+
+        #Sets a bunch of class variables that don't need to exist.
         self.Ryear = year + 10000
         self.year = year
         self.month = month
         self.day = day
 
+        #Determines if leap subtraction needs 
+        #   to happen in week day calculation.
         isLeap = leap.isLeapYear(year)
         if (month < 3) and isLeap:
             subtract = -1
         else:
             subtract = 0
         
+        #Determines year code.
         y = year % 100
         yII = int(y / 4)
         yIII = yII + y
         yC = yIII % 7
+
+        #Determines century code.
         if (year - y) % 400 == 0:
             cC = 6
         if ((year - y) - 100) % 400 == 0:
@@ -111,7 +141,10 @@ class ReformedCalendarCalc(object):
             cC = 2
         if ((year - y) - 300) % 400 == 0:
             cC = 0
+
         net = yC + cC
+        
+        #Calculates month code.
         if month == 1:
             mC = 0
         elif month == 2:
@@ -136,10 +169,14 @@ class ReformedCalendarCalc(object):
             mC = 3
         else:
             mC = 5
+
+        #Uses information to calculate week day.
         net = net + mC
         net = net + int(day)
         net = net + subtract
         net = net % 7
+
+        #Converts week day number to week name.
         if net == 0:
             wk = "Sunday"
         elif net == 1:
@@ -155,6 +192,8 @@ class ReformedCalendarCalc(object):
         else:
             wk = "Saturday"
         self.wkIII = wk
+
+        #Finds day number of year because it's dated and crappy.
         leap_year = isLeap
         if month == 1:
                 D_Code_MKI = 0
@@ -200,6 +239,8 @@ class ReformedCalendarCalc(object):
                 D_Code_MKI = 334
                 if leap_year == True:
                     D_Code_MKI = 335
+
+        #Calulcates day and month number.
         dayNum = D_Code_MKI + day
         monthNum = (dayNum - 1) // 28
         if monthNum == 0:
@@ -231,6 +272,7 @@ class ReformedCalendarCalc(object):
         else:
             self.Rmonth = "Supplementary"
         
+        #Cursed chunk of code used to find reformed calendar day.
         if self.mult28(0) + 1 <= dayNum < self.mult28(1) + 1:
             refDay = dayNum - self.mult28(0)
         elif self.mult28(1) + 1 <= dayNum < self.mult28(2) + 1:
@@ -261,6 +303,7 @@ class ReformedCalendarCalc(object):
             refDay = dayNum - self.mult28(13)
         self.Rday = refDay
 
+        #Calculates reformed calendar week day for normal case.
         W_Code = self.Rday % 7
         if W_Code == 0:
             self.Rweekday = "Joviday"
@@ -276,11 +319,16 @@ class ReformedCalendarCalc(object):
             self.Rweekday = "Lunaday"
         else:
             self.Rweekday = "Marsday"
+
+        #If last day or second to last day in leap year, 
+        #   special weekday names are to be had.
         if self.Rmonth == "Supplementary":
             if W_Code == 1:
                 self.Rweekday = "Yearday"
             else:
                 self.Rweekday = "Leapday"
+
+        #Because yes.
         if month == 1:
             self.mnth = "January"
         elif month == 2:
@@ -305,6 +353,8 @@ class ReformedCalendarCalc(object):
             self.mnth = "November"
         else:
             self.mnth = "December"
+
+        #Used in year designations.
         if year > 0:
             self.EPC1 = "Anno Domini"
         if year <= 0:
@@ -313,6 +363,9 @@ class ReformedCalendarCalc(object):
             self.EPC2 = "Human Era"
         if self.Ryear < 0:
             self.EPC2 = "Before Human Era"
+
+        #Cursed code to determine spiritual cylce stuff. 
+        #   This is not necessary in the context of this program and should be removed.
         century = self.Ryear - (self.Ryear % 100)
         Zc = (century // 400)
         ZA = (Zc // 4) + 1
