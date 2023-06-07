@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.10
+#Version: 2023-06-07.11
 
 import time
 from tkinter import *
@@ -8,6 +8,9 @@ from tkinter import *
 class Stardate(object):
     def __init__(self, window = None):
         self.window = window
+
+        #Fixes window width to prevent text shifting the window size.
+        self.window.geometry("400x160")
 
         #Holds quit button.
         self.frameTop = Frame(self.window)
@@ -45,28 +48,20 @@ class Stardate(object):
 
     #Gets stardate and precision setting, and displays resulting stardate.
     def starUpdate(self):
-        date = self.stardate()
-        prec = self.precGet(1)
-        if prec == 1:
-            date = format(date, ".1f")
-        if prec == 2:
-            date = format(date, ".2f")
-        if prec == 3:
-            date = format(date, ".3f")
-        if prec == 4:
-            date = format(date, ".4f")
-        if prec == 5:
-            date = format(date, ".5f")
-        self.message["text"] = date
+        self.message["text"] = format(self.stardate(), f".{self.precGet(1)}f")
         self.message.after(1, self.starUpdate)
 
     #Calculates and returns stardate.
     def stardate(self):
+        #Calculates stardate based on unix time.
         t = time.time()
-        s = (t / 31557.59999999999999) + (740583679.968 / 31557.59999999999999)
+        s = (t / 31557.6) + (740583679.968 / 31557.6)
+
+        #Truncates stardate to desired precision.
         RI = s * (10 ** self.precGet(1))
         RII = int(RI)
         RIII = RII / (10 ** self.precGet(1))
+
         return RIII
 
 def main():
