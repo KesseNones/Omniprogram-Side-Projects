@@ -81,7 +81,7 @@ class RefCalLive(object):
 		#	that represents the title of the calendar.
 		title = Tile(self.frameTop, 
 			f"{rMonthNameArr[monthIndex]} {calArr[0]} H.E.", 
-			1, 0, font = "Times 60", height = 2, width = 20)
+			1, 0, font = "Times 30", height = 2, width = 20)
 		self.titleAndWeekArr.append(title)
 
 		#If the index is the last one, 
@@ -150,8 +150,8 @@ class RefCalLive(object):
 #	to hold a day number or piece of calendar information.
 class Tile():
 	def __init__(self, frame, text, row, col, 
-		background = "#f0f0f0", font = "Times 35", 
-		borderThicc = 1, rel = "solid", height = 2, width = 9):
+		background = "#f0f0f0", font = "Times 17", 
+		borderThicc = 0.5, rel = "solid", height = 2, width = 9):
 
 		#Label created and gridded to actually hold 
 		#	the information passed to the constructor.
