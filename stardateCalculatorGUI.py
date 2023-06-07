@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.11
+#Version: 2023-06-07.13
 
 from tkinter import *
 import time
@@ -67,8 +67,9 @@ class StardateCalc(object):
             font = "Ariel 20")
         self.sOutput.grid(row = 6, column = 1)
 
-        #Indicates that program is being run on windows.
-        self.isStupid = True
+        #Used in finding metric date and parsing date and time inputs.
+        self.metric = metricTime.MetricTime()
+        self.date = dateHandling.GetDate()
 
     #Quits program when called.
     def quitButtonAction(self):
@@ -76,38 +77,28 @@ class StardateCalc(object):
 
     #Calculates a unix time like time stamp 
     #   from input date and time using the metric date.
-    def unixTimeCompensator(self, year, month, day, hour, min):
-        metric = metricTime.MetricTime()
-        metricDate = metric.metric_calc(year, month, day, hour, min)
-        unixSim = ((metricDate - 4371.952) * 100000000) * 0.864 #Converts to simulated UNIX time.
-        return unixSim
+    def unixTimeCompensator(self, year, month, day, hour, minute):
+        metricDate = self.metric.metric_calc(year, month, day, hour, minute)
+        
+        #Converts metric date to unix time simulation and returns it.
+        return ((metricDate - 4371.952) * 100000000) * 0.864
 
     #Calculates stardate and displays result.
     def calcStar(self):
-        stardate = self.stardate_calc()
-        self.sOutput["text"] = stardate
+        #Fetches date inputs.
+        year = self.date.getYear(self.year.get())
+        month = self.date.getMonth(self.month.get())
+        day = self.date.getDay(self.day.get())
+        hour = self.date.getHour(self.hour.get())
+        minute = self.date.getMinOrSec(self.minute.get())
+
+        self.sOutput["text"] = self.stardateCalc(year, month, day, hour, minute)
 
     #Calculates stardate and returns it.
-    def stardate_calc(self):
-        #Determines lower and upper bound years.
-        if self.isStupid:
-            lower = 1969
-            upper = 3002
-        else:
-            lower = 0
-            upper = 10000
-
-        #Fetches date input.
-        date = dateHandling.GetDate()
-        year = date.getYear(self.year.get())
-        month = date.getMonth(self.month.get())
-        day = date.getDay(self.day.get())
-        hour = date.getHour(self.hour.get())
-        minute = date.getMinOrSec(self.minute.get())
-        
+    def stardateCalc(self, year, month, day, hour, minute):
         #If year is in range, unix time is calculated using actual library, 
         #   otherwise a simulated version of it is calculated.
-        if lower < year < upper:
+        if 1969 < year < 3002:
             dt = datetime.datetime(year, month, day, hour, minute)
             t = (time.mktime(dt.timetuple()))
         else:
