@@ -1,39 +1,49 @@
-import random
-from time import sleep
+#Jesse A. Jones
+#Version: 2023-06-07.10
+
 import time
 from tkinter import *
-import math
 
+#This class calculates a TNG based stardate and displays it.
 class Stardate(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.grid(row = 0, column = 0)
 
+        #Precision slider used to control stardate precision.
         self.prec = Scale(self.frameTop, orient = HORIZONTAL, 
             from_ = 1, to = 5, length = 300,
             label = "SD Precision", font = "Ariel 20", command = self.precGet)
         self.prec.grid(row = 0, column = 1)
 
+        #Holds stardate display window.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "Click Update to Update", font = "Ariel 75", anchor = "w")
+        #Displays stardate output.
+        self.message = Label(self.frameBottom, text = "", font = "Ariel 50", anchor = "w")
         self.message.pack(side = TOP)
     
+        #Starts recursive updating loop.
         self.starUpdate()
 
+    #Fetches precision from slider.
     def precGet(self, num):
         return int(self.prec.get())
 
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Gets stardate and precision setting, and displays resulting stardate.
     def starUpdate(self):
         date = self.stardate()
         prec = self.precGet(1)
@@ -50,11 +60,12 @@ class Stardate(object):
         self.message["text"] = date
         self.message.after(1, self.starUpdate)
 
+    #Calculates and returns stardate.
     def stardate(self):
         t = time.time()
         s = (t / 31557.59999999999999) + (740583679.968 / 31557.59999999999999)
         RI = s * (10 ** self.precGet(1))
-        RII = math.trunc(RI)
+        RII = int(RI)
         RIII = RII / (10 ** self.precGet(1))
         return RIII
 
