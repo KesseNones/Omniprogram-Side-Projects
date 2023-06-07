@@ -1,6 +1,9 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2023-06-07.09
 
+from tkinter import *
+
+#Runs programs that start with the letter S when selected.
 class S(object):
     def __init__(self, window = None):
         self.window = window
@@ -57,21 +60,16 @@ class S(object):
             font = "Ariel 30", command = self.sesSynCalc)
         self.sesSynButton.grid(row = 3, column = 0)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
-    def stardateLive(self):
+    def stardateLive(self):                     #HERE
         import stardateGUILIVE
-        #self.clickSound()
         stardateGUILIVE.main()
 
     def stardateCalc(self):
         import stardateCalculatorGUI
-        #self.clickSound()
         stardateCalculatorGUI.main()
 
     def seasonCalc(self):
