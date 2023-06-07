@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.09
+#Version: 2023-06-07.11
 
 from tkinter import *
 
@@ -64,11 +64,11 @@ class S(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def stardateLive(self):                     #HERE
+    def stardateLive(self):                     #DONE
         import stardateGUILIVE
         stardateGUILIVE.main()
 
-    def stardateCalc(self):
+    def stardateCalc(self):                     #HERE
         import stardateCalculatorGUI
         stardateCalculatorGUI.main()
 
