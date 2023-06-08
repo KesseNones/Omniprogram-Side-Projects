@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.25
+#Version: 2023-06-07.26
 
 from tkinter import *
 
@@ -35,18 +35,8 @@ class StrRev(object):
         #Reversed string output.
         self.message = Label(self.frameBottom, text = "Output:", font = "Ariel 20", anchor = "w")
         self.message.grid(row = 3, column = 0)
-        self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 20", justify = LEFT, wraplength = 600 )
+        self.tOutput = Entry(self.frameBottom, font = "Ariel 20")
         self.tOutput.grid(row = 3, column = 1)
-
-    #Copies output string to clipboard when called. 
-    #                                               OVERWRITTING A USER'S CLIPBOARD IS INCREDIBLY INVASIVE AND CRINGE. GET RID OF THIS
-    def copy(self, string):
-        clip = Tk()
-        clip.withdraw()
-        clip.clipboard_clear()
-        clip.clipboard_append(string)
-        clip.destroy()
 
     #Quits program when called.
     def quitButtonAction(self):
@@ -54,11 +44,13 @@ class StrRev(object):
 
     #Reverses string when called.
     def reverse(self):
+        #Gets string and reverses it.
         entryString = self.msg.get()
         revString = entryString[::-1]
-        self.copy(revString)
-        self.tOutput["text"] = revString
-        return revString
+
+        #Displays resulting reversed string.
+        self.tOutput.delete(0, "end")
+        self.tOutput.insert(0, revString)
 
 def main():
     root = Tk()

@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.25
+#Version: 2023-06-07.26
 
 from tkinter import *
 
@@ -84,11 +84,11 @@ class S(object):
         import secondStopwatch
         secondStopwatch.main()
 
-    def revString(self):                        #HERE
+    def revString(self):                        #DONE
         import stringReverser
         stringReverser.main()
 
-    def secCountOfDay(self):
+    def secCountOfDay(self):                    #HERE
         import secondsInDay
         secondsInDay.main()
 
