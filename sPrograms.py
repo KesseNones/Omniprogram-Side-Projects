@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.26
+#Version: 2023-06-07.27
 
 from tkinter import *
 
@@ -88,11 +88,11 @@ class S(object):
         import stringReverser
         stringReverser.main()
 
-    def secCountOfDay(self):                    #HERE
+    def secCountOfDay(self):                    #DONE
         import secondsInDay
         secondsInDay.main()
 
-    def seasonClock(self):
+    def seasonClock(self):                      #HERE
         import seasonClock
         seasonClock.main()
 
