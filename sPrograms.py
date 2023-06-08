@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.13
+#Version: 2023-06-07.20
 
 from tkinter import *
 
@@ -72,11 +72,11 @@ class S(object):
         import stardateCalculatorGUI
         stardateCalculatorGUI.main()
 
-    def seasonCalc(self):                       #HERE
+    def seasonCalc(self):                       #DONE
         import seasonalCalCalc
         seasonalCalCalc.main()
 
-    def shireCalc(self):
+    def shireCalc(self):                        #HERE
         import shireCalConv
         shireCalConv.main()
 
