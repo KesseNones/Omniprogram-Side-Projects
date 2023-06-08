@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.20
+#Version: 2023-06-07.24
 
 from tkinter import *
 
@@ -76,11 +76,11 @@ class S(object):
         import seasonalCalCalc
         seasonalCalCalc.main()
 
-    def shireCalc(self):                        #HERE
+    def shireCalc(self):                        #DONE (could use some refactoring)
         import shireCalConv
         shireCalConv.main()
 
-    def secStopwatch(self):
+    def secStopwatch(self):                     #HERE
         import secondStopwatch
         secondStopwatch.main()
 
