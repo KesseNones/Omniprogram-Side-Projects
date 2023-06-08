@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.24
+#Version: 2023-06-07.25
 
 from tkinter import *
 
@@ -80,11 +80,11 @@ class S(object):
         import shireCalConv
         shireCalConv.main()
 
-    def secStopwatch(self):                     #HERE
+    def secStopwatch(self):                     #DONE
         import secondStopwatch
         secondStopwatch.main()
 
-    def revString(self):
+    def revString(self):                        #HERE
         import stringReverser
         stringReverser.main()
 
