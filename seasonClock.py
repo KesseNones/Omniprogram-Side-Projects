@@ -1,11 +1,13 @@
 #Jesse A. Jones
-#Version: 2023-06-08.92
+#Version: 2023-06-08.93
 
 import time
 import datetime
 from tkinter import *
 import tkinter as tk
 import math
+import metricTime
+import leapDetect
 
 #This class displays a season clock based on the northern hemisphere seasons.
 class SeasonTime(object):
@@ -30,6 +32,11 @@ class SeasonTime(object):
             bg = "white", highlightbackground = "black", highlightthickness = 2)
         self.draw.grid(row = 0, column = 0)
 
+        #External classes used in finding current metric date 
+        #   and detecting leap year respectively.
+        self.metric = metricTime.MetricTime()
+        self.leap = leapDetect.IsLeap()
+        
         #Creates initial time display.
         self.createSeasonSegments()
         self.createSeasonSymbols()
@@ -38,6 +45,7 @@ class SeasonTime(object):
         self.seasonArrowDrawn = False
         self.drawSeasonArrow()
         self.createMoon()
+
 
         #Starts recursive time loop to update season clock.
         self.timeUpdate()
@@ -61,61 +69,44 @@ class SeasonTime(object):
         self.moonPhase = self.draw.create_text(x, y, text = moon, font  = "Times 50", fill = "black")
         self.moonMade = True
         
-    #Calculates moon phase based on current metric date.
+    #Calculates moon phase based on metric date and displays results.
     def moonCalc(self):
-        #🌑🌒🌓🌔🌕🌖🌗🌘 Moon phase emojis used.
-        moonPhase = ""
-        
-        #Finds time delta used for finding current day in lunar cycle.
-        metricDate = self.metric_time()
+        now = datetime.datetime.now()
+        year = now.year
+        month = now.month
+        day = now.day
+        hour = now.hour
+        minute = now.minute
+
+        #Finds current metric date and finds difference from base metric date.
+        metricDateCalc = self.metric.metric_calc(year, month, day, hour, minute)
         moonBase = 4390.562679166
-        metricDiff = metricDate - moonBase
+        metricDiff = metricDateCalc - moonBase
         
-        #Determines moon age.
+        #Metric delta used to find moon age.
         moonAge = (metricDiff * 1000) % 29.530588
-        if moonAge < 0:
-            moonAge += 29.530588
         
-        #Moon phase found via moon age and returned.
+        #Determines which moon phase the moon is currently in.
         if 0.0 <= moonAge < 3.6913235:
             moonPhase = "🌑"
-        if 3.6913235 <= moonAge < 7.382647:
+        elif 3.6913235 <= moonAge < 7.382647:
             moonPhase = "🌒"
-        if 7.382647 <= moonAge < 11.0739705:
+        elif 7.382647 <= moonAge < 11.0739705:
             moonPhase = "🌓"
-        if 11.0739705 <= moonAge < 14.765294:
+        elif 11.0739705 <= moonAge < 14.765294:
             moonPhase = "🌔"
-        if 14.765294 <= moonAge < 18.4566175:
+        elif 14.765294 <= moonAge < 18.4566175:
             moonPhase = "🌕"
-        if 18.4566175 <= moonAge < 22.147941:
+        elif 18.4566175 <= moonAge < 22.147941:
             moonPhase = "🌖"
-        if 22.147941 <= moonAge < 25.8392645:
+        elif 22.147941 <= moonAge < 25.8392645:
             moonPhase = "🌗"
-        if 25.8392645 <= moonAge < 29.530588:
+        elif 25.8392645 <= moonAge < 29.530588:
             moonPhase = "🌘"
-        
-        return moonPhase
-
-    #Returns the current metric time.
-    def metric_time(self):
-        t = time.time()
-        metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
-        rounderI = metric_time * 1000000000
-        rounderII = math.trunc(rounderI)
-        rounderIII = rounderII / 1000000000
-        return rounderIII
-
-    #Used in determining if current year is leap year.
-    def isLeapYear(self, year):
-        if year % 4 == 0:
-            leap = True
-            if year % 100 == 0:
-                leap = False
-                if year % 400 == 0:
-                    leap = True
         else:
-            leap = False
-        return leap
+            moonPhase = "??"
+
+        return moonPhase
     
     #Generates a local unix time stamp based on the local time zone.
     def localUnix(self):
@@ -166,8 +157,11 @@ class SeasonTime(object):
     #Determines the seasonal position based 
     #   on current day in seasonal calendar.
     def findSeasonPos(self):
-        yearDayNum = self.calCalcI()
-        if self.isLeap:
+        #Finds current date and uses it to calculate seasonal calendar day.
+        now = datetime.datetime.now()
+        yearDayNum = self.calcSeasonal(now.year, now.month, now.day)
+        
+        if self.leap.isLeapYear(now.year):
             div = 366
         else:
             div = 365
@@ -175,129 +169,17 @@ class SeasonTime(object):
         degOfYear = yearDec * 360
         return degOfYear
 
-    #Calculates day in seasonal calendar.                   THIS CODE IS DISGUSTING AND OUTDATED. REPLACE WITH BETTER UPDATED VERSION
-    def calCalcI(self):
-        yearB = 2001
-        monthB = 3
-        dayB = 19
-        local = datetime.datetime.now()
-        yearC = local.year
-        monthC = local.month
-        dayC = local.day - 1
-        leap_year = self.isLeapYear(yearB)
-        leap_year = self.isLeapYear(yearC)
-        if leap_year == False:
-            div = 365
-        if leap_year == True:
-            div = 366
-        if monthB == 1:
-            D_Code_B = 0
-        if monthB == 2:
-            D_Code_B = 31
-        if monthB == 3:
-            D_Code_B = 59
-            if leap_year == True:
-                D_Code_B = 60
-        if monthB == 4:
-            D_Code_B = 90
-            if leap_year == True:
-                D_Code_B = 91
-        if monthB == 5:
-            D_Code_B = 120
-            if leap_year == True:
-                D_Code_B = 121
-        if monthB == 6:
-            D_Code_B = 151
-            if leap_year == True:
-                D_Code_B = 152
-        if monthB == 7:
-            D_Code_B = 181
-            if leap_year == True:
-                D_Code_B = 182
-        if monthB == 8:
-            D_Code_B = 212
-            if leap_year == True:
-                D_Code_B = 213
-        if monthB == 9:
-            D_Code_B = 243
-            if leap_year == True:
-                D_Code_B = 244
-        if monthB == 10:
-            D_Code_B = 273
-            if leap_year == True:
-                D_Code_B = 274
-        if monthB == 11:
-            D_Code_B = 304
-            if leap_year == True:
-                D_Code_B = 305
-        if monthB == 12:
-            D_Code_B = 334
-            if leap_year == True:
-                D_Code_B = 335
-        if monthC == 1:
-            D_Code_C = 0
-        if monthC == 2:
-            D_Code_C = 31
-        if monthC == 3:
-            D_Code_C = 59
-            if leap_year == True:
-                D_Code_C = 60
-        if monthC == 4:
-            D_Code_C = 90
-            if leap_year == True:
-                D_Code_C = 91
-        if monthC == 5:
-            D_Code_C = 120
-            if leap_year == True:
-                D_Code_C = 121
-        if monthC == 6:
-            D_Code_C = 151
-            if leap_year == True:
-                D_Code_C = 152
-        if monthC == 7:
-            D_Code_C = 181
-            if leap_year == True:
-                D_Code_C = 182
-        if monthC == 8:
-            D_Code_C = 212
-            if leap_year == True:
-                D_Code_C = 213
-        if monthC == 9:
-            D_Code_C = 243
-            if leap_year == True:
-                D_Code_C = 244
-        if monthC == 10:
-            D_Code_C = 273
-            if leap_year == True:
-                D_Code_C = 274
-        if monthC == 11:
-            D_Code_C = 304
-            if leap_year == True:
-                D_Code_C = 305
-        if monthC == 12:
-            D_Code_C = 334
-            if leap_year == True:
-                D_Code_C = 335
-        D_Code_BII = D_Code_B + dayB
-        D_Code_CII = D_Code_C + dayC
-        Age_int = yearC - yearB
-        age_alt = yearC - yearB
-        if D_Code_CII > D_Code_BII:
-                Age_day = D_Code_CII - D_Code_BII
-        if D_Code_CII < D_Code_BII:
-                Age_day = (D_Code_CII - D_Code_BII) + div
-                age_alt -= 1
-        if D_Code_CII == D_Code_BII:
-                Age_day = 0
-        Age_dec = (D_Code_CII - D_Code_BII) / div
-        AGE = Age_int + Age_dec
-        AGE = AGE * 1000
-        AGE = round(AGE)
-        AGE = AGE / 1000
-        self.year = yearC
-        self.isLeap = self.isLeapYear(yearC)
-        print(Age_day)
-        return Age_day
+    #Given input year, month, and day, calculates seasonal calendar.
+    def calcSeasonal(self, year, month, day):
+        #Finds days elapsed in gregorian year and seasonal year.
+        dayCount = self.metric.findDayNumOfYear(year, month, day) - 1
+        seasonalDayCount = dayCount - 78
+
+        #Accounts for if seasonal day count is negative.
+        seasonalYear = year - (seasonalDayCount < 0)
+        seasonalDayCount %= (365 + (self.leap.isLeapYear(year - 1)))
+
+        return seasonalDayCount
 
     #Creates the colored seasonal segments seen on the clock.
     def createSeasonSegments(self):
