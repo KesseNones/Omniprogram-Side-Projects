@@ -1,9 +1,11 @@
 #Jesse A. Jones
-#Version: 2023-06-07.21
+#Version: 2023-06-09.12
 
 from tkinter import *
 import leapDetect
 import dateHandling
+import weekCalculator
+import metricTime
 
 #This class takes in a date input 
 #   and displays the resulting converted shire calendar.
@@ -35,20 +37,20 @@ class ShireCalendarCalc(object):
         #Year input field.
         self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 20")
         self.messageI.grid(row = 0, column = 0)
-        self.yearE = Entry(self.frameBottom, font = "Ariel 20")
-        self.yearE.grid(row = 0, column = 1)
+        self.year = Entry(self.frameBottom, font = "Ariel 20")
+        self.year.grid(row = 0, column = 1)
 
         #Month input field.
         self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 20")
         self.messageII.grid(row = 2, column = 0)
-        self.monthE = Entry(self.frameBottom, font = "Ariel 20")
-        self.monthE.grid(row = 2, column = 1)
+        self.month = Entry(self.frameBottom, font = "Ariel 20")
+        self.month.grid(row = 2, column = 1)
 
         #Day input field.
         self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 20")
         self.messageIII.grid(row = 3, column = 0)
-        self.dayE = Entry(self.frameBottom, font = "Ariel 20")
-        self.dayE.grid(row = 3, column = 1)
+        self.day = Entry(self.frameBottom, font = "Ariel 20")
+        self.day.grid(row = 3, column = 1)
     
         #Converts input date to shire calendar when pressed.
         self.convButton = Button(self.frameBottom, text = "Convert to Shire Calendar", 
@@ -62,6 +64,13 @@ class ShireCalendarCalc(object):
 
         #Used in determining if english names are used or not.
         self.tolkAte = False
+        
+        #Used in date parsing, leap year detection, 
+        #   weekday finding, and day of year finding.
+        self.date = dateHandling.GetDate()
+        self.leap = leapDetect.IsLeap()
+        self.week = weekCalculator.WeekFinder()
+        self.metric = metricTime.MetricTime()
 
     #Quits program when called.
     def quitButtonAction(self):
@@ -69,8 +78,13 @@ class ShireCalendarCalc(object):
 
     #Calculates shire calendar and displays result.
     def shireCalCalc(self):
-        shireDate = self.cal_calc()
-        self.cOutput["text"] = shireDate
+        #Fetches user input for conversion.
+        year = self.date.getYear(self.year.get())
+        month = self.date.getMonth(self.month.get())
+        day = self.date.getDay(self.day.get())
+
+        #Finds shire calendar date and displays it.
+        self.cOutput["text"] = self.findShire(year, month, day)
 
     #Enables tolkien names and recalculates date.
     def toTolkien(self):
@@ -83,165 +97,36 @@ class ShireCalendarCalc(object):
         self.shireCalCalc()
 
     #Calculates shire calendar and returns resulting date string.
-    def cal_calc(self):
-        #Fetches date input.
-        date = dateHandling.GetDate()
-        leap = leapDetect.IsLeap()
-        year = date.getYear(self.yearE.get())
-        month = date.getMonth(self.monthE.get())
-        day = date.getDay(self.dayE.get())
-
+    def findShire(self, year, month, day):
         #Calculates shire year.
         shireYear = year - 600
         
-        #Determines if 1 needs to be subtracted for week day calculations.
-        if (month < 3) and leap.isLeapYear(year):
-            subtract = -1
-        else:
-            subtract = 0
-        
-        #Calculates day of week from input date.
-        y = year % 100
-        yII = int(y / 4)
-        yIII = yII + y
-        yC = yIII % 7
-        if (year - y) % 400 == 0:
-            cC = 6
-        if ((year - y) - 100) % 400 == 0:
-            cC = 4
-        if ((year - y) - 200) % 400 == 0:
-            cC = 2
-        if ((year - y) - 300) % 400 == 0:
-            cC = 0
-        net = yC + cC
-        if month == 1:
-            mC = 0
-        if month == 2:
-            mC = 3
-        if month == 3:
-            mC = 3
-        if month == 4:
-            mC = 6
-        if month == 5:
-            mC = 1
-        if month == 6:
-            mC = 4
-        if month == 7:
-            mC = 6
-        if month == 8:
-            mC = 2
-        if month == 9:
-            mC = 5
-        if month == 10:
-            mC = 0
-        if month == 11:
-            mC = 3
-        if month == 12:
-            mC = 5
-        net = net + mC
-        net = net + int(day)
-        net = net + subtract
-        net = net % 7
+        #DESTROY HARD
+        # #Finds week day of input date.
+        # wkDay = self.week.weekFind(year, month, day)
 
-        #Day of week found from input date.
-        if net == 0:
-            if self.tolkAte == False:
-                wk = "Sunday"
-            else:
-                wk = "Sunday"
-        if net == 1:
-            if self.tolkAte == False:
-                wk = "Monday"
-            else:
-                wk = "Monday"
-        if net == 2:
-            if self.tolkAte == False:
-                wk = "Trewsday"
-            else:
-                wk = "Tuesday"
-        if net == 3:
-            if self.tolkAte == False:
-                wk = "Hevensday"
-            else:
-                wk = "Wendesday"
-        if net == 4:
-            if self.tolkAte == False:
-                wk = "Mersday"
-            else:
-                wk = "Thursday"
-        if net == 5:
-            if self.tolkAte == False:
-                wk = "Highday"
-            else:
-                wk = "Friday"
-        if net == 6:
-            if self.tolkAte == False:
-                wk = "Sterday"
-            else:
-                wk = "Saturday"
+        #Used to convert an english weekday name to a shire weekday name.
+        engToShireDays = {"Sunday": "Sunday", "Monday": "Monday", 
+                        "Tuesday": "Trewsday", "Wednesday": "Heavensday", 
+                        "Thursday": "Mersday", "Friday": "Highday", 
+                        "Saturday": "Sterday"}
 
-        #Determines current day number in shire calendar.
-        shireWeekDay = wk
-        leap_year = leap.isLeapYear(year)
-        if month == 1:
-            D_Code_MKI = 0
-        if month == 2:
-            D_Code_MKI = 31
-        if month == 3:
-            D_Code_MKI = 59
-            if leap_year == True:
-                D_Code_MKI = 60
-        if month == 4:
-            D_Code_MKI = 90
-            if leap_year == True:
-                D_Code_MKI = 91
-        if month == 5:
-            D_Code_MKI = 120
-            if leap_year == True:
-                D_Code_MKI = 121
-        if month == 6:
-            D_Code_MKI = 151
-            if leap_year == True:
-                D_Code_MKI = 152
-        if month == 7:
-            D_Code_MKI = 181
-            if leap_year == True:
-                D_Code_MKI = 182
-        if month == 8:
-            D_Code_MKI = 212
-            if leap_year == True:
-                D_Code_MKI = 213
-        if month == 9:
-            D_Code_MKI = 243
-            if leap_year == True:
-                D_Code_MKI = 244
-        if month == 10:
-            D_Code_MKI = 273
-            if leap_year == True:
-                D_Code_MKI = 274
-        if month == 11:
-            D_Code_MKI = 304
-            if leap_year == True:
-                D_Code_MKI = 305
-        if month == 12:
-            D_Code_MKI = 334
-            if leap_year == True:
-                D_Code_MKI = 335
-        D_Code_MKII = D_Code_MKI + day
-        shireCode = D_Code_MKII + 10
+        #Finds day of year in gregorian calendar and 
+        gregDayOfYear = self.metric.findDayNumOfYear(year, month, day) - 1
+        shireDay = gregDayOfYear + 10
+        isLeap = self.leap.isLeapYear(shireYear)
 
-        #Accounts for overflow cases.
-        if shireCode > 366 and leap_year:
-            shireCode -= 366
-            shireYear += 1
-        elif shireCode > 365 and leap_year == False:
-            shireCode -= 365
-            shireYear += 1
+        #Compensates for date going over threshold 
+        #   due to ten day shift forward.
+        shireYear += (shireDay > (364 + isLeap))
+        shireDay %= (365 + isLeap)
 
         #Finds shire date, builds date string, and returns it.
-        date = self.shireDateFind(shireYear, shireCode, leap_year)
-        dateString = shireWeekDay + " " + date + ", " + str(shireYear)
-        return dateString
+        date = self.shireDateFind(shireYear, shireDay + 1, isLeap)
+        shireWeek = self.week.weekFind(year, month, day)
+        if not(self.tolkAte):
+            shireWeek = engToShireDays[shireWeek]
+        return f"{shireWeek} {date},\n{shireYear} Shire Reckoning"
 
     #Based on year, day number, and if it's 
     #   a leap year, the shire calendar date is found.

@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-09.11
+#Version: 2023-06-09.14
 
 from tkinter import *
 
@@ -76,7 +76,7 @@ class S(object):
         import seasonalCalCalc
         seasonalCalCalc.main()
 
-    def shireCalc(self):                        #DONE (could use some refactoring)
+    def shireCalc(self):                        #DONE
         import shireCalConv
         shireCalConv.main()
 
