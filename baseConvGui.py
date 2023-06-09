@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-09.09
+#Version: 2023-06-09.11
 
 from tkinter import *
 import math
@@ -41,14 +41,14 @@ class baseConv(object):
         self.baseScalar.grid(row = 1, column = 0)
 
         #Conversion to base ten button.
-        self.affButton = Button(self.frameBottom, text = "Convert from Custom Base", 
+        self.customBaseConvButton = Button(self.frameBottom, text = "Convert from Custom Base", 
             font = "Times 20", command = self.anyBaseToTen)
-        self.affButton.grid(row = 2, column = 0)
+        self.customBaseConvButton.grid(row = 2, column = 0)
 
         #Outputs conversion of specified base to base ten.
-        self.aOutput = Label(self.frameBottom, text = "", 
+        self.baseTenOut = Entry(self.frameBottom, text = "", 
             font = "Times 20")
-        self.aOutput.grid(row = 2, column = 1)
+        self.baseTenOut.grid(row = 2, column = 1)
 
         #Input for a base ten specific integer.
         self.messageII = Label(self.frameBottom, text = "Enter Base Ten Integer:", font = "Times 20", anchor = "w")
@@ -63,29 +63,33 @@ class baseConv(object):
         self.baseScalarII.grid(row = 4, column = 0)
 
         #Button calls function to convert base ten integert to another base.
-        self.cButton = Button(self.frameBottom, text = "Convert to Different Base", 
+        self.tenToOtherBaseButton = Button(self.frameBottom, text = "Convert to Different Base", 
             font = "Times 20", command = self.baseTenToSpecificBase)
-        self.cButton.grid(row = 5, column = 0)
+        self.tenToOtherBaseButton.grid(row = 5, column = 0)
 
         #Displays outputed conversion of base ten to another base.
-        self.cOutput = Label(self.frameBottom, text = "", 
+        self.baseNOut = Entry(self.frameBottom, text = "", 
             font = "Times 20")
-        self.cOutput.grid(row = 5, column = 1)
+        self.baseNOut.grid(row = 5, column = 1)
 
     #Clears input entries.
     def clear(self):
         self.I.delete(0, "end")
         self.bsTen.delete(0, "end")
+        self.baseTenOut.delete(0, "end")
+        self.baseNOut.delete(0, "end")
 
     #Converts custom base integer to base ten.
     def anyBaseToTen(self):
         baseTenInt = self.baseConvert(True)
-        self.aOutput["text"] = f"Base 10: {baseTenInt}"
+        self.baseTenOut.delete(0, "end")
+        self.baseTenOut.insert(0, f"Base 10: {baseTenInt}")
 
     #Converts a base ten integer to any base in range 2 to 36.
     def baseTenToSpecificBase(self):
         otherBaseInt = self.baseConvert(False)
-        self.cOutput["text"] = f"Base {self.sliderNumberII(666)}: {otherBaseInt}"
+        self.baseNOut.delete(0, "end")
+        self.baseNOut.insert(0, f"Base {self.sliderNumberII(666)}: {otherBaseInt}")
 
     #Returns the present value of the first base slider.
     def sliderNumber(self, num):
