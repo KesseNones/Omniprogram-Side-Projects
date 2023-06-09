@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-08.95
+#Version: 2023-06-09.11
 
 from tkinter import *
 
@@ -96,11 +96,11 @@ class S(object):
         import seasonClock
         seasonClock.main()
 
-    def starfield(self):                        #HERE
+    def starfield(self):                        #DONE (could use some optimization)
         import starfield
         starfield.main()
 
-    def sesSynCalc(self):
+    def sesSynCalc(self):                       #HERE
         import seasonalSyncCalendar
         seasonalSyncCalendar.main()
 
