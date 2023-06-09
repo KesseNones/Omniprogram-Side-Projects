@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-10.11
+#Version: 2023-06-09.09
 
 from tkinter import *
 import math
@@ -85,7 +85,7 @@ class baseConv(object):
     #Converts a base ten integer to any base in range 2 to 36.
     def baseTenToSpecificBase(self):
         otherBaseInt = self.baseConvert(False)
-        self.cOutput["text"] = f"Base {self.sliderNumberII()}: {otherBaseInt}"
+        self.cOutput["text"] = f"Base {self.sliderNumberII(666)}: {otherBaseInt}"
 
     #Returns the present value of the first base slider.
     def sliderNumber(self, num):
@@ -115,7 +115,7 @@ class baseConv(object):
         if isTurningToDecimalOnly:
             #Gets slider value and input integer.
             num = self.integerNum()
-            base = self.sliderNumber()
+            base = self.sliderNumber(666)
             
             #Built in int function converts input integer 
             #   to base 10 from input base.
@@ -124,7 +124,7 @@ class baseConv(object):
         else:
             #Fetches base ten integer and slider of base conversion.
             numX = self.baseTenInt()
-            base = self.sliderNumberII()
+            base = self.sliderNumberII(666)
 
             #Converts base ten int to another base.
             convertedNum = self.tenToOtherBase(numX, base)
