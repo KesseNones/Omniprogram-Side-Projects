@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-09.16
+#Version: 2023-06-09.18
 
 from tkinter import *
 
@@ -48,11 +48,11 @@ class T(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def tempConv(self):                 #HERE
+    def tempConv(self):                 #DONE
         import tempConverterGUI
         tempConverterGUI.main()
 
-    def timeUltima(self):
+    def timeUltima(self):               #HERE
         import timeDisplayUltima
         timeDisplayUltima.main()
 
