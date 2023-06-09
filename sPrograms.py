@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-09.14
+#Version: 2023-06-09.16
 
 from tkinter import *
 
@@ -100,7 +100,7 @@ class S(object):
         import starfield
         starfield.main()
 
-    def sesSynCalc(self):                       #HERE
+    def sesSynCalc(self):                       #DONE
         import seasonalSyncCalendar
         seasonalSyncCalendar.main()
 
