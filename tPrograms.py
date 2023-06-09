@@ -1,6 +1,9 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2023-06-09.16
 
+from tkinter import *
+
+#Contains programs that start with the letter T.
 class T(object):
     def __init__(self, window = None):
         self.window = window
@@ -41,21 +44,16 @@ class T(object):
             font = "Ariel 30", command = self.TNGSDateCalc)
         self.trueTNGCalc.grid(row = 1, column = 2)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
-    def tempConv(self):
+    def tempConv(self):                 #HERE
         import tempConverterGUI
-        #self.clickSound()
         tempConverterGUI.main()
 
     def timeUltima(self):
         import timeDisplayUltima
-        #self.clickSound()
         timeDisplayUltima.main()
 
     def stardateTOS(self):
