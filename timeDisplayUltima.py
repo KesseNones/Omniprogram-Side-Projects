@@ -1,77 +1,118 @@
-import random
-from time import sleep
+#Jesse A. Jones
+#Version: 2023-06-10.91
+
 import time
 from tkinter import *
 import math
 import datetime
 
+#This class displays multiple time systems at once in a live widget.
 class Date(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds time output fields.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageMetric = Label(self.frameBottom, text = "test", font = "Times 75", anchor = "w")
+        FONT = "Ariel 20"
+
+        #Displays metric date.
+        self.messageMetric = Label(self.frameBottom, text = "", font = FONT, anchor = "w")
         self.messageMetric.grid(row = 0, column = 0)
 
-        self.messageStardateTNG = Label(self.frameBottom, text = "test", font = "Times 75", anchor = "w")
+        #Displays TNG stardate.
+        self.messageStardateTNG = Label(self.frameBottom, text = "", font = FONT, anchor = "w")
         self.messageStardateTNG.grid(row = 1, column = 0)
 
-        self.messageStardateTOS = Label(self.frameBottom, text = "test", font = "Times 75", anchor = "w")
+        #Displays TOS stardate.
+        self.messageStardateTOS = Label(self.frameBottom, text = "", font = FONT, anchor = "w")
         self.messageStardateTOS.grid(row = 2, column = 0)
 
-        self.messageTime = Label(self.frameBottom, text = "test", font = "Times 75", anchor = "w")
+        #Displays current time.
+        self.messageTime = Label(self.frameBottom, text = "", font = FONT, anchor = "w")
         self.messageTime.grid(row = 3, column = 0)
 
-        self.messageDate = Label(self.frameBottom, text = "test", font = "Times 75", anchor = "w", bg = "#373737")
+        #Displays current date and seasonal calendar.
+        self.messageDate = Label(self.frameBottom, text = "", font = FONT, anchor = "w", bg = "#373737")
         self.messageDate.grid(row = 4, column = 0)
 
-        self.messageWeeknumber = Label(self.frameBottom, text = "test", font = "Times 75")
+        #Displays week number and day number.
+        self.messageWeeknumber = Label(self.frameBottom, text = "", font = FONT)
         self.messageWeeknumber.grid(row = 5, column = 0)
 
-        self.messageMoonAge = Label(self.frameBottom, text = "test", font = "Times 75")
+        #Displays moon age.
+        self.messageMoonAge = Label(self.frameBottom, text = "", font = FONT)
         self.messageMoonAge.grid(row = 7, column = 0)
 
-        self.messageMoonPhase = Label(self.frameBottom, text = "test", font = "Times 75")
+        #Displays moon phase.
+        self.messageMoonPhase = Label(self.frameBottom, text = "", font = FONT)
         self.messageMoonPhase.grid(row = 8, column = 0)
 
+        #Starts recursive date update.
         self.dateUpdate()
 
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Calculates and displays all dates.
     def dateUpdate(self):
+        #Finds and displays metric date.
         date = self.metric_time()
         date = format(date, ".9f")
         self.messageMetric["text"] = "MD: " + date
+        
+        #Finds and displays TNG stardate.
         stardt = self.stardate()
         stardt = format(stardt, ".5f")
+        self.messageStardateTNG["text"] = "TNG SD: " + stardt
+        
+        #Finds and displays TOS stardate.
         dateStar = self.stardateTOS()
         dateStar = format(dateStar, ".5f")
-        self.messageStardateTNG["text"] = "TNG SD: " + stardt
         self.messageStardateTOS["text"] = "TOS SD: " + str(dateStar) + " " + "(" + str(int(self.superStar)) + ")"
+        
+        #Finds UTC and local time, displaying them.
         self.currentTime()
         self.messageTime["text"] = "UTC " + self.timeNowUTC + " | Local " + self.timeNowLocal
+
+        #Finds day of week and shortens it to a three letter abreviation.
         week = self.week_fdn()
         week = week[0] + week[1] + week[2] + "."
+
+        #Finds date in seasonal calendar.
         self.calCalcI()
         seasonCalDate = self.calCalcII()
+        
+        #Finds current date as date string.
         readMonthISODate = self.textDate()
+
+        #Displays current date, day of the week, and seasonal calendar date.
         self.messageDate["text"] = readMonthISODate + " " + week + " " + seasonCalDate
+        
+        #Finds current week number.
         weekNum = datetime.date.today().isocalendar()[1]
         weekNum = str(weekNum).zfill(2)
+        
+        #Displays week number and day number of year.
         self.messageWeeknumber["text"] = "Week: " + weekNum + " | " + "Day: " + self.dayOfYear
+        
+        #Finds and displays moon phase.
         self.moonCalc()
+        
         self.window.after(1, self.dateUpdate)
 
+    #Constructs ISO date string based on current date.
     def textDate(self):
         month = self.currentMonth
         monthStrArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
@@ -80,6 +121,7 @@ class Date(object):
         dateString = str(self.currentYear) + "-" + monthStr + "-" + str(self.currentDay).zfill(2)
         return dateString
 
+    #Calculates current metric time.
     def metric_time(self):
         t = time.time()
         metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
@@ -88,14 +130,16 @@ class Date(object):
         rounderIII = rounderII / 1000000000
         return rounderIII
 
+    #Calculates current stardate.
     def stardate(self):
         t = time.time()
-        s = (t / 31557.59999999999999) + (740583679.968 / 31557.59999999999999)
+        s = (t / 31557.6) + (740583679.968 / 31557.6)
         RI = s * 100000
         RII = math.trunc(RI)
         RIII = RII / 100000
         return RIII
 
+    #Calculates TOS stardate.
     def stardateTOS(self):
         t = time.time()
         s = (6059232000 / 86400) - (t / 86400)
@@ -108,17 +152,27 @@ class Date(object):
         self.superStar = (superStar * -1) - 1
         return subStar
 
+    #Fetches current time and saves it into a bunch of class variables.
+    #THIS IS PRETTY GROSS. THIS SHOULD RETURN A LIST OF TIME STUFF, RATHER THAN SETTING A BUTTLOAD OF CLASS VARIABLES
     def currentTime(self):
+        #Finds local time.
         self.local = datetime.datetime.now()
         self.timeNowLocal = self.local.strftime("%H:%M:%S")
+        
+        #Finds UTC time.
         self.UTC = datetime.datetime.utcnow()
         self.timeNowUTC = self.UTC.strftime("%H:%M:%S")
+        
+        #Finds ISO date.
         self.dateISO = datetime.date.today()
         self.currentYear = self.dateISO.year
         self.currentMonth = self.dateISO.month
         self.currentDay = self.dateISO.day
+        
+        #Finds day of year.
         self.dayOfYear = self.dateISO.strftime("%j")
 
+    #Finds current day of week based on current date.
     def week_fdn(self):
         subtract = 0
         year = int(self.currentYear)
@@ -189,6 +243,7 @@ class Date(object):
             wk = "Saturday"
         return wk
 
+    #Calculates current moon age and phase.
     def moonCalc(self):
         #🌑🌒🌓🌔🌕🌖🌗🌘
         moonPhase = ""
@@ -219,6 +274,7 @@ class Date(object):
             moonPhase = "Waning Crescent 🌘"
         self.messageMoonPhase["text"] = "Phase: " +  moonPhase
 
+    #GROSS OUTDATED CODE USED TO FIND THE SEASONAL DATE.
     def calCalcI(self):
         yearB = 2001
         monthB = 3
@@ -348,6 +404,7 @@ class Date(object):
         self.isLeapYear = leap_year
         return
 
+    #XTREME YUCKY
     def calCalcII(self):
         # Spring 93 days, Summer 93 days, Fall 90 days, Winter 89 days cm, 90 lpy
         leapYearBoost = 0
