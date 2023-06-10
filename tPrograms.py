@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-09.18
+#Version: 2023-06-10.97
 
 from tkinter import *
 
@@ -52,11 +52,11 @@ class T(object):
         import tempConverterGUI
         tempConverterGUI.main()
 
-    def timeUltima(self):               #HERE
+    def timeUltima(self):               #DONE
         import timeDisplayUltima
         timeDisplayUltima.main()
 
-    def stardateTOS(self):
+    def stardateTOS(self):              #HERE
         import stardateTOS
         stardateTOS.main()
 

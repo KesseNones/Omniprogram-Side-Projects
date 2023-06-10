@@ -1,10 +1,12 @@
 #Jesse A. Jones
-#Version: 2023-06-10.91
+#Version: 2023-06-10.93
 
 import time
 from tkinter import *
-import math
 import datetime
+import metricTime
+import weekCalculator
+import leapDetect
 
 #This class displays multiple time systems at once in a live widget.
 class Date(object):
@@ -58,6 +60,12 @@ class Date(object):
         self.messageMoonPhase = Label(self.frameBottom, text = "", font = FONT)
         self.messageMoonPhase.grid(row = 8, column = 0)
 
+        #Used in fetching metric date, finding day 
+        #   of week from date, and determining if year is leap year.
+        self.metric = metricTime.MetricTime()
+        self.week = weekCalculator.WeekFinder()
+        self.leap = leapDetect.IsLeap()
+
         #Starts recursive date update.
         self.dateUpdate()
 
@@ -68,74 +76,84 @@ class Date(object):
     #Calculates and displays all dates.
     def dateUpdate(self):
         #Finds and displays metric date.
-        date = self.metric_time()
+        date = self.metric.metric_time()
         date = format(date, ".9f")
-        self.messageMetric["text"] = "MD: " + date
+        self.messageMetric["text"] = f"MD: {date}"
         
         #Finds and displays TNG stardate.
-        stardt = self.stardate()
-        stardt = format(stardt, ".5f")
-        self.messageStardateTNG["text"] = "TNG SD: " + stardt
+        tngStar = self.stardate()
+        tngStar = format(tngStar, ".5f")
+        self.messageStardateTNG["text"] = f"TNG SD: {tngStar}"
         
         #Finds and displays TOS stardate.
-        dateStar = self.stardateTOS()
-        dateStar = format(dateStar, ".5f")
-        self.messageStardateTOS["text"] = "TOS SD: " + str(dateStar) + " " + "(" + str(int(self.superStar)) + ")"
+        tosStar = self.stardateTOS()
+        tosStar[0] = format(tosStar[0], ".5f")
+        self.messageStardateTOS["text"] = f"TOS SD: {tosStar[0]} ({int(tosStar[1])})"
         
-        #Finds UTC and local time, displaying them.
-        self.currentTime()
-        self.messageTime["text"] = "UTC " + self.timeNowUTC + " | Local " + self.timeNowLocal
+        #Finds local time.
+        local = datetime.datetime.now()
+        timeNowLocal = local.strftime("%H:%M:%S")
+        
+        #Finds UTC time.
+        UTC = datetime.datetime.utcnow()
+        timeNowUTC = UTC.strftime("%H:%M:%S")
+        
+        #Finds ISO date.
+        dateISO = datetime.datetime.now()
+        currentYear = dateISO.year
+        currentMonth = dateISO.month
+        currentDay = dateISO.day
+        currentHour = dateISO.hour
+        currentMinute = dateISO.minute
+        
+        #Finds day of year.
+        dayOfYear = dateISO.strftime("%j")
 
+        #Finds UTC and local time, displaying them.
+        self.messageTime["text"] = f"UTC: {timeNowUTC} | Local: {timeNowLocal}"
+ 
         #Finds day of week and shortens it to a three letter abreviation.
-        week = self.week_fdn()
+        week = self.week.weekFind(currentYear, currentMonth, currentDay)
         week = week[0] + week[1] + week[2] + "."
 
         #Finds date in seasonal calendar.
-        self.calCalcI()
-        seasonCalDate = self.calCalcII()
-        
+        seasonalStuff = self.calcSeasonal(currentYear, currentMonth, currentDay)
+
         #Finds current date as date string.
-        readMonthISODate = self.textDate()
+        readMonthISODate = self.textDate(currentYear, currentMonth, currentDay)
 
         #Displays current date, day of the week, and seasonal calendar date.
-        self.messageDate["text"] = readMonthISODate + " " + week + " " + seasonCalDate
+        self.messageDate["text"] = f"{readMonthISODate} {week}\n{seasonalStuff[0]}"
+        self.messageDate["fg"] = seasonalStuff[1]
         
         #Finds current week number.
         weekNum = datetime.date.today().isocalendar()[1]
         weekNum = str(weekNum).zfill(2)
         
         #Displays week number and day number of year.
-        self.messageWeeknumber["text"] = "Week: " + weekNum + " | " + "Day: " + self.dayOfYear
+        self.messageWeeknumber["text"] = "Week: " + weekNum + " | " + "Day: " + dayOfYear
         
         #Finds and displays moon phase.
-        self.moonCalc()
+        moonInfo = self.moonCalc()
+        self.messageMoonAge["text"] = f"Moon Age: {moonInfo[0]} Days"
+        self.messageMoonPhase["text"] = moonInfo[1]
         
         self.window.after(1, self.dateUpdate)
 
     #Constructs ISO date string based on current date.
-    def textDate(self):
-        month = self.currentMonth
+    def textDate(self, year, month, day):
         monthStrArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        monthStr = monthStrArr[int(month) - 1]
-        dateString = str(self.currentYear) + "-" + monthStr + "-" + str(self.currentDay).zfill(2)
+        monthStr = monthStrArr[month - 1]
+        dateString = str(year) + "-" + monthStr + "-" + str(day).zfill(2)
         return dateString
-
-    #Calculates current metric time.
-    def metric_time(self):
-        t = time.time()
-        metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
-        rounderI = metric_time * 1000000000
-        rounderII = math.trunc(rounderI)
-        rounderIII = rounderII / 1000000000
-        return rounderIII
 
     #Calculates current stardate.
     def stardate(self):
         t = time.time()
         s = (t / 31557.6) + (740583679.968 / 31557.6)
         RI = s * 100000
-        RII = math.trunc(RI)
+        RII = int(RI)
         RIII = RII / 100000
         return RIII
 
@@ -145,292 +163,105 @@ class Date(object):
         s = (6059232000 / 86400) - (t / 86400)
         s *= 5
         subStar = abs((s % 10000) - 10000)
-        subStar = subStar * (100000)
-        subStar = math.trunc(subStar)
-        subStar = subStar / (100000)
+        subStar = subStar * 100000
+        subStar = int(subStar)
+        subStar = subStar / 100000
         superStar = s // 10000
-        self.superStar = (superStar * -1) - 1
-        return subStar
+        superStar = (superStar * -1) - 1
+        return [subStar, superStar]
 
-    #Fetches current time and saves it into a bunch of class variables.
-    #THIS IS PRETTY GROSS. THIS SHOULD RETURN A LIST OF TIME STUFF, RATHER THAN SETTING A BUTTLOAD OF CLASS VARIABLES
-    def currentTime(self):
-        #Finds local time.
-        self.local = datetime.datetime.now()
-        self.timeNowLocal = self.local.strftime("%H:%M:%S")
-        
-        #Finds UTC time.
-        self.UTC = datetime.datetime.utcnow()
-        self.timeNowUTC = self.UTC.strftime("%H:%M:%S")
-        
-        #Finds ISO date.
-        self.dateISO = datetime.date.today()
-        self.currentYear = self.dateISO.year
-        self.currentMonth = self.dateISO.month
-        self.currentDay = self.dateISO.day
-        
-        #Finds day of year.
-        self.dayOfYear = self.dateISO.strftime("%j")
-
-    #Finds current day of week based on current date.
-    def week_fdn(self):
-        subtract = 0
-        year = int(self.currentYear)
-        month = int(self.currentMonth)
-        day = int(self.currentDay)
-        if (month < 3) and ((year % 4) == 0 or (year % 400) == 0):
-            subtract = -1
-            if year % 100 == 0:
-                subtract = 0
-            if (year % 100 == 0) and (year % 400 == 0):
-                subtract = -1
-        if (month > 2):
-            subtract = 0
-        y = year % 100
-        yII = int(y / 4)
-        yIII = yII + y
-        yC = yIII % 7
-        if (year - y) % 400 == 0:
-            cC = 6
-        if ((year - y) - 100) % 400 == 0:
-            cC = 4
-        if ((year - y) - 200) % 400 == 0:
-            cC = 2
-        if ((year - y) - 300) % 400 == 0:
-            cC = 0
-        net = yC + cC
-        if month == 1:
-            mC = 0
-        if month == 2:
-            mC = 3
-        if month == 3:
-            mC = 3
-        if month == 4:
-            mC = 6
-        if month == 5:
-            mC = 1
-        if month == 6:
-            mC = 4
-        if month == 7:
-            mC = 6
-        if month == 8:
-            mC = 2
-        if month == 9:
-            mC = 5
-        if month == 10:
-            mC = 0
-        if month == 11:
-            mC = 3
-        if month == 12:
-            mC = 5
-        net = net + mC
-        net = net + int(day)
-        net = net + subtract
-        net = net % 7
-        if net == 0:
-            wk = "Sunday"
-        if net == 1:
-            wk = "Monday"
-        if net == 2:
-            wk = "Tuesday"
-        if net == 3:
-            wk = "Wednesday"
-        if net == 4:
-            wk = "Thursday"
-        if net == 5:
-            wk = "Friday"
-        if net == 6:
-            wk = "Saturday"
-        return wk
-
-    #Calculates current moon age and phase.
+    #Calculates moon phase based on metric date and displays results.
     def moonCalc(self):
-        #🌑🌒🌓🌔🌕🌖🌗🌘
-        moonPhase = ""
-        metricDate = self.metric_time()
+        #Finds current metric date and finds difference from base metric date.
+        metricDateCalc = self.metric.metric_time()
         moonBase = 4390.562679166
-        metricDiff = metricDate - moonBase
+        metricDiff = metricDateCalc - moonBase
+        
+        #Metric delta used to find moon age.
         moonAge = (metricDiff * 1000) % 29.530588
+        #Accounts for negative moon age edge case.
         if moonAge < 0:
             moonAge += 29.530588
-        moonAgePrint = round(moonAge, 6)
-        moonAgePrint = format(moonAgePrint, ".6f")
-        self.messageMoonAge["text"] = "Moon Age: " + moonAgePrint
+        
+        #Formats moon age decimal.
+        moonAgeDisp = round(moonAge, 6)
+        moonAgeDisp = format(moonAgeDisp, ".6f")
+        
+        #Determines which moon phase the moon is currently in.
         if 0.0 <= moonAge < 3.6913235:
             moonPhase = "New Moon 🌑"
-        if 3.6913235 <= moonAge < 7.382647:
+        elif 3.6913235 <= moonAge < 7.382647:
             moonPhase = "Waxing Crescent 🌒"
-        if 7.382647 <= moonAge < 11.0739705:
+        elif 7.382647 <= moonAge < 11.0739705:
             moonPhase = "First Quarter 🌓"
-        if 11.0739705 <= moonAge < 14.765294:
+        elif 11.0739705 <= moonAge < 14.765294:
             moonPhase = "Waxing Gibbous 🌔"
-        if 14.765294 <= moonAge < 18.4566175:
+        elif 14.765294 <= moonAge < 18.4566175:
             moonPhase = "Full Moon 🌕"
-        if 18.4566175 <= moonAge < 22.147941:
+        elif 18.4566175 <= moonAge < 22.147941:
             moonPhase = "Waning Gibbous 🌖"
-        if 22.147941 <= moonAge < 25.8392645:
+        elif 22.147941 <= moonAge < 25.8392645:
             moonPhase = "Third Quarter 🌗"
-        if 25.8392645 <= moonAge < 29.530588:
+        elif 25.8392645 <= moonAge < 29.530588:
             moonPhase = "Waning Crescent 🌘"
-        self.messageMoonPhase["text"] = "Phase: " +  moonPhase
+        else:
+            moonPhase = "WTF???"
 
-    #GROSS OUTDATED CODE USED TO FIND THE SEASONAL DATE.
-    def calCalcI(self):
-        yearB = 2001
-        monthB = 3
-        dayB = 19
-        yearC = int(self.currentYear)
-        monthC = int(self.currentMonth)
-        dayC = int(self.currentDay) - 1
-        if yearB % 4 != 0 or yearB % 100 == 0:
-            leap_year = False
-        if yearB % 4 == 0 or yearB % 400 == 0:
-            leap_year = True
-        if yearC % 4 != 0 or yearC % 100 == 0:
-            leap_year = False
-        if yearC % 4 == 0 or yearC % 400 == 0:
-            leap_year = True
-        if leap_year == False:
-            div = 365
-        if leap_year == True:
-            div = 366
-        if monthB == 1:
-            D_Code_B = 0
-        if monthB == 2:
-            D_Code_B = 31
-        if monthB == 3:
-            D_Code_B = 59
-            if leap_year == True:
-                D_Code_B = 60
-        if monthB == 4:
-            D_Code_B = 90
-            if leap_year == True:
-                D_Code_B = 91
-        if monthB == 5:
-            D_Code_B = 120
-            if leap_year == True:
-                D_Code_B = 121
-        if monthB == 6:
-            D_Code_B = 151
-            if leap_year == True:
-                D_Code_B = 152
-        if monthB == 7:
-            D_Code_B = 181
-            if leap_year == True:
-                D_Code_B = 182
-        if monthB == 8:
-            D_Code_B = 212
-            if leap_year == True:
-                D_Code_B = 213
-        if monthB == 9:
-            D_Code_B = 243
-            if leap_year == True:
-                D_Code_B = 244
-        if monthB == 10:
-            D_Code_B = 273
-            if leap_year == True:
-                D_Code_B = 274
-        if monthB == 11:
-            D_Code_B = 304
-            if leap_year == True:
-                D_Code_B = 305
-        if monthB == 12:
-            D_Code_B = 334
-            if leap_year == True:
-                D_Code_B = 335
-        if monthC == 1:
-            D_Code_C = 0
-        if monthC == 2:
-            D_Code_C = 31
-        if monthC == 3:
-            D_Code_C = 59
-            if leap_year == True:
-                D_Code_C = 60
-        if monthC == 4:
-            D_Code_C = 90
-            if leap_year == True:
-                D_Code_C = 91
-        if monthC == 5:
-            D_Code_C = 120
-            if leap_year == True:
-                D_Code_C = 121
-        if monthC == 6:
-            D_Code_C = 151
-            if leap_year == True:
-                D_Code_C = 152
-        if monthC == 7:
-            D_Code_C = 181
-            if leap_year == True:
-                D_Code_C = 182
-        if monthC == 8:
-            D_Code_C = 212
-            if leap_year == True:
-                D_Code_C = 213
-        if monthC == 9:
-            D_Code_C = 243
-            if leap_year == True:
-                D_Code_C = 244
-        if monthC == 10:
-            D_Code_C = 273
-            if leap_year == True:
-                D_Code_C = 274
-        if monthC == 11:
-            D_Code_C = 304
-            if leap_year == True:
-                D_Code_C = 305
-        if monthC == 12:
-            D_Code_C = 334
-            if leap_year == True:
-                D_Code_C = 335
-        D_Code_BII = D_Code_B + dayB
-        D_Code_CII = D_Code_C + dayC
-        Age_int = yearC - yearB
-        age_alt = yearC - yearB
-        if D_Code_CII > D_Code_BII:
-                Age_day = D_Code_CII - D_Code_BII
-        if D_Code_CII < D_Code_BII:
-                Age_day = (D_Code_CII - D_Code_BII) + div
-                age_alt -= 1
-        if D_Code_CII == D_Code_BII:
-                Age_day = 0
-        Age_dec = (D_Code_CII - D_Code_BII) / div
-        AGE = Age_int + Age_dec
-        AGE = AGE * 1000
-        AGE = round(AGE)
-        AGE = AGE / 1000
-        self.AGE = AGE
-        self.ageAlt = age_alt 
-        self.ageDay = Age_day
-        self.isLeapYear = leap_year
-        return
+        return [moonAgeDisp, moonPhase]
 
-    #XTREME YUCKY
-    def calCalcII(self):
+    #Given input year, month, and day, calculates seasonal calendar.
+    def calcSeasonal(self, year, month, day):
+        #Finds days elapsed in gregorian year and seasonal year.
+        dayCount = self.metric.findDayNumOfYear(year, month, day) - 1
+        seasonalDayCount = dayCount - 78
+
+        #Accounts for if seasonal day count is negative.
+        seasonalYear = year - (seasonalDayCount < 0)
+        seasonalDayCount %= (365 + (self.leap.isLeapYear(year - 1)))
+
+        #Finds seasonal date from seasonal day count.
+        resArr = self.findSeasonAndDay(seasonalDayCount)
+        sYear = year - 2000
+        season = resArr[0]
+        sDay = resArr[1]
+        fgColor = resArr[2]
+
+        #Date string and foreground color returned.
+        return [f"{str(sDay).zfill(2)} {season} {sYear}", fgColor]
+
+    #Calculates the seasonal date based on input year and day number.
+    def findSeasonAndDay(self, dayNum):
+        #Indicates how long each season is for the northern hemisphere.
         # Spring 93 days, Summer 93 days, Fall 90 days, Winter 89 days cm, 90 lpy
-        leapYearBoost = 0
-        season = "null"
-        seasonDay = 0
-        year = self.ageAlt + 1
-        if self.isLeapYear:
-            leapYearBoost = 1
-        if 0 <= self.ageDay < 93:
-            seasonDay = self.ageDay + 1
-            season = "🌸"
-            self.messageDate["fg"] = "#38e838"
-        if 93 <= self.ageDay < 186:
-            seasonDay = (self.ageDay - 93) + 1
-            season = "🔥"
-            self.messageDate["fg"] = "yellow"
-        if 186 <= self.ageDay < 276:
-            seasonDay = (self.ageDay - 186) + 1
-            season = "🍂"
-            self.messageDate["fg"] = "orange"
-        if 276 <= self.ageDay < 365 + leapYearBoost:
-            seasonDay = (self.ageDay - 276) + 1
-            season = "❄"
-            self.messageDate["fg"] = "#1b6eff"
-        dateString = str(seasonDay) + season + str(year)
-        return dateString 
+
+        fgColor = None
+        seasonDay = None
+
+        #Spring season case.
+        if 0 <= dayNum < 93:
+            seasonDay = dayNum + 1
+            season = "Sp. 🌸"
+            fgColor = "#38e838"
+
+        #Summer season case.
+        elif 93 <= dayNum < 186:
+            seasonDay = (dayNum - 93) + 1
+            season = "Su. 🔥"
+            fgColor = "yellow"
+        
+        #Autumn season case.
+        elif 186 <= dayNum < 276:
+            seasonDay = (dayNum - 186) + 1
+            season = "Fa. 🍂"
+            fgColor = "orange"
+        
+        #Winter season case.
+        else:
+            seasonDay = (dayNum - 276) + 1
+            season = "Wi. ❄"
+            fgColor = "#1b6eff"
+
+        return [season, seasonDay, fgColor]
 
 def main():
     root = Tk()
