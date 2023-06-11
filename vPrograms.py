@@ -1,6 +1,6 @@
 from tkinter import *
-#import winsound
 
+#Runs programs that start with the letter V.
 class V(object):
     def __init__(self, window = None):
         self.window = window
@@ -29,14 +29,10 @@ class V(object):
             font = "Ariel 30", command = self.visClockCalc)
         self.visualCalcButton.grid(row = 0, column = 2)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
     def quitButtonAction(self):
         self.window.destroy()
 
-    def viking(self):
+    def viking(self):                           #HERE
         import vikingCalendarCalc
         vikingCalendarCalc.main()
 
