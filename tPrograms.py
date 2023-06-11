@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-10.97
+#Version: 2023-06-11.17
 
 from tkinter import *
 
@@ -56,11 +56,11 @@ class T(object):
         import timeDisplayUltima
         timeDisplayUltima.main()
 
-    def stardateTOS(self):              #HERE
+    def stardateTOS(self):              #DONE
         import stardateTOS
         stardateTOS.main()
 
-    def stardateTOSCalc(self):
+    def stardateTOSCalc(self):          #HERE
         import stardateTOSCalc
         stardateTOSCalc.main()
 
