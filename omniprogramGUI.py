@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-09.16
+#Version: 2023-06-11.22
 
 #All alphabet category programs imported as well as tkinter.
 from tkinter import *
@@ -134,10 +134,10 @@ class Omni(object):
     def sFunc(self): #DONE
         sPrograms.main()
 
-    def tFunc(self): #HERE
+    def tFunc(self): #DONE
         tPrograms.main()
 
-    def vFunc(self):
+    def vFunc(self): #HERE
         vPrograms.main()
 
     def wFunc(self):

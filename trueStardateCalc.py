@@ -68,7 +68,11 @@ class SDateCalc(object):
             font = FONT)
         self.tOutput.grid(row = 6, column = 1)
 
+        #Used in parsing if year is leap year, 
+        #   finding day number, and parsing input dates.
         self.leap = leapDetect.IsLeap()
+        self.metric = metricTime.MetricTime()
+        self.dateHandle = dateHandling.GetDate()
 
     #Quits program when called.
     def quitButtonAction(self):
@@ -76,27 +80,24 @@ class SDateCalc(object):
 
     #Calculates true TNG stardate and displays result.
     def displaySDate(self):
-        stardate = self.calcStardate()
-        self.tOutput["text"] = stardate
+        #Input date and time fetched.
+        year = self.dateHandle.getYear(self.year.get())
+        month = self.dateHandle.getMonth(self.month.get())
+        day = self.dateHandle.getDay(self.day.get())
+        hour = self.dateHandle.getHour(self.hour.get())
+        minute = self.dateHandle.getMinOrSec(self.minute.get())
+
+        #Calculates stardate based on input and displays it.
+        self.tOutput["text"] = self.calcStardate(year, month, day, hour, minute)
 
     #Calculates true TNG stardate and returns it.
-    def calcStardate(self):
-        dateHandle = dateHandling.GetDate()
-
-        #Input date and time fetched.
-        year = dateHandle.getYear(self.year.get())
-        month = dateHandle.getMonth(self.month.get())
-        day = dateHandle.getDay(self.day.get())
-        hour = dateHandle.getHour(self.hour.get())
-        minute = dateHandle.getMinOrSec(self.minute.get())
-        second = 0 
-
+    def calcStardate(self, year, month, day, hour, minute):
         #Calendar information determined.
         isLeap = self.leap.isLeapYear(year)
-        dayNum = metricTime.MetricTime().findDayNumOfYear(year, month, day)
+        dayNum = self.metric.findDayNumOfYear(year, month, day)
         
         #Calculates total days elapsed.
-        dayDec = self.findDayDec(hour, minute, second)
+        dayDec = self.findDayDec(hour, minute, 0)
         dayNumDec = (dayNum - 1) + dayDec
 
         #Calculates fractional chunk of year.
