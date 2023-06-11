@@ -1,180 +1,96 @@
+#Jesse A. Jones
+#Version: 2023-06-11.22
+
 from tkinter import *
 import math
 import time
 import datetime
 from tkinter import messagebox
 
+#Takes in an input date and calculates the viking calendar date.                                                            THIS PROGRAM IS VERY WORK IN PROGRESS AND STILL PRETTY MESSY AND YUCKY AND MAKES ME CRINGE
 class VikingCalendarCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button, english names button, and viking names button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.grid(row = 0, column = 0)
 
+        #Converts output calendar to english names.
         self.engButton = Button(self.frameTop, text = "To English Names", font = "Ariel 20", command = self.toEng)
         self.engButton.grid(row = 0, column = 1)
 
+        #Converts output calendar to viking names.
         self.vikButton = Button(self.frameTop, text = "To Viking Names", font = "Ariel 20", command = self.toViking)
         self.vikButton.grid(row = 0, column = 2)
 
+        #Holds time input fields.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = "Ariel 55")
-        self.messageI.grid(row = 0, column = 0)
+        FONT = "Ariel 20"
 
-        self.yearE = Entry(self.frameBottom, font = "Times 45")
+        #Year input field.
+        self.messageI = Label(self.frameBottom, text = "Enter Year:", font = FONT)
+        self.messageI.grid(row = 0, column = 0)
+        self.yearE = Entry(self.frameBottom, font = FONT)
         self.yearE.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = "Ariel 55")
+        #Month input field.
+        self.messageII = Label(self.frameBottom, text = "Enter Month:", font = FONT)
         self.messageII.grid(row = 2, column = 0)
-
-        self.monthE = Entry(self.frameBottom, font = "Times 45")
+        self.monthE = Entry(self.frameBottom, font = FONT)
         self.monthE.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = "Ariel 55")
+        #Day input field.
+        self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = FONT)
         self.messageIII.grid(row = 3, column = 0)
-
-        self.dayE = Entry(self.frameBottom, font = "Times 45")
+        self.dayE = Entry(self.frameBottom, font = FONT)
         self.dayE.grid(row = 3, column = 1)
     
+        #Converts to viking calendar when pressed.
         self.convButton = Button(self.frameBottom, text = "Convert to Viking Calendar", 
-            font = "Ariel 50", command = self.VCalCalc)
+            font = FONT, command = self.VCalCalc)
         self.convButton.grid(row = 4, column = 0)
 
         self.isStupid = True
 
         self.isViking = True
 
+        #Outputs viking calendar string.
         self.cOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 45", justify = LEFT)
+            font = FONT, justify = LEFT)
         self.cOutput.grid(row = 5, column = 0)
 
-        # self.cOutputII = Label(self.frameBottom, text = "", 
-        #     font = "Ariel 45", justify = LEFT)
-        # self.cOutputII.grid(row = 6, column = 0)
-        
-        # self.cOutputIII = Label(self.frameBottom, text = "", 
-        #     font = "Ariel 45", justify = LEFT)
-        # self.cOutputIII.grid(row = 7, column = 0)
-        
-        # self.cOutputIV = Label(self.frameBottom, text = "", 
-        #     font = "Ariel 45", justify = LEFT)
-        # self.cOutputIV.grid(row = 8, column = 0)
-
-        # self.cOutputV = Label(self.frameBottom, text = "", 
-        #     font = "Ariel 45", justify = LEFT)
-        # self.cOutputV.grid(row = 9, column = 0)
-
-        # self.cOutputVI = Label(self.frameBottom, text = "", 
-        #     font = "Ariel 45", justify = LEFT)
-        # self.cOutputVI.grid(row = 10, column = 0)
-
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
     
+    #Epik maths
     #29   +   30   +   29   +   30   +   29   +   30   +   29   +   30   +   29   +   30   +   29   +   30 = 354 13th month should be 30 days
     #The years 3, 6, 8, 11, 14, 17, and 19 are the long (13-month) years of the Metonic cycle.
 
+    #Recalculates date with english names.
     def toEng(self):
         self.isViking = False
         self.VCalCalc()
 
+    #Recalculates date with viking names.
     def toViking(self):
         self.isViking = True
         self.VCalCalc()
 
+    #Calculates viking calendar and displays result.
     def VCalCalc(self):
         date = self.cal_calc()
         self.cOutput["text"] = date
 
-    # def cal_calc(self):
-    #     metricDate = self.metric_calc()
-    #     baseMetric = self.print_metric_meme(793, 4, 14, 0, 0)
-    #     elapsedMetric = int(metricDate * 1000) - int(baseMetric * 1000)
-    #     metonicDayCount = 6939
-    #     yearsElapsedFromBase = (elapsedMetric // metonicDayCount) * 19
-    #     otherYearsElapsedFromBase = 0
-    #     currentMetatonicDayNumber = elapsedMetric % metonicDayCount
-    #     # if yearsElapsedFromBase < 0:
-    #     #     yearsElapsedFromBase += 19
-    #     while currentMetatonicDayNumber >= 384:
-    #         if self.isMetatonicLeapYear(otherYearsElapsedFromBase):
-    #             currentMetatonicDayNumber -= 384
-    #         else:
-    #             currentMetatonicDayNumber -= 354
-    #         otherYearsElapsedFromBase += 1
-    #     self.vikingYear = yearsElapsedFromBase + otherYearsElapsedFromBase
-    #     currentDayOfYear = currentMetatonicDayNumber
-    #     isLeap = self.isMetatonicLeapYear(otherYearsElapsedFromBase)
-    #     dateString = self.dateDeterminer(currentDayOfYear, isLeap)
-    #     fullDateString = dateString + ", " + str(self.vikingYear) + " Viking Age"
-    #     return fullDateString
-
-    # def dateDeterminer(self, dayNum, leap):
-    #     if 0 <= dayNum < 29:
-    #         month = "HARPA"
-    #         day = dayNum
-    #     if 29 <= dayNum < 59:
-    #         month = "SKERPLA"
-    #         day = dayNum - 29
-    #     if 59 <= dayNum < 88:
-    #         month = "SÓLMÁNUÐUR"
-    #         day = dayNum - 59
-    #     if 88 <= dayNum < 118:
-    #         month = "Heyannir"
-    #         day = dayNum - 88
-    #     if 118 <= dayNum < 147:
-    #         month = "TVÍMÁNUÐUR"
-    #         day = dayNum - 118
-    #     if 147 <= dayNum < 177:
-    #         month = "HAUSTMÁNUÐUR"
-    #         day = dayNum - 147
-    #     if 177 <= dayNum < 206:
-    #         month = "GORMÁNUÐUR"
-    #         day = dayNum - 177
-    #     if 206 <= dayNum < 236:
-    #         month = "ÝLIR"
-    #         day = dayNum - 206
-    #     if 236 <= dayNum < 265:
-    #         month = "MÖRSUGUR"
-    #         day = dayNum - 236
-    #     if 265 <= dayNum < 295:
-    #         month = "ÞORRI"
-    #         day = dayNum - 265
-    #     if 295 <= dayNum < 324:
-    #         month = "GÓI"
-    #         day = dayNum - 295
-    #     if 324 <= dayNum < 354:
-    #         month = "EINMÁNUÐUR"
-    #         day = dayNum - 324
-    #     if dayNum >= 354 and leap == False:
-    #         self.vikingYear += 1
-    #         day = dayNum - 354
-    #         month = "HARPA"
-    #     if (384 > dayNum >= 354) and leap:
-    #         month = "Silðimánuður"
-    #         day = dayNum - 354
-    #     monthChar = month[0]
-    #     otherMonthChars = month[1:]
-    #     otherMonthChars = otherMonthChars.lower()
-    #     monthII = monthChar + otherMonthChars
-    #     if 355 > dayNum >= 178:
-    #         season = "Vetur"
-    #     else:
-    #         season = "Sumar"
-    #     dateString = str(day + 1) + " " + monthII + " " + season
-    #     return dateString
-
-    # def isMetatonicLeapYear(self, year):
-    #     if year == 2 or year == 5 or year == 7 or year == 10 or year == 13 or year == 16 or year == 18:
-    #         return True
-    #     else:
-    #         return False
+    #Fetches input year and returns it.
     def yearGet(self):
         if self.yearE.get() == "":
             messagebox.showerror("Empty Entry Error", "Put a year in!")
@@ -182,6 +98,7 @@ class VikingCalendarCalc(object):
         else:
             return int(self.yearE.get())
 
+    #Fetches input month.
     def monthGet(self):
         if self.monthE.get() == "":
             messagebox.showerror("Empty Entry Error", "Put a month in!")
@@ -192,6 +109,7 @@ class VikingCalendarCalc(object):
         else:
             return int(self.monthE.get())
 
+    #Fetches input day.
     def dayGet(self):
         if self.dayE.get() == "":
             messagebox.showerror("Empty Entry Error", "Put a day in!")
@@ -202,38 +120,38 @@ class VikingCalendarCalc(object):
         else:
             return int(self.dayE.get())
 
+    #Calculates viking calendar.
     def cal_calc(self):
+        #Input date fetched.
         year = self.yearGet()
         month = self.monthGet()
         day = self.dayGet()
+        
+        #Calculates metric time delta measured in days.
         baseDayNum = 3942165
         currentDayNum = self.metric_calc()
         currentDayNum = math.trunc(currentDayNum * 1000)
         dayDelta = currentDayNum - baseDayNum
-        #27759 in four cycle
+        
+        #27759 in four cycle (useful????)
         monthsElapsed = 0
         baseCycleCount = 0
-        # cyclesElapsedTotal = (dayDelta // 27759) * 4 + baseCycleCount
-        # remainingCycleDays = dayDelta % 27759
-        # while remainingCycleDays > 6939:
-        #     shortCycle = self.isShortCycle(cyclesElapsedTotal)
-        #     if shortCycle:
-        #         sub = 6939
-        #     else:
-        #         sub = 6940
-        #     remainingCycleDays -= sub
-        #     cyclesElapsedTotal += 1
-        # isShort = self.isShortCycle(cyclesElapsedTotal)
-        # print(isShort)
-        # dayNumArr = [6940, 6939]
-        # dayNumOfCycle = (dayDelta % dayNumArr[isShort])
-        #daySub = 0#isShort
+        
+        #Finds total cycles elapsed, current day in cycle and current day 
+        #   in 28 month cycle. Useful in doing the calendar stuff.
         cyclesElapsedTotal = (dayDelta // 6940) + baseCycleCount
         dayNumOfCycle = (dayDelta % 6940)
         currentDayOf28MonthCycle = dayNumOfCycle % 827 + 1
         monthsElapsed = (dayNumOfCycle // 827) * 28
+
+        #"God, forgive me." -Tommy Wiseau
+        #Gross yucky thing that determines the current day 
+        #   in this gigantic cycle of years because yucky gross calendar math.
         if dayNumOfCycle < 6616:
             monthArr = [29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 30, 30]
+            
+            #This gigantic block determines how many months 
+            #   have elapsed and the current day in the cycle.
             if 1 <= currentDayOf28MonthCycle < self.cyDaySum(monthArr, 1) + 1:
                 currentDay = currentDayOf28MonthCycle - self.cyDaySum(monthArr, 0)
                 monthsElapsed += 0
@@ -319,6 +237,7 @@ class VikingCalendarCalc(object):
                 currentDay = currentDayOf28MonthCycle - self.cyDaySum(monthArr, 27)
                 monthsElapsed += 27
         else:
+            #Smaller case for at the end of the cycle I think.
             monthArrII = [29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29]
             dayOfExceptionCycle = (dayNumOfCycle - 6616) + 1
             if self.cyDaySum(monthArrII, 0) + 1 <= dayOfExceptionCycle < self.cyDaySum(monthArrII, 1) + 1:
@@ -354,14 +273,19 @@ class VikingCalendarCalc(object):
             else:
                 currentDay = dayOfExceptionCycle - self.cyDaySum(monthArrII, 10)
                 monthsElapsed += 10
+
+        #Builds the date string and returns it.
         currentMonth = monthsElapsed + 1
         dateString = str(cyclesElapsedTotal) + "-" + str(currentMonth) + "-" + str(currentDay)
         trueDateString = self.toLuniSolar(cyclesElapsedTotal, currentMonth, currentDay)
         return trueDateString
     
+    #Finds precise date of viking calendar after cycles have been calculated.
     def toLuniSolar(self, cycles, month, day):
         year = cycles * 19
         monthCountArr = [12, 12, 13, 12, 12, 13, 12, 13, 12, 12, 13, 12, 12, 13, 12, 12, 13, 12, 13]
+        
+        #Determines how many years have elapsed in current metonic cycle.
         if self.cyDaySum(monthCountArr, 0) + 1 <= month < self.cyDaySum(monthCountArr, 1) + 1:
             currentMonth = month - self.cyDaySum(monthCountArr, 0)
             year += 0
@@ -419,12 +343,15 @@ class VikingCalendarCalc(object):
         else:
             currentMonth = month - self.cyDaySum(monthCountArr, 18)
             year += 18
+
+        #Finds names and builds date string based on input.
         nameOfMonth = self.monthName(currentMonth)
         week = self.week_fdn()
         season = self.seasonFinder(currentMonth)
         date = week + ", " + str(day) + " " + nameOfMonth + " (" + str(season) + "), " + str(year + 1)
         return date
     
+    #Determines viking season.
     def seasonFinder(self, month):
         if 1 <= month < 7:
             if self.isViking:
@@ -438,6 +365,7 @@ class VikingCalendarCalc(object):
                 season = "Winter"
         return season
 
+    #Finds day of week beased on inputs and gives viking name or english name.
     def week_fdn(self):
         subtract = 0
         year = int(self.yearE.get())
@@ -526,6 +454,7 @@ class VikingCalendarCalc(object):
                 wk = "Bath Day"
         return wk
 
+    #Used to find the month name.
     def monthName(self, monthNum):
         if monthNum == 1:
             if self.isViking:
@@ -598,13 +527,14 @@ class VikingCalendarCalc(object):
             name = nameFirst + nameOther
         return name
         
-
+    #Determines if the year is a 13 month long year.
     def isMetonicLeapYear(self, year):
         if year == 2 or year == 5 or year == 7 or year == 10 or year == 13 or year == 16 or year == 18:
             return True
         else:
             return False
 
+    #Adds up cycle days based on index into month list.
     def cyDaySum(self, monthArr, index):
         if index == 0:
             return 0
@@ -616,6 +546,7 @@ class VikingCalendarCalc(object):
                 i += 1
             return subTotal
 
+    #Caclulates metric date.
     def metricCalcII(self, year, dayNum, hour, minute):
         year += 10000
         fourCenturyCount = year // 400
@@ -639,6 +570,7 @@ class VikingCalendarCalc(object):
         finalMetric = totalDays + dayDec
         return finalMetric 
 
+    #Calculates metric date on the outermost level.
     def metric_calc(self):
         if self.isStupid:
             lower = 1969
@@ -663,6 +595,7 @@ class VikingCalendarCalc(object):
             rounderIII = self.metricCalcII(year, dayCount, hour, minute)
         return rounderIII
 
+    #Finds day number of input year.
     def findDayNumOfYear(self, year, month, day):
         leap_year = self.isLeapYear(year)
         if month == 1:
@@ -712,6 +645,7 @@ class VikingCalendarCalc(object):
         D_Code_MKII = D_Code_MKI + day
         return D_Code_MKII
 
+    #Determines if input year is a leap year.
     def isLeapYear(self, year):
         if year % 4 == 0:
             leap = True
