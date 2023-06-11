@@ -1,8 +1,7 @@
 #Jesse A. Jones
-#Version: 2023-06-11.17
+#Version: 2023-06-11.19
 
 from tkinter import *
-import math
 import time
 import datetime
 import dateHandling
@@ -68,32 +67,36 @@ class StardateCalcTOS(object):
         self.sOutput = Label(self.frameBottom, text = "", 
             font = FONT)
         self.sOutput.grid(row = 6, column = 1)
+        
+        #Used in calculating metric date and date parsing.
+        self.metric = metricTime.MetricTime()
+        self.date = dateHandling.GetDate()
 
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
-    #Given input date and time, uses metric date library to create a simulated unix time stamp.
+    #Given input date and time, uses metric date library 
+    #   to create a simulated unix time stamp.
     def unixTimeCompensator(self, year, month, day, hour, minute):
-        metric = metricTime.MetricTime()
-        metricDate = metric.metric_calc(year, month, day, hour, minute)
+        metricDate = self.metric.metric_calc(year, month, day, hour, minute)
         unixSim = ((metricDate - 4371.952) * 100000000) * 0.864 #Converts to simulated UNIX time.
         return unixSim
 
     #Calculates TOS stardate and displays result.
     def calcStar(self):
-        stardate = self.stardateTOSCalc()
-        self.sOutput["text"] = stardate
+        #Input date and time fetched.
+        year = self.date.getYear(self.year.get())
+        month = self.date.getMonth(self.month.get())
+        day = self.date.getDay(self.day.get())
+        hour = self.date.getHour(self.hour.get())
+        minute = self.date.getMinOrSec(self.minute.get())
+        
+        #Displays calculated stardate string.
+        self.sOutput["text"] = self.stardateTOSCalc(year, month, day, hour, minute)
 
     #Calculates TOS stardate and returns it.
-    def stardateTOSCalc(self):
-        #Input date and time fetched.
-        date = dateHandling.GetDate()
-        year = date.getYear(self.year.get())
-        month = date.getMonth(self.month.get())
-        day = date.getDay(self.day.get())
-        hour = date.getHour(self.hour.get())
-        minute = date.getMinOrSec(self.minute.get())
+    def stardateTOSCalc(self, year, month, day, hour, minute):
         
         #If year is within range, library is used 
         #   to calculate unix time, otherwise simulator is used.
@@ -108,9 +111,9 @@ class StardateCalcTOS(object):
         s *= 5
         
         #Calculates current stardate, truncating to precision setting of 5.
-        subStar = abs((s % 10000) - 10000)
+        subStar = round(abs((s % 10000) - 10000), 6)
         subStar = subStar * (10 ** 5)
-        subStar = math.trunc(subStar)
+        subStar = int(subStar)
         subStar = subStar / (10 ** 5)
 
         #Calculates number of issues elapsed.
@@ -118,8 +121,7 @@ class StardateCalcTOS(object):
         superStar = (superStar * -1) - 1
 
         #Builds stardate string and returns it.
-        starString = str(subStar) + " " + "(" + str(int(superStar)) + ")"
-        return starString
+        return f"{subStar} ({int(superStar)})"
 
 def main():
     root = Tk()

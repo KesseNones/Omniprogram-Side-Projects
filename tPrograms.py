@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-11.17
+#Version: 2023-06-11.19
 
 from tkinter import *
 
@@ -60,11 +60,11 @@ class T(object):
         import stardateTOS
         stardateTOS.main()
 
-    def stardateTOSCalc(self):          #HERE
+    def stardateTOSCalc(self):          #DONE
         import stardateTOSCalc
         stardateTOSCalc.main()
 
-    def TNGLiveSDate(self):
+    def TNGLiveSDate(self):             #HERE
         import trueStardate
         trueStardate.main()
 
