@@ -1,13 +1,17 @@
 #Jesse A. Jones
-#Version: 2023-06-11.22
+#Version: 2023-06-11.24
 
 from tkinter import *
-import math
 import time
 import datetime
-from tkinter import messagebox
+import metricTime 
+import leapDetect
+import dateHandling
+import weekCalculator
 
-#Takes in an input date and calculates the viking calendar date.                                                            THIS PROGRAM IS VERY WORK IN PROGRESS AND STILL PRETTY MESSY AND YUCKY AND MAKES ME CRINGE
+#Takes in an input date and calculates the viking calendar date.
+#   The translations and names are likely quite inaccurate 
+#   because they're based on some quick googling.
 class VikingCalendarCalc(object):
     def __init__(self, window = None):
         self.window = window
@@ -38,34 +42,37 @@ class VikingCalendarCalc(object):
         #Year input field.
         self.messageI = Label(self.frameBottom, text = "Enter Year:", font = FONT)
         self.messageI.grid(row = 0, column = 0)
-        self.yearE = Entry(self.frameBottom, font = FONT)
-        self.yearE.grid(row = 0, column = 1)
+        self.year = Entry(self.frameBottom, font = FONT)
+        self.year.grid(row = 0, column = 1)
 
         #Month input field.
         self.messageII = Label(self.frameBottom, text = "Enter Month:", font = FONT)
         self.messageII.grid(row = 2, column = 0)
-        self.monthE = Entry(self.frameBottom, font = FONT)
-        self.monthE.grid(row = 2, column = 1)
+        self.month = Entry(self.frameBottom, font = FONT)
+        self.month.grid(row = 2, column = 1)
 
         #Day input field.
         self.messageIII = Label(self.frameBottom, text = "Enter Day:", font = FONT)
         self.messageIII.grid(row = 3, column = 0)
-        self.dayE = Entry(self.frameBottom, font = FONT)
-        self.dayE.grid(row = 3, column = 1)
+        self.day = Entry(self.frameBottom, font = FONT)
+        self.day.grid(row = 3, column = 1)
     
         #Converts to viking calendar when pressed.
         self.convButton = Button(self.frameBottom, text = "Convert to Viking Calendar", 
             font = FONT, command = self.VCalCalc)
         self.convButton.grid(row = 4, column = 0)
 
-        self.isStupid = True
-
         self.isViking = True
 
         #Outputs viking calendar string.
         self.cOutput = Label(self.frameBottom, text = "", 
             font = FONT, justify = LEFT)
-        self.cOutput.grid(row = 5, column = 0)
+        self.cOutput.grid(row = 4, column = 1)
+
+        #Used to parse input date, find day number of year, and find day of week.
+        self.parse = dateHandling.GetDate()
+        self.metric = metricTime.MetricTime()
+        self.week = weekCalculator.WeekFinder()
 
     #Quits program when called.
     def quitButtonAction(self):
@@ -87,52 +94,21 @@ class VikingCalendarCalc(object):
 
     #Calculates viking calendar and displays result.
     def VCalCalc(self):
-        date = self.cal_calc()
-        self.cOutput["text"] = date
+        #Gets input date.
+        year = self.parse.getYear(self.year.get())
+        month = self.parse.getMonth(self.month.get())
+        day = self.parse.getDay(self.day.get())
 
-    #Fetches input year and returns it.
-    def yearGet(self):
-        if self.yearE.get() == "":
-            messagebox.showerror("Empty Entry Error", "Put a year in!")
-            return
-        else:
-            return int(self.yearE.get())
-
-    #Fetches input month.
-    def monthGet(self):
-        if self.monthE.get() == "":
-            messagebox.showerror("Empty Entry Error", "Put a month in!")
-            return
-        if 1 > int(self.monthE.get()) > 12:
-            messagebox.showerror("Out of Range Error", "Month must be in range 1-12!")
-            return
-        else:
-            return int(self.monthE.get())
-
-    #Fetches input day.
-    def dayGet(self):
-        if self.dayE.get() == "":
-            messagebox.showerror("Empty Entry Error", "Put a day in!")
-            return
-        if 1 > int(self.dayE.get()) > 12:
-            messagebox.showerror("Out of Range Error", "Day must be in range 1-31!")
-            return
-        else:
-            return int(self.dayE.get())
+        self.cOutput["text"] = self.vikingCalCalc(year, month, day)
 
     #Calculates viking calendar.
-    def cal_calc(self):
-        #Input date fetched.
-        year = self.yearGet()
-        month = self.monthGet()
-        day = self.dayGet()
-        
+    def vikingCalCalc(self, year, month, day):
         #Calculates metric time delta measured in days.
         baseDayNum = 3942165
-        currentDayNum = self.metric_calc()
-        currentDayNum = math.trunc(currentDayNum * 1000)
+        currentDayNum = self.metric.metric_calc(year, month, day, 0, 0)
+        currentDayNum = int(currentDayNum * 1000)
         dayDelta = currentDayNum - baseDayNum
-        
+
         #27759 in four cycle (useful????)
         monthsElapsed = 0
         baseCycleCount = 0
@@ -346,193 +322,54 @@ class VikingCalendarCalc(object):
 
         #Finds names and builds date string based on input.
         nameOfMonth = self.monthName(currentMonth)
-        week = self.week_fdn()
+        
+        #Input to find the weekday here.
+        inputYear = self.parse.getYear(self.year.get())
+        inputMonth = self.parse.getMonth(self.month.get())
+        inputDay = self.parse.getDay(self.day.get())
+
+        #Finds week day and sets up dictionary 
+        #   to translate weekday into viking version.
+        week = self.week.weekFind(inputYear, inputMonth, inputDay)
+        engToVikingWeeks = {"Sunday": ["Sun Day", "Sunnudagr"], 
+                            "Monday": ["Moon Day", "Mánadagr"], 
+                            "Tuesday": ["Tyr's Day", "Týsdagr"], 
+                            "Wednesday": ["Odin's Day", "Óðinsdagr"], 
+                            "Thursday": ["Thor's Day", "Þórsdagr"], 
+                            "Friday": ["Freya's Day", "Frjádagr"], 
+                            "Saturday": ["Bath Day", "Laugardagr"]}
+        
         season = self.seasonFinder(currentMonth)
-        date = week + ", " + str(day) + " " + nameOfMonth + " (" + str(season) + "), " + str(year + 1)
-        return date
-    
+        return f"{engToVikingWeeks[week][self.isViking]}, {day} {nameOfMonth} ({season}), {year + 1}"
+
     #Determines viking season.
     def seasonFinder(self, month):
-        if 1 <= month < 7:
-            if self.isViking:
-                season = "Sumar"
-            else:
-                season = "Summer"
-        else:
-            if self.isViking:
-                season = "Vetur"
-            else:
-                season = "Winter"
-        return season
-
-    #Finds day of week beased on inputs and gives viking name or english name.
-    def week_fdn(self):
-        subtract = 0
-        year = int(self.yearE.get())
-        month = int(self.monthE.get())
-        day = int(self.dayE.get())
-        leap = self.isLeapYear(year)
-        if leap and month < 3:
-            subtract = -1
-        else:
-            subtract = 0
-        y = year % 100
-        yII = int(y / 4)
-        yIII = yII + y
-        yC = yIII % 7
-        if (year - y) % 400 == 0:
-            cC = 6
-        if ((year - y) - 100) % 400 == 0:
-            cC = 4
-        if ((year - y) - 200) % 400 == 0:
-            cC = 2
-        if ((year - y) - 300) % 400 == 0:
-            cC = 0
-        net = yC + cC
-        if month == 1:
-            mC = 0
-        if month == 2:
-            mC = 3
-        if month == 3:
-            mC = 3
-        if month == 4:
-            mC = 6
-        if month == 5:
-            mC = 1
-        if month == 6:
-            mC = 4
-        if month == 7:
-            mC = 6
-        if month == 8:
-            mC = 2
-        if month == 9:
-            mC = 5
-        if month == 10:
-            mC = 0
-        if month == 11:
-            mC = 3
-        if month == 12:
-            mC = 5
-        net = net + mC
-        net = net + int(day)
-        net = net + subtract
-        net = net % 7
-        if net == 0:
-            if self.isViking:
-                wk = "Sunnudagr"
-            else:
-                wk = "Sun Day"
-        if net == 1:
-            if self.isViking:
-                wk = "Mánadagr"
-            else:
-                wk = "Moon Day"
-        if net == 2:
-            if self.isViking:
-                wk = "Týsdagr"
-            else:
-                wk = "Tyr's Day"
-        if net == 3:
-            if self.isViking:
-                wk = "Óðinsdagr"
-            else:
-                wk = "Odin's Day"
-        if net == 4:
-            if self.isViking:
-                wk = "Þórsdagr"
-            else:
-                wk = "Thor's Day"
-        if net == 5:
-            if self.isViking:
-                wk = "Frjádagr"
-            else:
-                wk = "Freya's Day"
-        if net == 6:
-            if self.isViking:
-                wk = "Laugardagr"
-            else:
-                wk = "Bath Day"
-        return wk
+        seasonList = [["Summer", "Sumar"], ["Winter", "Vetur"]]
+        return seasonList[(month - 1) // 6][self.isViking]
 
     #Used to find the month name.
     def monthName(self, monthNum):
-        if monthNum == 1:
-            if self.isViking:
-                name = "HARPA"
-            else:
-                name = "Harpa"
-        elif monthNum == 2:
-            if self.isViking:
-                name = "SKERPLA"
-            else:
-                name = "Skerpla"
-        elif monthNum == 3:
-            if self.isViking:
-                name = "SÓLMÁNUÐUR"
-            else:
-                name = "Sun's Month"
-        elif monthNum == 4:
-            if self.isViking:
-                name = "Heyannir"
-            else:
-                name = "Haymaking"
-        elif monthNum == 5:
-            if self.isViking:
-                name = "Kornskurðarmánuður"
-            else:
-                name = "Corn Cutting"
-        elif monthNum == 6:
-            if self.isViking:
-                name = "HAUSTMÁNUÐUR"
-            else:
-                name = "Autumn"
-        elif monthNum == 7:
-            if self.isViking:
-                name = "GORMÁNUÐUR"
-            else:
-                name = "Slaughter"
-        elif monthNum == 8:
-            if self.isViking:
-                name = "ÝLIR"
-            else:
-                name = "Yule"
-        elif monthNum == 9:
-            if self.isViking:
-                name = "MÖRSUGUR"
-            else:
-                name = "Bone Marrow"
-        elif monthNum == 10:
-            if self.isViking:
-                name = "ÞORRI"
-            else:
-                name = "Black Frost"
-        elif monthNum == 11:
-            if self.isViking:
-                name = "GÓI"
-            else:
-                name = "Thorri Daughter"
-        elif monthNum == 12:
-            if self.isViking:
-                name = "EINMÁNUÐUR"
-            else:
-                name = "One-Month"
-        else:
-            if self.isViking:
-                name = "Silðimánuður"
-            else:
-                name = "Late Month"
+        nameList = [["Harpa", "HARPA"], ["Skerpla", "SKERPLA"], 
+                    ["Sun's Month", "SÓLMÁNUÐUR"], ["Haymaking", "Heyannir"], 
+                    ["Corn Cutting", "Kornskurðarmánuður"], ["Autumn", "HAUSTMÁNUÐUR"], 
+                    ["Slaughter", "GORMÁNUÐUR"], ["Yule", "ÝLIR"], 
+                    ["Bone Marrow", "MÖRSUGUR"], ["Black Frost", "ÞORRI"], 
+                    ["Thorri Daughter", "GÓI"], ["One-Month", "EINMÁNUÐUR"], 
+                    ["Late Month", "Silðimánuður"]]
+        
+        name = nameList[monthNum - 1][self.isViking]
+
+        #Removes the all caps thing going on.
         if self.isViking:
             nameFirst = name[0].upper()
             nameOther = name[1:].lower()
             name = nameFirst + nameOther
+
         return name
         
     #Determines if the year is a 13 month long year.
     def isMetonicLeapYear(self, year):
-        if year == 2 or year == 5 or year == 7 or year == 10 or year == 13 or year == 16 or year == 18:
-            return True
-        else:
-            return False
+        return year in [2, 5, 7, 10, 13, 16, 18]
 
     #Adds up cycle days based on index into month list.
     def cyDaySum(self, monthArr, index):
@@ -545,117 +382,6 @@ class VikingCalendarCalc(object):
                 subTotal += monthArr[i]
                 i += 1
             return subTotal
-
-    #Caclulates metric date.
-    def metricCalcII(self, year, dayNum, hour, minute):
-        year += 10000
-        fourCenturyCount = year // 400
-        remainingYears = year % 400
-        totalDays = fourCenturyCount * 146097
-        while remainingYears > 0:
-            leap = self.isLeapYear(remainingYears)
-            if leap:
-                totalDays += 366
-            else:
-                totalDays += 365
-            remainingYears -= 1
-        totalDays += dayNum - 1
-        totalDays = totalDays / 1000
-        totalDays = round(totalDays, 3)
-        secTotal = (hour * 3600) + (minute * 60)
-        dayDec = secTotal / 86400
-        dayDec *= 1000000
-        dayDec = math.floor(dayDec)
-        dayDec = dayDec / 1000000000
-        finalMetric = totalDays + dayDec
-        return finalMetric 
-
-    #Calculates metric date on the outermost level.
-    def metric_calc(self):
-        if self.isStupid:
-            lower = 1969
-            upper = 3002
-        else:
-            lower = 0
-            upper = 10000
-        year = int(self.yearE.get())
-        month = int(self.monthE.get())
-        day = int(self.dayE.get())
-        hour = 0
-        minute = 0
-        if lower < year < upper:
-            dt = datetime.datetime(year, month, day, hour, minute)
-            t = (time.mktime(dt.timetuple()))
-            metric_time = ((t * 1.1574074074074074074074074074074) / 100000000) + 4371.952
-            rounderI = metric_time * 1000000000
-            rounderII = math.trunc(rounderI)
-            rounderIII = rounderII / 1000000000
-        if year >= upper or year <= lower:
-            dayCount = self.findDayNumOfYear(year, month, day)
-            rounderIII = self.metricCalcII(year, dayCount, hour, minute)
-        return rounderIII
-
-    #Finds day number of input year.
-    def findDayNumOfYear(self, year, month, day):
-        leap_year = self.isLeapYear(year)
-        if month == 1:
-                D_Code_MKI = 0
-        if month == 2:
-                D_Code_MKI = 31
-        if month == 3:
-                D_Code_MKI = 59
-                if leap_year == True:
-                    D_Code_MKI = 60
-        if month == 4:
-                D_Code_MKI = 90
-                if leap_year == True:
-                    D_Code_MKI = 91
-        if month == 5:
-                D_Code_MKI = 120
-                if leap_year == True:
-                    D_Code_MKI = 121
-        if month == 6:
-                D_Code_MKI = 151
-                if leap_year == True:
-                    D_Code_MKI = 152
-        if month == 7:
-                D_Code_MKI = 181
-                if leap_year == True:
-                    D_Code_MKI = 182
-        if month == 8:
-                D_Code_MKI = 212
-                if leap_year == True:
-                    D_Code_MKI = 213
-        if month == 9:
-                D_Code_MKI = 243
-                if leap_year == True:
-                    D_Code_MKI = 244
-        if month == 10:
-                D_Code_MKI = 273
-                if leap_year == True:
-                    D_Code_MKI = 274
-        if month == 11:
-                D_Code_MKI = 304
-                if leap_year == True:
-                    D_Code_MKI = 305
-        if month == 12:
-                D_Code_MKI = 334
-                if leap_year == True:
-                    D_Code_MKI = 335
-        D_Code_MKII = D_Code_MKI + day
-        return D_Code_MKII
-
-    #Determines if input year is a leap year.
-    def isLeapYear(self, year):
-        if year % 4 == 0:
-            leap = True
-            if year % 100 == 0:
-                leap = False
-                if year % 400 == 0:
-                    leap = True
-        else:
-            leap = False
-        return leap
 
 def main():
     root = Tk()

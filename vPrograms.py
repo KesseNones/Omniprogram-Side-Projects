@@ -1,3 +1,6 @@
+#Jesse A. Jones
+#Version: 2023-06-11.27
+
 from tkinter import *
 
 #Runs programs that start with the letter V.
@@ -32,11 +35,11 @@ class V(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def viking(self):                           #HERE
+    def viking(self):                           #DONE
         import vikingCalendarCalc
         vikingCalendarCalc.main()
 
-    def visClock(self):
+    def visClock(self):                         #HERE
         import visualClock
         visualClock.main()
     
