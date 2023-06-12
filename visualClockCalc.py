@@ -1,55 +1,68 @@
-import time
+#Jesse A. Jones
+#Version: 2023-06-12.17
+
 from tkinter import *
-import math
-import datetime
 import dateHandling
 
+#This class is same as the visual clock but it takes 
+#   in time input and displays the resulting string.
 class VisCalc(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds time input fields and output visual clock.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.messageTime = Label(self.frameBottom, text = "", font = "Times 50", anchor = "w", bg = "#373737")
-        self.messageTime.grid(row = 5, column = 1)
+        FONT = "Ariel 20"
 
-        self.messageI = Label(self.frameBottom, text = "Enter Hour:", font = "Ariel 55")
+        #Hour input field.
+        self.messageI = Label(self.frameBottom, text = "Enter Hour:", font = FONT)
         self.messageI.grid(row = 0, column = 0)
-
-        self.hourE = Entry(self.frameBottom, font = "Times 45")
+        self.hourE = Entry(self.frameBottom, font = FONT)
         self.hourE.grid(row = 0, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Minute:", font = "Ariel 55")
+        #Minute input field.
+        self.messageII = Label(self.frameBottom, text = "Enter Minute:", font = FONT)
         self.messageII.grid(row = 2, column = 0)
-
-        self.minE = Entry(self.frameBottom, font = "Times 45")
+        self.minE = Entry(self.frameBottom, font = FONT)
         self.minE.grid(row = 2, column = 1)
 
-        self.messageIII = Label(self.frameBottom, text = "Enter Second:", font = "Ariel 55")
+        #Second input field.
+        self.messageIII = Label(self.frameBottom, text = "Enter Second:", font = FONT)
         self.messageIII.grid(row = 3, column = 0)
-
-        self.secE = Entry(self.frameBottom, font = "Times 45")
+        self.secE = Entry(self.frameBottom, font = FONT)
         self.secE.grid(row = 3, column = 1)
-    
+        
+        #Converts input time to visual clock when pressed.
         self.convButton = Button(self.frameBottom, text = "Convert to Visual Clock", 
-            font = "Ariel 50", command = self.clockConv)
+            font = FONT, command = self.clockConv)
         self.convButton.grid(row = 4, column = 0)
 
+        #Displays output visual clock text.
+        self.messageTime = Label(self.frameBottom, text = "", font = FONT, anchor = "w", bg = "#373737")
+        self.messageTime.grid(row = 5, column = 1)
+
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Calculates visual time and displays result.
     def clockConv(self):
         time = self.convVisTime()
         self.messageTime["text"] = time
 
+    #Fetches input time and sets some class variables because yes.
+    #   THIS DISGUSTS ME AND SHOULD BE FIXED.
     def timeGet(self):
         timeVerif = dateHandling.GetDate()
 
@@ -57,6 +70,7 @@ class VisCalc(object):
         self.minute = timeVerif.getMinOrSec(self.minE.get())
         self.second = timeVerif.getMinOrSec(self.secE.get())
 
+    #calculates current visual clock time and returns the time string necessary.
     def convVisTime(self):
         self.timeGet()
         hr = self.hour
