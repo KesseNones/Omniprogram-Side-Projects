@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-12.13
+#Version: 2023-06-12.15
 
 import datetime
 from tkinter import *
@@ -30,7 +30,7 @@ class VisTime(object):
         self.frameBottom.pack(side = BOTTOM)
 
         #Displays visual time.
-        self.message = Label(self.frameBottom, text = "test", font = "Ariel 20", anchor = "w", bg = "#373737")
+        self.message = Label(self.frameBottom, text = "", font = "Ariel 20", anchor = "w", bg = "#373737")
         self.message.pack(side = TOP)
     
         #Starts recursive time loop.
@@ -42,86 +42,61 @@ class VisTime(object):
 
     #Creates visual clock time string and displays it before looping.
     def timeUpdate(self):
-        timeString = self.visConv()
-        self.message["text"] = timeString
-        self.message.after(1, self.timeUpdate)
-
-    #Creates visual clock time string based on current time.
-    def visConv(self):
         #Current time fetched.
         local = datetime.datetime.now()
         hr = local.hour
         m = local.minute
         sec = local.second
-        
+
+        timeStuff = self.visConv(hr, m, sec)
+        self.message["text"] = timeStuff[0]
+        self.message["fg"] = timeStuff[1]
+        self.message.after(1, self.timeUpdate)
+
+    #Creates visual clock time string based on current time.
+    def visConv(self, hour, minute, second):
         #Useful lists in further calculations 
         #   and determines what hours look like 
         #   and what color is displayed for the text foreground.
         timeString = ""
         colorList = ["black", "#00857d", "#ffff3f", "#00ff9b", "#93ffd5", "#b6ff54", "#0e5efe", "#03006a"]
-        colorIndex = hr // 3
+        colorIndex = hour // 3
         hourIconList = ["🌌", "⭐", "🌄", "☼", "☼", "☼", "🌅", "🌙"]
-        self.message["fg"] = colorList[colorIndex]
-        
-        #Used in tracking if a space is needed between characters.
-        flag = 0
+        timeColor = colorList[hour // 3]
 
         #Determines which 12 hour indicator starts the time string.
-        if hr >= 12:
-            timeString += "🎇\n"
-        else:
-            timeString += "🎆\n"
+        timeString += ["🔅\n", "🌕\n"][hour >= 12]
         
         #Creates all hour icons with the appropriate icon for each.
-        for i in range(0, hr % 12 + 1):
-            #Space added when needed.
-            if (flag > 4):
-                timeString += " "
-                flag = 0
+        for i in range(0, hour % 12 + 1):
             #Hour symbol added.
             timeString += hourIconList[colorIndex]
-            flag += 1
+            timeString += (" " * ((i + 1) % 5 == 0))
         timeString += "\n"
         
-        #Creates all five minute icons of the time.
-        flag = 0
-        for j in range(0, m // 5):
-            if (flag > 4):
-                timeString += " "
-                flag = 0
-            timeString += "⏱️"
-            flag += 1
-        timeString += "\n"
+        #Builds visual minutes and seconds.
+        timeString += self.generateBaseSixtyChunks("⏱️", "⌛", minute)
+        timeString += self.generateBaseSixtyChunks("🖐", "💚", second)
+
+        return [timeString, timeColor]
+
+    #Generates visual minutes or seconds depending on input.
+    def generateBaseSixtyChunks(self, bigSymbol, littleSymbol, unitsElapsed):
+        timeSubString = ""
+
+        #Creates all five unit icons of the time.
+        for i in range(0, unitsElapsed // 5):
+            timeSubString += bigSymbol
+            #Adds space when needed.
+            timeSubString += (" " * ((i + 1) % 5 == 0))
+        timeSubString += "\n"
         
-        #Creates all minute icons.
-        flag = 0
-        for k in range (0, m % 5):
-            if (flag > 4):
-                timeString += " "
-                flag = 0
-            timeString += "⌛"
-            flag += 1
-        timeString += "\n"
+        #Creates all unit icons.
+        for i in range (0, unitsElapsed % 5):
+            timeSubString += littleSymbol
+        timeSubString += "\n"
 
-        #Creates all five second blocks.
-        flag = 0
-        for el in range(0, sec // 5):
-            if (flag > 4):
-                timeString += " "
-                flag = 0
-            timeString += "🖐"
-            flag += 1
-        timeString += "\n"
-
-        #Creates all second blocks.
-        flag = 0
-        for s in range(0, sec % 5):
-            if (flag > 4):
-                timeString += " "
-                flag = 0
-            timeString += "💚"
-            flag += 1
-        return timeString
+        return timeSubString
 
 def main():
     root = Tk()

@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-11.27
+#Version: 2023-06-12.16
 
 from tkinter import *
 
@@ -39,11 +39,11 @@ class V(object):
         import vikingCalendarCalc
         vikingCalendarCalc.main()
 
-    def visClock(self):                         #HERE
+    def visClock(self):                         #DONE
         import visualClock
         visualClock.main()
     
-    def visClockCalc(self):
+    def visClockCalc(self):                     #HERE
         import visualClockCalc
         visualClockCalc.main()
 
