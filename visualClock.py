@@ -1,59 +1,89 @@
-import time
+#Jesse A. Jones
+#Version: 2023-06-12.13
+
 import datetime
 from tkinter import *
-import math
 
+#This class contains a visual version of the common clock. 
+#   This clock uses emojis and different icons to indicate time 
+#   in a visual way, with hearts being seconds, 
+#   hands being groups of five seconds, hour glasses being minutes, 
+#   clocks being five minutes, and lastly hours being themselves.
+#   Hours are ordinal so seeing one hour chip indicates 
+#   that it's the first hour of the twelve hour cycle, 
+#   so 1 corellates to midnight or noon.  
 class VisTime(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.grid(row = 0, column = 0)
 
+        #Holds visual clock output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "test", font = "Times 50", anchor = "w", bg = "#373737")
+        #Displays visual time.
+        self.message = Label(self.frameBottom, text = "test", font = "Ariel 20", anchor = "w", bg = "#373737")
         self.message.pack(side = TOP)
     
+        #Starts recursive time loop.
         self.timeUpdate()
 
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Creates visual clock time string and displays it before looping.
     def timeUpdate(self):
         timeString = self.visConv()
         self.message["text"] = timeString
         self.message.after(1, self.timeUpdate)
 
+    #Creates visual clock time string based on current time.
     def visConv(self):
-        self.local = datetime.datetime.now()
-        hr = int(self.local.hour)
-        m = int(self.local.minute)
-        sec = int(self.local.second)
+        #Current time fetched.
+        local = datetime.datetime.now()
+        hr = local.hour
+        m = local.minute
+        sec = local.second
+        
+        #Useful lists in further calculations 
+        #   and determines what hours look like 
+        #   and what color is displayed for the text foreground.
         timeString = ""
         colorList = ["black", "#00857d", "#ffff3f", "#00ff9b", "#93ffd5", "#b6ff54", "#0e5efe", "#03006a"]
         colorIndex = hr // 3
         hourIconList = ["🌌", "⭐", "🌄", "☼", "☼", "☼", "🌅", "🌙"]
         self.message["fg"] = colorList[colorIndex]
+        
+        #Used in tracking if a space is needed between characters.
         flag = 0
 
+        #Determines which 12 hour indicator starts the time string.
         if hr >= 12:
             timeString += "🎇\n"
         else:
             timeString += "🎆\n"
+        
+        #Creates all hour icons with the appropriate icon for each.
         for i in range(0, hr % 12 + 1):
+            #Space added when needed.
             if (flag > 4):
                 timeString += " "
                 flag = 0
+            #Hour symbol added.
             timeString += hourIconList[colorIndex]
             flag += 1
         timeString += "\n"
         
+        #Creates all five minute icons of the time.
         flag = 0
         for j in range(0, m // 5):
             if (flag > 4):
@@ -63,6 +93,7 @@ class VisTime(object):
             flag += 1
         timeString += "\n"
         
+        #Creates all minute icons.
         flag = 0
         for k in range (0, m % 5):
             if (flag > 4):
@@ -72,6 +103,7 @@ class VisTime(object):
             flag += 1
         timeString += "\n"
 
+        #Creates all five second blocks.
         flag = 0
         for el in range(0, sec // 5):
             if (flag > 4):
@@ -81,6 +113,7 @@ class VisTime(object):
             flag += 1
         timeString += "\n"
 
+        #Creates all second blocks.
         flag = 0
         for s in range(0, sec % 5):
             if (flag > 4):
