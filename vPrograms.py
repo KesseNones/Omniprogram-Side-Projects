@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-12.16
+#Version: 2023-06-12.18
 
 from tkinter import *
 
@@ -43,7 +43,7 @@ class V(object):
         import visualClock
         visualClock.main()
     
-    def visClockCalc(self):                     #HERE
+    def visClockCalc(self):                     #DONE
         import visualClockCalc
         visualClockCalc.main()
 
