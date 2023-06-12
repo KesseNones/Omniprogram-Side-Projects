@@ -1,6 +1,9 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2023-06-12.18
 
+from tkinter import *
+
+#Holds all programs that start with W.
 class W(object):
     def __init__(self, window = None):
         self.window = window
@@ -33,16 +36,12 @@ class W(object):
             font = "Ariel 30", command = self.warhammerCalc)
         self.warCalcButton.grid(row = 1, column = 0)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
     
-    def warpToC(self):
+    def warpToC(self):                  #HERE
         import warpToCGUI
-        #self.clickSound()
         warpToCGUI.main()
 
     def weekFind(self):
