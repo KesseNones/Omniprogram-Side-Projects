@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-12.18
+#Version: 2023-06-13.08
 
 from tkinter import *
 
@@ -40,11 +40,11 @@ class W(object):
     def quitButtonAction(self):
         self.window.destroy()
     
-    def warpToC(self):                  #HERE
+    def warpToC(self):                  #DONE
         import warpToCGUI
         warpToCGUI.main()
 
-    def weekFind(self):
+    def weekFind(self):                 #HERE
         import dayOfWeekCalc
         dayOfWeekCalc.main()
 

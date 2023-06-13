@@ -1,53 +1,76 @@
+#Jesse A. Jones
+#Version: 2023-06-13.07
+
 from tkinter import *
 
+#This class takes in an input Warp Factor 
+#   and returns the multiple of light speed it correlates to.
 class WarpToCConv(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds warp factor input, conversion button, and C multiple output.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
-        self.message = Label(self.frameBottom, text = "Enter Warp Factor:", font = "Ariel 75", anchor = "w")
-        self.message.grid(row = 0, column = 0)
+        FONT = "Ariel 20"
 
-        self.warp = Entry(self.frameBottom, font = "Times 69")
+        #Warp Factor input field.
+        self.message = Label(self.frameBottom, text = "Enter Warp Factor:", font = FONT, anchor = "w")
+        self.message.grid(row = 0, column = 0)
+        self.warp = Entry(self.frameBottom, font = FONT)
         self.warp.grid(row = 1, column = 0)
 
+        #Converts Warp Factor to C multiple when pressed.
         self.convButton = Button(self.frameBottom, text = "Convert to C Multiple", 
-            font = "Ariel 60", command = self.warpy)
+            font = FONT, command = self.warpy)
         self.convButton.grid(row = 2, column = 0)
 
-        self.cOutput = Label(self.frameBottom, text = "The Speed is: N/A C", font = "Ariel 69")
+        #Displays converted to C multiple.
+        self.cOutput = Label(self.frameBottom, text = "", font = FONT)
         self.cOutput.grid(row = 3, column = 0)
 
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Caclulates C multiple and displays result.
     def warpy(self):
-        speed = self.warpToC()
+        #Parses input warp factor.
+        inputW = self.warp.get()
+        warpFac = 0.0 if inputW == "" else float(inputW)
+
+        #Calculates C and shows it.
+        speed = self.warpToC(warpFac)
         self.cOutput["text"] = "The speed is: " + str(speed) + " C"
 
-    def warpToC(self):
-        W = float(self.warp.get())
-        if W > 10:
-            C = 'invalid warp factor'
-        if W < 0:
-            C = 'invalid warp factor'
-        if 0 <= W <= 9:
-            C = W**(10/3)
+    #Calculates C multiple based on warp factor and returns it.
+    def warpToC(self, warpFac):
+        #Invalid warp factor case.
+        if warpFac > 10 or warpFac < 0:
+            return "[INVALID WARP FACTOR]"
+        
+        #Caclulates C from warp factors in normal range.
+        if 0 <= warpFac <= 9:
+            C = warpFac ** (10/3)
             C = round(C, 3)
-        if 10 > W > 9:
-            C = (W**(10/3))/(W - 10) * -1
+
+        #Calculates C for warp factors of threshold case.
+        elif 10 > warpFac > 9:
+            C = (warpFac ** (10/3)) / (warpFac - 10) * -1
             C = round(C, 3)
-        if W == 10:
-            C = '∞'
+        else:
+            C = "INFINITY"
+        
         return C
 
 def main():
