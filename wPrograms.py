@@ -44,11 +44,11 @@ class W(object):
         import warpToCGUI
         warpToCGUI.main()
 
-    def weekFind(self):                 #HERE
+    def weekFind(self):                 #DONE
         import dayOfWeekCalc
         dayOfWeekCalc.main()
 
-    def warhammerFind(self):
+    def warhammerFind(self):            #HERE
         import W40KCalendar
         W40KCalendar.main()
 
