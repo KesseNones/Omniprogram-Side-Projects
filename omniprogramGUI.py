@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.15
+#Version: 2023-06-13.19
 
 #All alphabet category programs imported as well as tkinter.
 from tkinter import *
@@ -17,7 +17,6 @@ import tPrograms
 import wPrograms
 import yPrograms
 import vPrograms
-from time import sleep
 
 """
 This program is a compilation of various side projects 
