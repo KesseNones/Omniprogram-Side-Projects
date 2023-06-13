@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.11
+#Version: 2023-06-13.15
 
 from tkinter import *
 
@@ -28,7 +28,7 @@ class Y(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    def youtubeTier(self):          #HERE
+    def youtubeTier(self):          #DONE
         import youtubeTierConv
         youtubeTierConv.main()
 
