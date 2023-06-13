@@ -1,7 +1,8 @@
 #Jesse A. Jones
-#Version: 2023-06-13.15
+#Version: 2023-06-13.19
 
 from tkinter import *
+import youtubeTierConv
 
 #Holds programs that start with the letter Y.
 class Y(object):
@@ -29,7 +30,6 @@ class Y(object):
         self.window.destroy()
 
     def youtubeTier(self):          #DONE
-        import youtubeTierConv
         youtubeTierConv.main()
 
 def main():

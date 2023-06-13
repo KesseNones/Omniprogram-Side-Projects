@@ -1,7 +1,11 @@
 #Jesse A. Jones
-#Version: 2023-06-13.11
+#Version: 2023-06-13.19
 
 from tkinter import *
+import warpToCGUI
+import dayOfWeekCalc
+import W40KCalendar
+import W40KCalendarCalc
 
 #Holds all programs that start with W.
 class W(object):
@@ -41,19 +45,15 @@ class W(object):
         self.window.destroy()
     
     def warpToC(self):                  #DONE
-        import warpToCGUI
         warpToCGUI.main()
 
     def weekFind(self):                 #DONE
-        import dayOfWeekCalc
         dayOfWeekCalc.main()
 
     def warhammerFind(self):            #DONE
-        import W40KCalendar
         W40KCalendar.main()
 
     def warhammerCalc(self):            #DONE
-        import W40KCalendarCalc
         W40KCalendarCalc.main()
 
 def main():

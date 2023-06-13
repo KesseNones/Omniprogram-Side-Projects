@@ -1,7 +1,14 @@
 #Jesse A. Jones
-#Version: 2023-05-13.20
+#Version: 2023-06-13.16
 
 from tkinter import *
+import dstCalendarCalcGUI
+import dateDaysFromOrAgo
+import dstNightmareCycleCalc
+import nonMetricCountDown
+import nonMetricCountDown_MKII
+import differentClock
+import degreesClock
 
 #This class contains all programs that start with the letter D.
 class D(object):
@@ -55,31 +62,24 @@ class D(object):
         self.window.destroy()
 
     def dstCal(self):                       #DONE (Needs some serious refactoring to look less gross)
-        import dstCalendarCalcGUI
         dstCalendarCalcGUI.main()   
 
     def dateDiff(self):                     #DONE
-        import dateDaysFromOrAgo
         dateDaysFromOrAgo.main()
 
     def nightCalc(self):                    #DONE
-        import dstNightmareCycleCalc
         dstNightmareCycleCalc.main()
     
     def differentCountdown(self):           #DONE
-        import nonMetricCountDown
         nonMetricCountDown.main()
 
     def differentCountdownII(self):         #DONE
-        import nonMetricCountDown_MKII
         nonMetricCountDown_MKII.main()
 
     def diffClk(self):                      #DONE
-        import differentClock
         differentClock.main()
 
     def degClock(self):                     #DONE
-        import degreesClock
         degreesClock.main()
 
 def main():

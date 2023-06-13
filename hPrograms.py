@@ -1,7 +1,10 @@
 #Jesse A. Jones
-#Version: 2023-05-23.17
+#Version: 2023-06-13.17
 
 from tkinter import *
+import bigNumberUnderstander
+import hexEncoder
+import hexClock
 
 #Contains programs that have titles starting with the letter H.
 class H(object):
@@ -36,15 +39,12 @@ class H(object):
         self.window.destroy()
 
     def hugeNumber(self):                   #DONE
-        import bigNumberUnderstander
         bigNumberUnderstander.main()
 
     def hexCode(self):                      #DONE
-        import hexEncoder
         hexEncoder.main()
 
     def hexClock(self):                     #DONE
-        import hexClock
         hexClock.main()
 
 def main():

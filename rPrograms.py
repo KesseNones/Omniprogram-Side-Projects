@@ -1,7 +1,12 @@
 #Jesse A. Jones
-#Version: 2023-06-07.09
+#Version: 2023-06-13.17
 
 from tkinter import *
+import reformedCalendarCalcGUI
+import romeNumConv
+import relativityCalculator
+import romanNumeralClock
+import reformedCalendarLive
 
 #Holds all programs that start with the letter R.
 class R(object):
@@ -44,23 +49,18 @@ class R(object):
         self.window.destroy()
 
     def refCalCalc(self):                       #DONE              
-        import reformedCalendarCalcGUI
         reformedCalendarCalcGUI.main()
 
     def romanNum(self):                         #DONE
-        import romeNumConv
         romeNumConv.main()
 
     def relative(self):                         #DONE
-        import relativityCalculator
         relativityCalculator.main()
         
     def romeCalClock(self):                     #DONE
-        import romanNumeralClock
         romanNumeralClock.main()
 
     def refCalLive(self):                       #DONE
-        import reformedCalendarLive
         reformedCalendarLive.main()
 
 def main():

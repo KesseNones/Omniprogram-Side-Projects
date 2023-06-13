@@ -1,7 +1,15 @@
 #Jesse A. Jones
-#Version: 2023-05-19.98
+#Version: 2023-06-13.16
 
 from tkinter import *
+import eightPortionClock
+import eightPortionClockCalc
+import easterCalc
+import eruvarianClock
+import eruvarianCalendarAndClock
+import eruvarianReckoningCalculator
+import rivendellCalendarCalc
+import eridanianClock
 
 #Contains all programs that start with the letter E
 class E(object):
@@ -56,35 +64,27 @@ class E(object):
         self.window.destroy()
 
     def eightClock(self):                           #DONE
-        import eightPortionClock
         eightPortionClock.main()
 
     def eightClockCalc(self):                       #DONE
-        import eightPortionClockCalc
         eightPortionClockCalc.main()
 
     def easterCalc(self):                           #DONE
-        import easterCalc
         easterCalc.main()
 
     def eruClock(self):                             #DONE
-        import eruvarianClock
         eruvarianClock.main()
 
     def eruCal(self):                               #DONE
-        import eruvarianCalendarAndClock
         eruvarianCalendarAndClock.main()
 
     def eruCalc(self):                              #DONE
-        import eruvarianReckoningCalculator
         eruvarianReckoningCalculator.main()
 
     def elfCalc(self):                              #DONE
-        import rivendellCalendarCalc
         rivendellCalendarCalc.main()
 
     def eriClock(self):                             #DONE
-        import eridanianClock
         eridanianClock.main()
 
 def main():

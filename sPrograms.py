@@ -1,7 +1,17 @@
 #Jesse A. Jones
-#Version: 2023-06-09.16
+#Version: 2023-06-13.17
 
 from tkinter import *
+import stardateGUILIVE
+import stardateCalculatorGUI
+import seasonalCalCalc
+import shireCalConv
+import secondStopwatch
+import stringReverser
+import secondsInDay
+import seasonClock
+import starfield
+import seasonalSyncCalendar
 
 #Runs programs that start with the letter S when selected.
 class S(object):
@@ -65,43 +75,33 @@ class S(object):
         self.window.destroy()
 
     def stardateLive(self):                     #DONE
-        import stardateGUILIVE
         stardateGUILIVE.main()
 
     def stardateCalc(self):                     #DONE
-        import stardateCalculatorGUI
         stardateCalculatorGUI.main()
 
     def seasonCalc(self):                       #DONE
-        import seasonalCalCalc
         seasonalCalCalc.main()
 
     def shireCalc(self):                        #DONE
-        import shireCalConv
         shireCalConv.main()
 
     def secStopwatch(self):                     #DONE
-        import secondStopwatch
         secondStopwatch.main()
 
     def revString(self):                        #DONE
-        import stringReverser
         stringReverser.main()
 
     def secCountOfDay(self):                    #DONE
-        import secondsInDay
         secondsInDay.main()
 
     def seasonClock(self):                      #DONE
-        import seasonClock
         seasonClock.main()
 
     def starfield(self):                        #DONE (could use some optimization)
-        import starfield
         starfield.main()
 
     def sesSynCalc(self):                       #DONE
-        import seasonalSyncCalendar
         seasonalSyncCalendar.main()
 
 def main():

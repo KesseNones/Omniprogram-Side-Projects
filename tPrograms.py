@@ -1,7 +1,13 @@
 #Jesse A. Jones
-#Version: 2023-06-11.22
+#Version: 2023-06-13.17
 
 from tkinter import *
+import tempConverterGUI
+import timeDisplayUltima
+import stardateTOS
+import stardateTOSCalc
+import trueStardate
+import trueStardateCalc
 
 #Contains programs that start with the letter T.
 class T(object):
@@ -49,27 +55,21 @@ class T(object):
         self.window.destroy()
 
     def tempConv(self):                 #DONE
-        import tempConverterGUI
         tempConverterGUI.main()
 
     def timeUltima(self):               #DONE
-        import timeDisplayUltima
         timeDisplayUltima.main()
 
     def stardateTOS(self):              #DONE
-        import stardateTOS
         stardateTOS.main()
 
     def stardateTOSCalc(self):          #DONE
-        import stardateTOSCalc
         stardateTOSCalc.main()
 
     def TNGLiveSDate(self):             #DONE
-        import trueStardate
         trueStardate.main()
 
     def TNGSDateCalc(self):             #DONE
-        import trueStardateCalc
         trueStardateCalc.main()
 
 def main():

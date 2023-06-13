@@ -1,7 +1,17 @@
 #Jesse A. Jones
-#Version: 2023-05-31.22
+#Version: 2023-06-13.17
 
 from tkinter import *
+import metricDateGUILIVE
+import differentMetricDateCalc
+import metricStopwatch
+import metricCountDown
+import newMoonPhaseCalc
+import magicEightBall
+import minecraftCalCalc
+import mayanLongCount
+import nineMaker
+import metricDateToDate
 
 #Holds programs that start with the letter M.
 class M(object):
@@ -63,43 +73,33 @@ class M(object):
         self.window.destroy()
 
     def metricDateLiveAct(self):            #DONE
-        import metricDateGUILIVE
         metricDateGUILIVE.main()
 
     def metricCalculator(self):             #DONE
-        import differentMetricDateCalc
         differentMetricDateCalc.main()
 
     def stopwatch(self):                    #DONE
-        import metricStopwatch
         metricStopwatch.main()
 
     def metricCountDown(self):              #DONE
-        import metricCountDown
         metricCountDown.main()
 
     def moonCalc(self):                     #DONE
-        import newMoonPhaseCalc
         newMoonPhaseCalc.main()
 
     def magicEightBall(self):               #DONE
-        import magicEightBall
         magicEightBall.main()
 
     def mcCalc(self):                       #DONE
-        import minecraftCalCalc
         minecraftCalCalc.main()
 
     def mayanCalc(self):                    #DONE
-        import mayanLongCount
         mayanLongCount.main()
 
     def makeNines(self):                    #DONE
-        import nineMaker
         nineMaker.main()
 
     def toNormConv(self):                   #DONE
-        import metricDateToDate
         metricDateToDate.main()
 
 def main():

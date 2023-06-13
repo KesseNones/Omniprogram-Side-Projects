@@ -1,7 +1,10 @@
 #Jesse A. Jones
-#Version: 2023-06-12.18
+#Version: 2023-06-13.19
 
 from tkinter import *
+import vikingCalendarCalc
+import visualClock
+import visualClockCalc
 
 #Runs programs that start with the letter V.
 class V(object):
@@ -36,15 +39,12 @@ class V(object):
         self.window.destroy()
 
     def viking(self):                           #DONE
-        import vikingCalendarCalc
         vikingCalendarCalc.main()
 
     def visClock(self):                         #DONE
-        import visualClock
         visualClock.main()
     
     def visClockCalc(self):                     #DONE
-        import visualClockCalc
         visualClockCalc.main()
 
 def main():

@@ -1,7 +1,9 @@
 #Jesse A. Jones
-#Version: 2023-05-20.95
+#Version: 2023-06-13.17
 
 from tkinter import *
+import kardeshevCalcGUI
+import kessNonesAliasGen
 
 class K(object):
     def __init__(self, window = None):
@@ -31,11 +33,9 @@ class K(object):
         self.window.destroy()
 
     def karCalc(self):                  #DONE
-        import kardeshevCalcGUI
         kardeshevCalcGUI.main()
 
     def kesseNonesAlias(self):          #DONE
-        import kessNonesAliasGen
         kessNonesAliasGen.main()
 
 def main():
