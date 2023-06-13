@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.10
+#Version: 2023-06-13.11
 
 from tkinter import *
 
@@ -52,7 +52,7 @@ class W(object):
         import W40KCalendar
         W40KCalendar.main()
 
-    def warhammerCalc(self):            #HERE
+    def warhammerCalc(self):            #DONE
         import W40KCalendarCalc
         W40KCalendarCalc.main()
 
