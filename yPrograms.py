@@ -1,6 +1,9 @@
-from tkinter import *
-#import winsound
+#Jesse A. Jones
+#Version: 2023-06-13.11
 
+from tkinter import *
+
+#Holds programs that start with the letter Y.
 class Y(object):
     def __init__(self, window = None):
         self.window = window
@@ -21,14 +24,11 @@ class Y(object):
             font = "Ariel 30", command = self.youtubeTier)
         self.youtubeButton.grid(row = 0, column = 0)
 
-    # def clickSound(self):
-    #     if self.soundsAllowed:
-    #         winsound.PlaySound("C:/Users/creep/Desktop/programmingStuff/Python_Programs/random_ass_programs/click.wav", winsound.SND_ASYNC)
-
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
-    def youtubeTier(self):
+    def youtubeTier(self):          #HERE
         import youtubeTierConv
         youtubeTierConv.main()
 
