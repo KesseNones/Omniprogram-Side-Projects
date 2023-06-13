@@ -1,60 +1,78 @@
+#Jesse A. Jones
+#Version: 2023-06-13.11
+
 from tkinter import *
 import math
 from tkinter import messagebox
 
-class youtubeTierConv(object):
+#This class converts a subscriber count to a youtube tier and vice versa.
+class YoutubeTierConv(object):
     def __init__(self, window = None):
         self.window = window
 
+        #Holds quit button.
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        #Quits program when pressed.
         self.quitButton = Button(self.frameTop, text = "Quit",
             font = "Ariel 20", command = self.quitButtonAction)
         self.quitButton.pack()
 
+        #Holds sub and tier input fields, conversion buttons, 
+        #   and converted outputs.
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
     
-        self.messageI = Label(self.frameBottom, text = "Enter Sub Count:", font = "Ariel 55", anchor = "w")
-        self.messageI.grid(row = 0, column = 0)
+        FONT = "Ariel 20"
 
-        self.sI = Entry(self.frameBottom, font = "Times 55")
+        #Subscriber count input field.
+        self.messageI = Label(self.frameBottom, text = "Enter Sub Count:", font = FONT, anchor = "w")
+        self.messageI.grid(row = 0, column = 0)
+        self.sI = Entry(self.frameBottom, font = FONT)
         self.sI.grid(row = 0, column = 1)
 
+        #Converts subscriber count to tier when pressed.
         self.tierButton = Button(self.frameBottom, text = "Convert to Tier", 
-            font = "Ariel 55", command = self.subToTier)
+            font = FONT, command = self.subToTier)
         self.tierButton.grid(row = 1, column = 0)
 
+        #Youtube tier output.
         self.tOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 45")
+            font = FONT)
         self.tOutput.grid(row = 2, column = 1)
 
+        #Displays classic tier.
         self.tOutputII = Label(self.frameBottom, text = "", 
-            font = "Ariel 45")
+            font = FONT)
         self.tOutputII.grid(row = 3, column = 1)
 
-        self.messageII = Label(self.frameBottom, text = "Enter Tier:", font = "Ariel 55", anchor = "w")
+        #Tier input field.
+        self.messageII = Label(self.frameBottom, text = "Enter Tier:", font = FONT, anchor = "w")
         self.messageII.grid(row = 4, column = 0)
-
-        self.tier = Entry(self.frameBottom, font = "Times 55")
+        self.tier = Entry(self.frameBottom, font = FONT)
         self.tier.grid(row = 4, column = 1)
 
+        #Converts tier to subscriber count.
         self.cButton = Button(self.frameBottom, text = "Convert to Sub Count", 
-            font = "Ariel 55", command = self.tierToSub)
+            font = FONT, command = self.tierToSub)
         self.cButton.grid(row = 5, column = 0)
 
+        #Displays subscriber count based on tier.
         self.sOutput = Label(self.frameBottom, text = "", 
-            font = "Ariel 45")
+            font = FONT)
         self.sOutput.grid(row = 6, column = 1)
         
+        #Holds named number of subscribers.
         self.sOutputII = Label(self.frameBottom, text = "", 
-            font = "Ariel 45")
+            font = FONT)
         self.sOutputII.grid(row = 7, column = 1)
 
+    #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
+    #Error checks subscriber count input.
     def subCount(self):
         if self.sI.get() == "":
             messagebox.showerror("Empty Entry Errror", "Enter a subscriber count!")
@@ -65,6 +83,7 @@ class youtubeTierConv(object):
             subNum = float(self.sI.get())
         return subNum
 
+    #Error checks tier.
     def tierGet(self):
         if self.tier.get() == "":
             messagebox.showerror("Empty Entry Error", "Enter a tier number!")
@@ -72,17 +91,20 @@ class youtubeTierConv(object):
             tierNum = float(self.tier.get())
         return tierNum
 
+    #Converts subscriber count to tier.
     def subToTier(self):
         tier = self.youtubeConv(1)
         self.tOutput["text"] = "Tier: " + str(tier)
         self.tOutputII["text"] = "Classic Tier: " + self.rome_conv(tier)
 
+    #Converts tier number to subscriber count.
     def tierToSub(self):
         subs = self.youtubeConv(2)
         bigNum = self.numbConvArgTaking(subs)
         self.sOutput["text"] = str(subs) + " Subscribers"
         self.sOutputII["text"] = bigNum
 
+    #Gets logarithim of number to find name of it. THIS CODE IS DATED AND YUCKY
     def logGet(self, numb):
         iterator = 0
         numb = abs(numb)
@@ -96,6 +118,7 @@ class youtubeTierConv(object):
                 break
         return iterator
 
+    #BAD! OLD STOLEN ROMEN NUMERAL CONVERSION CODE!
     def rome_conv(self, decInt):
         numinit = int(decInt)
         if numinit == 0:
@@ -146,6 +169,7 @@ class youtubeTierConv(object):
             
             return str(''.join(romenum))
 
+    #I HATE THIS
     def numbConvArgTaking(self, num):
         numbOrig = num
         logo = self.logGet(numbOrig)
@@ -366,7 +390,10 @@ class youtubeTierConv(object):
         retVar = str(returnNumber) + " " + stringNumber 
         return retVar
 
+    #Calculates sub count or tier number based on input.
+    #THIS FUNCTION SHOULD BE SPLIT INTO TWO FFS!
     def youtubeConv(self, sw):
+        #Sub count to tier conversion case.
         if sw == 1:
             subs = self.subCount()
             if subs < 0:
@@ -378,6 +405,8 @@ class youtubeTierConv(object):
                 nonRounded = math.log(subs, 100) - 0.5
                 rounded = round(nonRounded, 9)
                 return rounded
+
+        #Tier to subscriber count conversion case.
         if sw == 2:
             tier = self.tierGet()
             if tier < 0:
@@ -394,7 +423,7 @@ class youtubeTierConv(object):
 def main():
     root = Tk()
     root.title("Youtube Tier Converter")
-    star = youtubeTierConv(root)
+    star = YoutubeTierConv(root)
     root.mainloop()
 
 if __name__ == "__main__":
