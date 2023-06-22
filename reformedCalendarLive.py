@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-22.88
+#Version: 2023-06-22.93
 
 from tkinter import *
 import datetime
@@ -76,12 +76,12 @@ class RefCalLive(object):
 			"Decemptober", "Undecimber", "Dosdecimber", "Tridecimber", "Supplementary"]
 		rWeekNameArr = ["Solday", "Hermesday", "Venusday", 
 			"Terraday", "Lunaday", "Marsday", "Joviday"]
-		epochLs = ["B.H.E.", "H.E."]
+		epochLs = ["Before Human Epoch", "Human Epoch"]
 
 		#Creates tile with information 
 		#	that represents the title of the calendar.
 		title = Tile(self.frameTop, 
-			f"{rMonthNameArr[monthIndex]} {calArr[1]} (Age: {calArr[0]}) {epochLs[calArr[0] > -1]}", 
+			f"{rMonthNameArr[monthIndex]} {calArr[1]}\nAge: {calArr[0]} {epochLs[calArr[0] > -1]}", 
 			1, 0, font = "Times 30", height = 2, width = 35)
 		self.titleAndWeekArr.append(title)
 
