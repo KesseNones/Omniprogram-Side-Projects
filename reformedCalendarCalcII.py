@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-22.89
+#Version: 2023-06-22.93
 
 from tkinter import *
 import datetime
@@ -159,9 +159,8 @@ class RefCalCalcII(object):
 
 		#Calculates year with age component.
 		rYear = year + 10000
-		negMul = [1, -1][rYear < 0]
-		subYear = ((rYear) % 10000)
-		age = ((rYear) // 10000)
+		subYear = (rYear % 10000)
+		age = (rYear // 10000)
 
 		#Caclulates reformed calendar date elements.
 		rMonth = (dayNum // 28) + 1
