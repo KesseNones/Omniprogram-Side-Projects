@@ -135,9 +135,8 @@ class RefCalLive(object):
 
 		#Calculates year with age component.
 		rYear = year + 10000
-		negMul = [1, -1][rYear < 0]
-		subYear = ((rYear * negMul) % 10000) * negMul
-		age = ((rYear * negMul) // 10000) * negMul
+		subYear = (rYear % 10000)
+		age = (rYear // 10000)
 
 		#Caclulates reformed calendar date elements.
 		rMonth = (dayNum // 28) + 1
