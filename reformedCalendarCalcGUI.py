@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-01.16
+#Version: 2023-06-22.93
 
 from tkinter import *
 import dateHandling
@@ -79,7 +79,10 @@ class ReformedCalendarCalc(object):
     def calc(self, year, month, day):
         #Finds reformed calendar year and calculates if it's a leap year.
         rYear = year + 10000
-        isLeap = self.leap.isLeapYear(rYear)
+        subYear = (rYear % 10000)
+        age = (rYear // 10000)
+        
+        isLeap = self.leap.isLeapYear(subYear)
 
         #Lists used in finding names based on calculations.
         refMonthList = ["Unuary", "Duotober", "Tres", "Quadtober", 
@@ -90,14 +93,14 @@ class ReformedCalendarCalc(object):
                         "Lunaday", "Marsday", "Joviday"]
         suppWeekNameList = ["Yearday", "Leapday"]
         metaList = [refWeekNameList, suppWeekNameList]
-        eraList = ["Human Era", "Before Human Era"]
+        eraList = ["Human Epoch", "Before Human Epoch"]
 
-        daysElapsed = self.metric.findDayNumOfYear(rYear, month, day) - 1
+        daysElapsed = self.metric.findDayNumOfYear(subYear, month, day) - 1
         monthIndex = daysElapsed // 28
         dayIndex = (daysElapsed % 28)
 
         #Calculates reformed calendar date string and returns it.
-        return f"{metaList[monthIndex == 13][dayIndex % 7]} {dayIndex + 1} {refMonthList[monthIndex]}\n{rYear} {eraList[rYear < 0]}"
+        return f"{metaList[monthIndex == 13][dayIndex % 7]} {dayIndex + 1} {refMonthList[monthIndex]} {subYear}\nAge: {age} {eraList[rYear < 0]}"
 
 def main():
     root = Tk()
