@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.09
+#Version: 2023-06-22.88
 
 from tkinter import *
 import datetime
@@ -70,18 +70,19 @@ class RefCalLive(object):
 		calArr = self.calcRef(dateArray)
 		
 		#Finds month index and establishes quad list and week day name list.
-		monthIndex = calArr[1] - 1 
+		monthIndex = calArr[2] - 1 
 		rMonthNameArr = ["Unuary", "Duotober", "Tres", "Quadtober", "Quintecember", 
 			"Sixril", "Septecember", "Octo", "Novembuary", 
 			"Decemptober", "Undecimber", "Dosdecimber", "Tridecimber", "Supplementary"]
 		rWeekNameArr = ["Solday", "Hermesday", "Venusday", 
 			"Terraday", "Lunaday", "Marsday", "Joviday"]
+		epochLs = ["B.H.E.", "H.E."]
 
 		#Creates tile with information 
 		#	that represents the title of the calendar.
 		title = Tile(self.frameTop, 
-			f"{rMonthNameArr[monthIndex]} {calArr[0]} H.E.", 
-			1, 0, font = "Times 30", height = 2, width = 20)
+			f"{rMonthNameArr[monthIndex]} {calArr[1]} (Age: {calArr[0]}) {epochLs[calArr[0] > -1]}", 
+			1, 0, font = "Times 30", height = 2, width = 35)
 		self.titleAndWeekArr.append(title)
 
 		#If the index is the last one, 
@@ -104,7 +105,7 @@ class RefCalLive(object):
 					monthNum += 1
 
 		#Sets the current day to yellow and completed days to darker gray.
-		day = calArr[2]
+		day = calArr[3]
 		pos = 1
 		while (pos < day):
 			(self.tileArray[pos - 1]).msgTile["bg"] = "#bebebe"
@@ -126,16 +127,23 @@ class RefCalLive(object):
 
 	#Calculates the reformed calendar based on input date.
 	def calcRef(self, dateArray):
+		#Date input given and day number of year found.
 		year = dateArray[0]
 		month = dateArray[1]
 		day = dateArray[2]
 		dayNum = self.metricAssist.findDayNumOfYear(year, month, day) - 1
 
+		#Calculates year with age component.
 		rYear = year + 10000
+		negMul = [1, -1][rYear < 0]
+		subYear = ((rYear * negMul) % 10000) * negMul
+		age = ((rYear * negMul) // 10000) * negMul
+
+		#Caclulates reformed calendar date elements.
 		rMonth = (dayNum // 28) + 1
 		rDay = (dayNum % 28) + 1
 
-		return [rYear, rMonth, rDay]
+		return [age, subYear, rMonth, rDay]
 
 	#Destroys the calendar page when called.
 	def destroyCalendarPage(self):
