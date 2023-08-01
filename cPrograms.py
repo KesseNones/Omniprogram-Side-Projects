@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-10.13
+#Version: 2023-08-01.27
 
 from tkinter import *
 import coinFlipGUI
@@ -88,7 +88,7 @@ class C(object):
         connecFour.main()
 
     #Converts a year to the equivalent year in the Chinese Calendar.
-    def chineseCalc(self):                      #DONE (Could use refactoring)
+    def chineseCalc(self):                      #DONE
         chineseCalCalc.main()
 
     #Calculates a grade from weighted grade portions. This is not a GUI.
