@@ -1,7 +1,8 @@
 #Jesse A. Jones
-#Version: 2022-11-22.3
+#Version: 2023-08-01.29
 
 from tkinter import *
+import dateHandling
 
 #This class contains a gui weighted grade calculator.
 #   It is recommended to not put more than ten 
@@ -54,6 +55,8 @@ class GuiGradeCalc(object):
             font = "Times 25")
         self.gradeOutput.grid(row = 1, column = 1)
 
+        self.parse = dateHandling.GetDate()
+
     #Adds grade entry to list.
     def addEntry(self):
         newEntry = GradeEntry(self.frameMiddle, self.entryCount * 2)
@@ -81,9 +84,9 @@ class GuiGradeCalc(object):
         
         #Casts user data if the entries were not empty.
         if usrGrd != "":
-            grade = float(usrGrd) / 100
+            grade = (self.parse.getGeneral(usrGrd)) / 100
         if usrVal != "":
-            value = float(usrVal) / 100
+            value = (self.parse.getGeneral(usrVal)) / 100
 
         #Makes sure grades stay in range 0 to 1.
         if (grade > 1):
