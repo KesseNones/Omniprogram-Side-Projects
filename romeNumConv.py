@@ -1,7 +1,8 @@
 #Jesse A. Jones
-#Version: 2023-06-01.18
+#Version: 2023-08-01.31
 
 from tkinter import *
+import dateHandling
 
 #This class takes in a positive integer 
 #   and converts it to a roman numeral string.
@@ -42,6 +43,8 @@ class RomanNumeral(object):
         self.romeOutput = Entry(self.frameBottom, font = "Ariel 20")
         self.romeOutput.grid(row = 3, column = 0)
     
+        self.parse = dateHandling.GetDate()
+
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
@@ -51,16 +54,11 @@ class RomanNumeral(object):
         self.decNum.delete(0, "end")
         self.romeOutput.delete(0, "end")
 
-    #Fetches integer input and returns it.
+    #Takes in user input and returns a positive integer. 
+    #   If the input is wrong, default value 1 is returned.
     def properIntGet(self):
-        numIn = self.decNum.get()
-        posOrNeg = [1, -1]
-        if numIn == "":
-            return 0
-        else:
-            number = int(numIn)
-            #Returns number that's at least 1 in size.
-            return number * (posOrNeg[number < 0]) + (1 * (number == 0))
+        num = self.parse.getYear(self.decNum.get())
+        return (num * [1, -1][num < 0]) + (1 * (num == 0))
 
     #Fetches input number, converts it to roman numeral, and displays result.
     def romanConverter(self):
