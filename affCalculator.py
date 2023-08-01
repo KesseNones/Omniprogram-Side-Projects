@@ -1,8 +1,9 @@
 #Jesse A. Jones
-#Version: 2022-12-22.2
+#Version: 2023-08-01.26
 
 from tkinter import *
 import math
+import dateHandling
 
 #This class contains the inputs necessary to convert multiples of the speed 
 #   of light to the Actillion FTL Factor, 
@@ -51,6 +52,8 @@ class ActillionFTLFactorCalc(object):
             font = "Times 20")
         self.cOutput.grid(row = 5, column = 1)
 
+        self.parse = dateHandling.GetDate()
+
     def quitButtonAction(self):
         self.window.destroy()
 
@@ -71,19 +74,19 @@ class ActillionFTLFactorCalc(object):
     def print_AFF_Calculation(self, S):
         #AFF to light speed case.
         if S == 1:
-            W = float(self.aff.get())
+            W = self.parse.getGeneral(self.aff.get())
             C = 200 ** W
             return C
 
         #Light speed to AFF case.
         if S == 2:
-            C = float(self.cI.get())
+            C = self.parse.getGeneral(self.cI.get())
 
             #Accounts for negative and 0 multiples of light speed.
             if C == 0:
-                self.aOutput["text"] = "Infinitely Negative Factor!"
+                return "Infinitely Negative Factor!"
             if C < 0:
-                self.aOutput["text"] = "Impossible!"
+                return "Impossible!"
         
             #Converts to light speed.    
             W = math.log(C, 200)
