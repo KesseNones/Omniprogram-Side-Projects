@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-28.2
+#Version: 2023-08-01.27
 
 from tkinter import *
 from math import inf, log10
