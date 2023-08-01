@@ -1,13 +1,12 @@
 #Jesse A. Jones
-#Version: 2023-05-09.93
+#Version: 2023-08-01.28
 
 from tkinter import *
 import math
-from math import log
+import dateHandling
 
 #This class takes in an input year in the API 
 #   and converts it to a year in the Chinese Calendar.
-
 class ChineseCalCalc(object):
 
     #Sets up GUI
@@ -42,26 +41,20 @@ class ChineseCalCalc(object):
             font = "Ariel 20", justify = LEFT)
         self.tOutput.grid(row = 3, column = 0)
     
+        self.parse = dateHandling.GetDate()
+
     #Quits the program.
     def quitButtonAction(self):
         self.window.destroy()
 
     #Calls functions to convert gregorian year to chinese year.
     def yearToCal(self):
-        date = self.chiCal()
-        self.tOutput["text"] = date 
-
-    #Fetches input year.
-    def yearGet(self):
-        if self.yearE.get() == "":
-            return 0
-        else:
-            return int(self.yearE.get())
+        self.tOutput["text"] = self.chiCal() 
 
     #Calculates the chinese year based on what year was given.
     def chiCal(self):
         baseCycleNum = 78
-        year = self.yearGet()
+        year = self.parse.getYear(self.yearE.get())
         
         #Calculates cycle and cycle number based 
         #   on if year is >= 1984 or not.
