@@ -1,9 +1,10 @@
 #Jesse A. Jones
-#Version: 2023-06-01.22
+#Version: 2023-08-01.31
 
 from tkinter import *
 import math
 import metricTimeToStandard
+import dateHandling
 
 #Takes in a distance and velocity 
 #   (optionally in light years and light speed percentage) 
@@ -59,6 +60,8 @@ class RelCalc(object):
         
         self.C = 299792458
 
+        self.parse = dateHandling.GetDate()
+
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
@@ -89,10 +92,10 @@ class RelCalc(object):
         #Checks to see if user intended percentage of light speed for velocity.
         if "%" in vel:
             vel = vel.replace("%", "")
-            vel = float(vel) / 100
+            vel = self.parse.getGeneral(vel) / 100
             vel = vel * self.C
         else:
-            vel = float(vel)
+            vel = self.parse.getGeneral(vel)
 
         dist = self.distance.get()
         
@@ -103,9 +106,9 @@ class RelCalc(object):
         #Determines if light years are units used in input.
         if "ly" in dist:
             dist = dist.replace("ly", "")
-            dist = float(dist) * 9.461e+15
+            dist = self.parse.getGeneral(dist) * 9.461e+15
         else:
-            dist = float(dist)
+            dist = self.parse.getGeneral(dist)
         return [dist, vel]
 
     #Calculates time distortion based on velocity and speed.
