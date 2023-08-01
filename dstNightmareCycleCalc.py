@@ -1,8 +1,8 @@
 #Jesse A. Jones
-#Version: 2023-05-11.20
+#Version: 2023-08-01.29
 
 from tkinter import *
-from tkinter import messagebox
+import dateHandling
 
 #This class was an attempt to calculate the nightmare cycle 
 #   of the caves in Don't Starve Together based on initial inputs. 
@@ -49,28 +49,20 @@ class NightmareCalc(object):
             font = "Ariel 20")
         self.tOutputII.grid(row = 6, column = 0)
     
+        self.parse = dateHandling.GetDate()
+
     #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
 
-    #Fetches day.
-    def dayGet(self):
-        if self.dayE.get() == "":
-            return 0
-        return int(self.dayE.get())
-
     #Fetches from day sliver field.
     def sliverGet(self):
-        if self.slv.get() == "":
-            return 0
-        if int(self.slv.get()) > 15 or int(self.slv.get()) < 0:
-            messagebox.showerror("Out of range error!", "Sliver must be in range 0 to 15!")
-            return
-        return int(self.slv.get())
+        sliverNum = self.parse.getYear(self.slv.get())
+        return (sliverNum if sliverNum > -1 and sliverNum < 16 else 0)
 
     #Finds estimate of current portion of nightmare cycle.
     def timeToCy(self):
-        daysElapsed = self.dayGet() - 1
+        daysElapsed = (self.parse.getYear(self.dayE.get())) - 1
         sliversElapsed = self.sliverGet()
         secondsTotal = (daysElapsed * 480) + (sliversElapsed * 30)
 
