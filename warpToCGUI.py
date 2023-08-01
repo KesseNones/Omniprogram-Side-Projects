@@ -1,7 +1,8 @@
 #Jesse A. Jones
-#Version: 2023-06-13.07
+#Version: 2023-08-01.32
 
 from tkinter import *
+import dateHandling
 
 #This class takes in an input Warp Factor 
 #   and returns the multiple of light speed it correlates to.
@@ -39,6 +40,8 @@ class WarpToCConv(object):
         self.cOutput = Label(self.frameBottom, text = "", font = FONT)
         self.cOutput.grid(row = 3, column = 0)
 
+        self.parse = dateHandling.GetDate()
+
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
@@ -46,8 +49,7 @@ class WarpToCConv(object):
     #Caclulates C multiple and displays result.
     def warpy(self):
         #Parses input warp factor.
-        inputW = self.warp.get()
-        warpFac = 0.0 if inputW == "" else float(inputW)
+        warpFac = self.parse.getGeneral(self.warp.get())
 
         #Calculates C and shows it.
         speed = self.warpToC(warpFac)
