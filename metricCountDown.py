@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-25.91
+#Version: 2023-08-01.24
 
 from tkinter import *
 import dateHandling
@@ -83,8 +83,8 @@ class metricCountDown(object):
 
         #Calculates final and initial metric dates 
         #   based on current input and current time.
-        metricDateFinal = metric.metric_calc(year, month, day, hour, minute)
-        metricDateInitial = metric.metric_time()
+        metricDateFinal = self.metric.metric_calc(year, month, day, hour, minute)
+        metricDateInitial = self.metric.metric_time()
         
         #Time delta between two metric dates turned into day count 
         #   and result is displayed before recursive loop occurs.
