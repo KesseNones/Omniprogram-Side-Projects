@@ -1,7 +1,8 @@
 #Jesse A. Jones
-#Version: 2023-05-12.15
+#Version: 2023-08-01.29
 
 from tkinter import *
+import dateHandling
 
 #This class calculates the date in 
 #   a made up calendar based on the input day number 
@@ -46,6 +47,8 @@ class dstCalCalc(object):
             font = "Ariel 20")
         self.tOutputIII.grid(row = 5, column = 0)
     
+        self.parse = dateHandling.GetDate()
+
     #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
@@ -61,7 +64,7 @@ class dstCalCalc(object):
     #Calculates DST calendar from day field.
     def dstCalCalc(self):
         #Fetches day field.
-        day = int(self.day.get())
+        day = self.parse.getYear(self.day.get())
         
         #Calculates current year and day of year.
         year = (day // 70) + 1
