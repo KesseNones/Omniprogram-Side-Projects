@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-07-25.94
+#Version: 2023-08-01.20
 
 from tkinter import *
 import baseConvertClass
@@ -112,15 +112,14 @@ class BaseCalc(object):
         self.first.delete(0, "end")
         self.second.delete(0, "end")
         self.calcOutput.delete(0, "end")
-
+    
     #Used to do light input parsing of text from given field.
     def inputFetch(self, inp):
-        try: 
-            castAttempt = float(inp)
-            return inp
-        except ValueError:
+        if inp == "":
             return "0"
-    
+        else:
+            return inp
+
     #Returns the two potentially floating 
     #   point input fields converted to base ten.
     #Returns array of converted number floating points on success.
