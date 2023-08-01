@@ -1,10 +1,10 @@
 #Jesse A. Jones
-#Version: 2023-06-13.12
+#Version: 2023-08-01.33
 
 from tkinter import *
 from math import log10
 from math import log
-from tkinter import messagebox
+import dateHandling
 
 #This class converts a subscriber count to a youtube tier and vice versa.
 class YoutubeTierConv(object):
@@ -69,25 +69,21 @@ class YoutubeTierConv(object):
             font = FONT)
         self.sOutputII.grid(row = 6, column = 1)
 
+        self.parse = dateHandling.GetDate()
+
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
     #Parses input subscriber count.
     def subCount(self):
-        subInput = self.sI.get()
-        if subInput != "" and float(subInput) >= 0 and float(subInput) < 1.797693e+308:
-            return float(subInput)
-        else:
-            return 0.0
+        inputSubs = self.parse.getGeneral(self.sI.get())
+        return inputSubs if inputSubs >= 0.0 and inputSubs < 1.797693e+308 else 0.0
 
     #Parses input tier.
     def tierGet(self):
-        tierInput = self.tier.get()
-        if tierInput != "" and float(tierInput) >= 0 and float(tierInput) <= 153.562:
-            return float(tierInput)
-        else:
-            return 0.0
+        inputTier = self.parse.getGeneral(self.tier.get())
+        return inputTier if inputTier >= 0.0 and inputTier <= 153.562 else 0.0
 
     #Converts subscriber count to tier.
     def subToTier(self):
