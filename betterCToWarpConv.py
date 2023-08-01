@@ -4,6 +4,7 @@
 from tkinter import *
 from math import inf, log10
 from math import ceil
+import dateHandling
 
 #Has the methods and members necessary to convert a multiple 
 #   of the speed of light to a warp factor in the Star Trek TNG scale.
@@ -44,6 +45,8 @@ class CToWConv(object):
         self.wOutput = Entry(self.frameBottom, font = "Times 30", justify = LEFT)
         self.wOutput.grid(row = 3, column = 0)
 
+        self.parse = dateHandling.GetDate()
+
     #Quits program.
     def quitButtonAction(self):
         self.window.destroy()
@@ -55,13 +58,8 @@ class CToWConv(object):
         self.wOutput.insert(0, "Loading...")
         self.wOutput.update()
 
-        #Does some input parsing. If the string is a number or inf, 
-        #   move on, otherwise stop early.
-        speedStr = self.cSpeed.get()
-        if (speedStr != "" or parseStr == "inf"):
-            speed = abs(float(speedStr))
-        else:
-            speed = 0
+        #Parses c multiple input.
+        speed = self.parse.getGeneral(self.cSpeed.get())
 
         #Converts C multiple to Warp Factor and displays it to user.
         warpFac = self.cToWarp(speed)
