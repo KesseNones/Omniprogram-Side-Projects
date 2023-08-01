@@ -1,8 +1,9 @@
 #Jesse A. Jones
-#Version: 2023-06-09.11
+#Version: 2023-08-01.26
 
 from tkinter import *
 import math
+import dateHandling
 
 #This class contains methods and members used 
 #   to convert from base ten to bases 2-36, and vice versa.
@@ -72,6 +73,8 @@ class baseConv(object):
             font = "Times 20")
         self.baseNOut.grid(row = 5, column = 1)
 
+        self.parse = dateHandling.GetDate()
+
     #Clears input entries.
     def clear(self):
         self.I.delete(0, "end")
@@ -103,15 +106,11 @@ class baseConv(object):
 
     #Fetches string representation of integer passed in.
     def integerNum(self):
-        if self.I.get() == "":
-            return "0"
-        return self.I.get()
+        return str(self.parse.getYear(self.I.get()))
 
     #Fetches base 10 integer from input.
     def baseTenInt(self):
-        if self.bsTen.get() == "":
-            return 0
-        return int(self.bsTen.get())
+        return self.parse.getYear(self.bsTen.get())
 
     #Converts either a base ten integer to another base, 
     #   or the otherway around, depending upon input boolean.
