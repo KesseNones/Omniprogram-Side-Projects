@@ -1,7 +1,8 @@
 #Jesse A. Jones
-#Version: 2023-06-09.17
+#Version: 2023-08-01.32
 
 from tkinter import *
+import dateHandling
 
 #This class takes in an input temperature 
 #   and converts between fahrenheit, celsius, or Kelvin.
@@ -71,6 +72,8 @@ class TempConverter(object):
             font = "Ariel 20")
         self.impossible.grid(row = 5, column = 1)
 
+        self.parse = dateHandling.GetDate()
+
     #Converts fahrenheit to celsius when called and displays the result.
     def FtoC(self):
         conv = self.convert(1)
@@ -110,7 +113,7 @@ class TempConverter(object):
     #Converts kelvin to fahrenheit when called and displays the result.
     def KtoF(self):
         conv = self.convert(5)
-        if float(self.temp.get()) < 0:
+        if self.parse.getGeneral(self.temp.get()) < 0:
             self.impossible["text"] = "Impossible Temperature"
         else:
             self.impossible["text"] = ""
@@ -119,7 +122,7 @@ class TempConverter(object):
     #Converts kelvin to celsius when called and displays the result.
     def KtoC(self):
         conv = self.convert(6)
-        if float(self.temp.get()) < 0:
+        if self.parse.getGeneral(self.temp.get()) < 0:
             self.impossible["text"] = "Impossible Temperature"
         self.tOutput["text"] = str(conv) + " °C"
 
@@ -131,42 +134,42 @@ class TempConverter(object):
     def convert(self, T):
         #F to C case.
         if T == 1:
-            F = float(self.temp.get())
+            F = self.parse.getGeneral(self.temp.get())
             C = (F - 32) / 1.8
             C = round(C, 3)
             return C
 
         #C to F case
         elif T == 2:
-            C = float(self.temp.get())
+            C = self.parse.getGeneral(self.temp.get())
             F = (C * 1.8) + 32
             F = round(F, 3)
             return F
 
         #F to K case
         elif T == 3:
-            F = float(self.temp.get())
+            F = self.parse.getGeneral(self.temp.get())
             K = ((F - 32) / 1.8) + 273.15
             K = round(K, 3)
             return K
 
         #C to K case.
         elif T == 4:
-            C = float(self.temp.get())
+            C = self.parse.getGeneral(self.temp.get())
             K = C + 273.15
             K = round(K, 3)
             return K
 
         #K to F case.
         elif T == 5:
-            K = float(self.temp.get())
+            K = self.parse.getGeneral(self.temp.get())
             F = ((K - 273.15) * 1.8) + 32
             F = round(F, 3)
             return F
 
         #K to C case.
         else:
-            K = float(self.temp.get())
+            K = self.parse.getGeneral(self.temp.get())
             C = K - 273.15
             C = round(C, 3)
             return C
