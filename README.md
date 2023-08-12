@@ -85,4 +85,45 @@ Generally, it's just a fancy zodiac clock for those who believe in that sort of 
 ### B Programs
 Launches all programs that start with the letter B.
 
-#### 
+#### Bearimy Converter
+Either takes in an amount of time elapsed to convert to Jeremy Bearimies or takes in Jeremy Bearimies and gives back time elapsed. 
+Jeremy Bearimies are from the show "The Good Place" which is a fun wacky show.
+
+#### Base Converter
+Takes in an integer in base range 2 to 36 and converts it to base 10 (decimal) and displays the result.
+Also can take in a base ten integer and convert it to a number in base 2 to 36.
+##### NOTE:
+This converter has limited input parsing due to its nature so it will error out if invalid input beyond just a blank entry is given!
+
+#### Binary Encoder and Decoder
+Takes in a string and converts it to Unicode Binary or takes in a Unicode Binary string and converts it back to a regular string.
+This program also has limited input parsing due to its nature.
+
+#### Binary Clock
+Displays the time of day in a truly binary format. The time is displayed in four blocks of four bits. 
+Each bit represents a fraction of the day. The leftmost bit is a half 
+of a day, the bit to the right of that is a quarter of a day, the one to the right of that an eighth of a day and onwards.
+As a result, going from 11:59 to noon looks like: ```0111 1111 1111 1111``` to ```1000 0000 0000 0000``` 
+and flipping to midnight looks like: ```1111 1111 1111 1111``` -> ```0000 0000 0000 0000```. 
+The time itself is based on the system's local time.
+
+#### Base Stopwatch
+Acts like a stopwatch but can count up in different bases ranging from 2 to 36. 
+Up to five places of precision can be displayed using the slider. As you'd expect of a stopwatch, it can be started, stopped, and reset.
+
+#### Base Six Clock
+Displays the time in base six, with there being 40~6~ or 24~10~ hours in the day and then the hours being divided into 100000~6~ or 7776~10~ fractional components.
+
+#### Base Calculator
+Performs addition, subtraction, multiplication, and division in bases 2 to 36. It generally can 
+do some decimal stuff but its floating point handling is pretty jank so best to avoid too much of it.
+Generally it's a basic calculator that can to base 2 to 36.
+##### NOTE:
+Due to how this calculator works input parsing is not very good. It accounts for empty input but otherwise it errors out if the input is any other kind of bad.
+
+#### Base Six Clock V. II
+Displays the time of day but in a true base six fashion. It displays first 216ths 1000~6~ths of the day which is then followed by 
+a point that displays 216ths of 216ths of the day or 1 000 000~6~ths (46 656~10~ths) of a day.
+
+### C Programs
+X 
