@@ -112,7 +112,7 @@ Acts like a stopwatch but can count up in different bases ranging from 2 to 36.
 Up to five places of precision can be displayed using the slider. As you'd expect of a stopwatch, it can be started, stopped, and reset.
 
 #### Base Six Clock
-Displays the time in base six, with there being 40~6~ or 24~10~ hours in the day and then the hours being divided into 100000~6~ or 7776~10~ fractional components.
+Displays the time in base six, with there being 40<sub>6</sub>> or 24<sub>10</sub> hours in the day and then the hours being divided into 100000<sub>6</sub>> or 7776<sub>10</sub>> fractional components.
 
 #### Base Calculator
 Performs addition, subtraction, multiplication, and division in bases 2 to 36. It generally can 
@@ -122,8 +122,8 @@ Generally it's a basic calculator that can to base 2 to 36.
 Due to how this calculator works input parsing is not very good. It accounts for empty input but otherwise it errors out if the input is any other kind of bad.
 
 #### Base Six Clock V. II
-Displays the time of day but in a true base six fashion. It displays first 216ths 1000~6~ths of the day which is then followed by 
-a point that displays 216ths of 216ths of the day or 1 000 000~6~ths (46 656~10~ths) of a day.
+Displays the time of day but in a true base six fashion. It displays first 216<sub>10</sub>ths 1000<sub>6</sub>ths of the day which is then followed by 
+a point that displays 216<sub>10</sub>ths of 216<sub>10</sub>ths of the day or 1 000 000<sub>6</sub>ths (46 656<sub>10</sub>ths) of a day.
 
 ### C Programs
 X 
