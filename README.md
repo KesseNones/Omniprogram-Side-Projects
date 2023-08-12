@@ -112,7 +112,7 @@ Acts like a stopwatch but can count up in different bases ranging from 2 to 36.
 Up to five places of precision can be displayed using the slider. As you'd expect of a stopwatch, it can be started, stopped, and reset.
 
 #### Base Six Clock
-Displays the time in base six, with there being 40<sub>6</sub>> or 24<sub>10</sub> hours in the day and then the hours being divided into 100000<sub>6</sub>> or 7776<sub>10</sub>> fractional components.
+Displays the time in base six, with there being 40<sub>6</sub> or 24<sub>10</sub> hours in the day and then the hours being divided into 100000<sub>6</sub> or 7776<sub>10</sub> fractional components.
 
 #### Base Calculator
 Performs addition, subtraction, multiplication, and division in bases 2 to 36. It generally can 
