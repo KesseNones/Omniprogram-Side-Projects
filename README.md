@@ -48,3 +48,14 @@ That's generally how to navitage the Omniprogram.
 
 What will be listed is all the programs the Omniprogram contains as well as a brief description for each one. 
 These programs are inherently alphabetized via how the main menu is setup. 
+
+### A Note on Input Fields
+Basically every input field uses a custom library to parse input. As a result if garbage is given, a default value is assumed, typically 0 or 1.
+As a result many programs when given bad input somewhere will instead put in a default value rather than error out. 
+It's more slick but could lead to some confusion when using these programs.
+
+### A Programs
+This program contains all programs that start with the letter A.
+
+#### Age Calculator
+Calculates the age based on the input birth date and input current date. 
