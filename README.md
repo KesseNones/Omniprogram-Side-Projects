@@ -59,3 +59,30 @@ This program contains all programs that start with the letter A.
 
 #### Age Calculator
 Calculates the age based on the input birth date and input current date. 
+If the birth date is after the current date, then it acts like a countdown with the age being negative. 
+It's best to have the start date be before the current date to minimize confusion.
+
+#### Actillion FTL Calculator
+Converts between a multiple of light speed and an Actillion FTL Factor (a fictional species' metric for speed).
+One input field prompts for a C multiple, which is converted to the equivalent Actillion FTL Factor when the conversion button is pressed. 
+The opposite happens in the second input field, where an Actillion FTL Factor is translated to a lightspeed multiple.
+
+#### A Lunisolar Calendar
+Takes in an input date and converts it to a custom made luni-solar calendar that contains 12 to 13 months in a year with the months being synched up with the moon.
+
+#### Alien Name Generator
+When the button is pressed, the program generates a random alien name based on three randomly picked chunks.
+
+#### Analog Clock
+A big fancy analog clock display that shows the time, date, day of the week, moonphase, 
+and changes color depending on the time of day.
+
+#### Astrological Zodiac Clock
+Displays the current position in the zodiac cycle according to Astrology. The moonphase is also displayed and the stars 
+in the background between the zodiac wheel and the moon are randomly generated each time the program is opened.
+Generally, it's just a fancy zodiac clock for those who believe in that sort of thing.
+
+### B Programs
+Launches all programs that start with the letter B.
+
+#### 
