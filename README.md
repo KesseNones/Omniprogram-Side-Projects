@@ -126,4 +126,90 @@ Displays the time of day but in a true base six fashion. It displays first 216<s
 a point that displays 216<sub>10</sub>ths of 216<sub>10</sub>ths of the day or 1 000 000<sub>6</sub>ths (46 656<sub>10</sub>ths) of a day.
 
 ### C Programs
-X 
+
+#### Coin Flipper
+Pretty self explanitory. You click the button, it displays a flipping message, and then displays the result of the current coin flip.
+
+#### C to Warp Converter
+You input a multiple of the speed of light and it converts it to a version of the Star Trek The Next Generation Warp Factor. 
+Essentially it raises the input speed of light multiple to 3/10 and if the multiple is greater than 1516 C 
+then it uses a complicated log based algorithim to calculate the threshold warp factor ranging from warp 9 to warp almost 10.
+If infinity or a float large enough to register as infinity is inputted then warp 10 will result since warp 10 is infinite velocity.
+
+#### Connect Four
+This program plays a game of Connect Four against an "AI". This was made for a school project in Fall Semester 2020.
+Essentially it follows the rules of Connect Four. You make a move and then the AI makes a move. 
+You can control how much the AI thinks by moving the AI difficulty slider in a range of 0 to 7. 
+
+##### Note 
+Past the difficulty of 5, the AI really starts to slow down because of deep recursion. 
+Difficulty 7 is easily the slowest but the AI is hardest to fight on this level. 
+
+##### Tiles
+The tiles of the board are circles representing where the pieces would be on an actual board. 
+White circles represent nothing there. Red is player pieces, and black is AI pieces.
+The tiles fall in an animated manner to look cooler. When a game is won for the player or AI, 
+a blue line is drawn to indicate what won the game for the player/AI.
+
+##### Message Text
+Below the board is a line of text that displays crucial game information.
+When the game boots up or a new game is started it prompts the user to click where they want to move.
+After the user makes their move, the AI makes its move 
+and then the text displays what column number it moved in range 0 to 6.
+If the player wins the game it says so, if the AI wins it says so.
+If the column is full it's indicated. If a replay is happening it says so.
+If the AI is taking a while you can see it say ```Loading...```.
+Generally this text just indicates useful game information.
+
+##### Buttons
+###### New Game
+Starts a new game, clearing the game data.
+
+###### Quit
+Quits the program.
+
+###### Replay Game
+When clicked the game runs from the beginning to the current game state. 
+Useful for showing a really close game or what exactly happened.
+
+###### Sound On/Off
+Enables or disables sound. 
+CURRENTLY SOUND IN THE EXECUTABLE VERSION OF THIS IS BROKEN SO SOUND DOESN'T WORK THERE.
+Assuming sound does work because you're running the interpreted version of the Omniprogram with all files present, 
+then some goofy sound effects play if enabled like: piece placement sound, player victory sound, AI victory sound, and
+Stalemate sound.
+
+#### Chinese Year Calculator
+Given an input year the Chinese Zodiac equivalent is calculated. 
+The output indicates the zodiac animal, element, yin/yang, as well as year of cycle and cycle number.
+
+#### Calculate Weighted Grade
+An old non-GUI program that can calculate a grade given percentage category weights and how much you have in each sub-category.
+For instance, if you have a great with 50 percent exams and 50 percent 
+homework where you have 90 percent on homework and 70 percent on exams the calculated class grade would be an 80 %.
+It asks if you're finished a lot because it's not a GUI. Also quitting this program exits the entire Omniprogram.
+Honeslty this program kinda sucks and probably will be removed in the future. Plus, there's a GUI version that works much better.
+##### NOTE
+THIS IS AN OUTDATED CODE VERSION KEPT AROUND FOR LEGACY PURPOSES. IT'S NOT A GUI.
+
+#### Calendar Month Displayer
+Given an input year and month the calendar page for that month of that year is displayed.
+It works but it's a bit janky. It may be fixed one day.
+
+#### Caesar Cipher
+Takes in a string and shifts each alphabetical character forward or backwards by 0 to 25 characters,
+encoding/decoding it in the manner of the Caesar Cipher.
+
+#### Centaurian Time
+Displays the current time at m.i.b headquarters which uses a 37 hour day. You get used to it, or you have a psychotic episode.
+
+#### Calculate Weighted Grade GUI Edition
+Used to calculate a grade you'd have in a class based on what 
+categories it has and what percentage you have in each category.
+To add a category you push the ```Add Entry``` button which pushes on a new entry
+that has fields for the category value and your percentage in it.
+To remove an entry you use the ```Pop Last``` button which removes the most recently added category.
+To calculate the grade you just press the ```Calculate Grade``` button which calculates the grade
+based on input information and spits out a percentage and letter grade.
+If no entries exist, nothing happens when ```Calculate Grade``` is pressed.
+
