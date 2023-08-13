@@ -213,3 +213,30 @@ To calculate the grade you just press the ```Calculate Grade``` button which cal
 based on input information and spits out a percentage and letter grade.
 If no entries exist, nothing happens when ```Calculate Grade``` is pressed.
 
+### D Programs
+
+#### DST Calendar Converter
+Given an input day, a calendar date is calculated for Don't Stare's world. 
+This only works if the time in the world is set to its default parameters and isn't messed with.
+
+#### Day Difference Date Calc
+Calculates the date given a day offset from today's date. 
+If the offset given is invalid input or 0, then today's date is given back.
+Otherwise the date is calculated based on the offset positive or negative given.
+
+#### DST Rough Nightmare Cycle Calculator
+This was an attempt to be able to calculate the rough phase of the nightmare cycle in DST's caves. 
+It didn't work so it was abandoned. It didn't work meaning the code works and everything but the 
+nightmare phase given is basically always wrong.
+
+#### Different Countdown Clock
+Given an input date and time, generates a countdown to or from a date.
+The units presented in the countdown are years, weeks, days, hours, minutes, and seconds, in that order.
+
+#### Different Clock (Not Mine)
+Displays the time based on a goofy clock reform idea I saw on YouTube.
+A day has 20 hours with each hour having 20 minutes, making each minute 216 seconds.
+
+#### 360 Degree Clock
+Shows the time in a degree-centric format, with the day being made of 360 degrees 
+with each degree having 60 arc-minutes and each arc-minute having 60 arc-seconds.
