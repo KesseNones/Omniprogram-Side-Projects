@@ -240,3 +240,48 @@ A day has 20 hours with each hour having 20 minutes, making each minute 216 seco
 #### 360 Degree Clock
 Shows the time in a degree-centric format, with the day being made of 360 degrees 
 with each degree having 60 arc-minutes and each arc-minute having 60 arc-seconds.
+
+### E Programs
+
+#### Eight Day Portion Clock
+Displays the current time if the day were broken up into eight chunks instead of two.
+Instead of just AM and PM, the chunks are: Late Night, Early Morning, Morning,
+Late Morning, Afternoon, Late Afternoon, Evening, and Night. 
+The clock displays the time ranging from 1 to 3 o'clock with minutes and seconds working as expected, 
+and the day portion name displayed below that.
+
+#### Eight Day Portion Clock Calculator
+Takes in an input time and converts it to the previously 
+discussed eight day portion clock, displaying it below.
+
+#### Easter Calculator
+Given an input year, calculates the date of Easter for that year.
+It's pretty accurate only occasionally being off by maybe a week.
+
+#### Eru'varian Clock
+Displays the current universal time on the planet Eru'var. 
+The time on Eru'var involves dividing the day into 12 hours
+and each hour into base 12 decimal chunks up to four places.
+This is done because the Eru'varians had 12 fingers and toes
+so they used base 12.
+
+#### Eru'varian Calendar and Clock
+Displays the current Eru'varian time and date.
+The date is all displayed in base 12 because the Eru'varians used base 12.
+You have the year, lunar cycle, day, and day of the week. A year contains 12 lunar cycles of 30 days each.
+An Eru'varian week is 6 days long with weekdays named: ```Torfung```, ```Solfung```, ```Varfung```, ```Melfung```, ```Orivfung```, and ```T'rarfung```. 
+Translated these weekdays mean: 
+Sun day, Moon Day, World Day, Melron's Day (Day of the First Monarch), Oriv's Day, and T'rar's Day. You also have the sub-age which is a period
+of 10000<sub>12</sub> (20736<sub>10</sub>) Eru'varian years. Each Eru'varian year
+is about 1.009 Earth years. Explaining the whole "Age of Balance" thing would
+take a while because it's wacky lore of my own universe.
+
+#### Eru'varian Reckoning Calculator
+Given an input date and time, the program calculates the equivalent Eru'varian date and time.
+
+#### Elven Calendar Calculator
+Given an input date, calculates the current date in the Elven Calendar of Middle Earth.
+
+#### Eridian Clock
+A base six time system used by the Eridians of the Project Hail Mary universe. One day is 7776 Eridian Seconds.
+Each Eridian Second is 2.667 Earth seconds so one day is 20 738.6 Earth seconds, or about 5.8 Earth hours.
