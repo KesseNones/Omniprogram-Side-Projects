@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.16
+#Version: 2023-08-14.91
 
 from tkinter import *
 import eightPortionClock
@@ -21,70 +21,72 @@ class E(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.eightButton = Button(self.frameBottom, text = "Eight Day Portion Clock", 
-            font = "Ariel 30", command = self.eightClock)
+            font = FONT, command = self.eightClock)
         self.eightButton.grid(row = 0, column = 0)
 
         self.eightCalcButton = Button(self.frameBottom, text = "Eight Day Portion Clock Calculator", 
-            font = "Ariel 30", command = self.eightClockCalc)
+            font = FONT, command = self.eightClockCalc)
         self.eightCalcButton.grid(row = 0, column = 1)
 
         self.easterCalcButton = Button(self.frameBottom, text = "Easter Calculator", 
-            font = "Ariel 30", command = self.easterCalc)
+            font = FONT, command = self.easterCalc)
         self.easterCalcButton.grid(row = 0, column = 2)
 
         self.eruClockButton = Button(self.frameBottom, text = "Eru'varian Clock", 
-            font = "Ariel 30", command = self.eruClock)
+            font = FONT, command = self.eruClock)
         self.eruClockButton.grid(row = 1, column = 0)
 
         self.eruCalButton = Button(self.frameBottom, text = "Eru'varian Calendar and Clock", 
-            font = "Ariel 30", command = self.eruCal)
+            font = FONT, command = self.eruCal)
         self.eruCalButton.grid(row = 1, column = 1)
 
         self.eruCalcButton = Button(self.frameBottom, text = "Eru'varian Reckoning Calculator", 
-            font = "Ariel 30", command = self.eruCalc)
+            font = FONT, command = self.eruCalc)
         self.eruCalcButton.grid(row = 1, column = 2)
 
         self.elfCalcButton = Button(self.frameBottom, text = "Elven Calendar Calculator", 
-            font = "Ariel 30", command = self.elfCalc)
+            font = FONT, command = self.elfCalc)
         self.elfCalcButton.grid(row = 2, column = 0)
 
         self.elfCalcButton = Button(self.frameBottom, text = "Eridian Clock", 
-            font = "Ariel 30", command = self.eriClock)
+            font = FONT, command = self.eriClock)
         self.elfCalcButton.grid(row = 2, column = 1)
 
     def quitButtonAction(self):
         self.window.destroy()
 
-    def eightClock(self):                           #DONE
+    def eightClock(self):                           
         eightPortionClock.main()
 
-    def eightClockCalc(self):                       #DONE
+    def eightClockCalc(self):                       
         eightPortionClockCalc.main()
 
-    def easterCalc(self):                           #DONE
+    def easterCalc(self):                           
         easterCalc.main()
 
-    def eruClock(self):                             #DONE
+    def eruClock(self):                             
         eruvarianClock.main()
 
-    def eruCal(self):                               #DONE
+    def eruCal(self):                               
         eruvarianCalendarAndClock.main()
 
-    def eruCalc(self):                              #DONE
+    def eruCalc(self):                              
         eruvarianReckoningCalculator.main()
 
-    def elfCalc(self):                              #DONE
+    def elfCalc(self):                              
         rivendellCalendarCalc.main()
 
-    def eriClock(self):                             #DONE
+    def eriClock(self):                             
         eridanianClock.main()
 
 def main():
