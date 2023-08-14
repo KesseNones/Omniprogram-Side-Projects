@@ -299,3 +299,14 @@ Takes in a string and converts it to Unicode Hexadecimals, or vice versa.
 Counts the number of fractions in a day in base 16. There are 10 000<sub>16</sub> or 65536<sub>10</sub> 
 fractional chunks in the day. It counts from 0000<sub>16</sub> to FFFF<sub>16</sub> and then overflows.
 
+### K Programs
+
+#### Kardashev Calc
+Converts a civilization's power consumption in Watts to a Kardashev scale number 
+based on Sagan's formula or converts a Kardashev Scale tier to power consumption.
+
+#### Kesse Nones Alias Generator
+Randomly generates an alias for Kesse Nones by swapping 
+out the first letter of each name chunk to another letter or nothing.
+Why does this exist? Don't worry about it.
+
