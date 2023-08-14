@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-23.07
+#Version: 2023-08-14.91
 
 from tkinter import *
 import reformedCalendarCalcGUI
@@ -19,53 +19,55 @@ class R(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.calButton = Button(self.frameBottom, text = "Reformed Calendar Calculator", 
-            font = "Ariel 30", command = self.refCalCalc)
+            font = FONT, command = self.refCalCalc)
         self.calButton.grid(row = 0, column = 0)
 
         self.romeButton = Button(self.frameBottom, text = "Roman Numeral Converter", 
-            font = "Ariel 30", command = self.romanNum)
+            font = FONT, command = self.romanNum)
         self.romeButton.grid(row = 0, column = 1)
 
         self.relativeity = Button(self.frameBottom, text = "Relativity Calculator", 
-            font = "Ariel 30", command = self.relative)
+            font = FONT, command = self.relative)
         self.relativeity.grid(row = 0, column = 2)
         
         self.romeClock = Button(self.frameBottom, text = "Roman Numeral Clock and Calendar", 
-            font = "Ariel 30", command = self.romeCalClock)
+            font = FONT, command = self.romeCalClock)
         self.romeClock.grid(row = 1, column = 0)
 
         self.refLiveButton = Button(self.frameBottom, text = "Reformed Calendar Live Edition", 
-            font = "Ariel 30", command = self.refCalLive)
+            font = FONT, command = self.refCalLive)
         self.refLiveButton.grid(row = 1, column = 1)
 
         self.refCalIIButton = Button(self.frameBottom, text = "Reformed Calendar Calculator Mk II", 
-            font = "Ariel 30", command = self.refCalCalcII)
+            font = FONT, command = self.refCalCalcII)
         self.refCalIIButton.grid(row = 1, column = 2)
 
     def quitButtonAction(self):
         self.window.destroy()
 
-    def refCalCalc(self):                       #DONE              
+    def refCalCalc(self):                                     
         reformedCalendarCalcGUI.main()
 
-    def romanNum(self):                         #DONE
+    def romanNum(self):                         
         romeNumConv.main()
 
-    def relative(self):                         #DONE
+    def relative(self):                         
         relativityCalculator.main()
         
-    def romeCalClock(self):                     #DONE
+    def romeCalClock(self):                     
         romanNumeralClock.main()
 
-    def refCalLive(self):                       #DONE
+    def refCalLive(self):                       
         reformedCalendarLive.main()
 
     def refCalCalcII(self):
