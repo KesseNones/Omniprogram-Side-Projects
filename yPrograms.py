@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.19
+#Version: 2023-08-14.92
 
 from tkinter import *
 import youtubeTierConv
@@ -14,22 +14,24 @@ class Y(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.youtubeButton = Button(self.frameBottom, text = "Youtube Tier Converter", 
-            font = "Ariel 30", command = self.youtubeTier)
+            font = FONT, command = self.youtubeTier)
         self.youtubeButton.grid(row = 0, column = 0)
 
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
-    def youtubeTier(self):          #DONE
+    def youtubeTier(self):          
         youtubeTierConv.main()
 
 def main():
