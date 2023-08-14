@@ -272,7 +272,7 @@ You have the year, lunar cycle, day, and day of the week. A year contains 12 lun
 An Eru'varian week is 6 days long with weekdays named: ```Torfung```, ```Solfung```, ```Varfung```, ```Melfung```, ```Orivfung```, and ```T'rarfung```. 
 Translated these weekdays mean: 
 Sun day, Moon Day, World Day, Melron's Day (Day of the First Monarch), Oriv's Day, and T'rar's Day. You also have the sub-age which is a period
-of 10000<sub>12</sub> (20736<sub>10</sub>) Eru'varian years. Each Eru'varian year
+of 10 000<sub>12</sub> (20 736<sub>10</sub>) Eru'varian years. Each Eru'varian year
 is about 1.009 Earth years. Explaining the whole "Age of Balance" thing would
 take a while because it's wacky lore of my own universe.
 
@@ -283,5 +283,19 @@ Given an input date and time, the program calculates the equivalent Eru'varian d
 Given an input date, calculates the current date in the Elven Calendar of Middle Earth.
 
 #### Eridian Clock
-A base six time system used by the Eridians of the Project Hail Mary universe. One day is 7776 Eridian Seconds.
+A base six time system used by the Eridians of the Project Hail Mary universe. One day is 7 776 Eridian Seconds.
 Each Eridian Second is 2.667 Earth seconds so one day is 20 738.6 Earth seconds, or about 5.8 Earth hours.
+
+### H Programs
+
+#### Huge Number Converter
+Given an input of a number that may be massive, it converts the number 
+to scientific notation and also gives the name of the number.
+
+#### Hexadecimal Encoder
+Takes in a string and converts it to Unicode Hexadecimals, or vice versa.
+
+#### Hexadecimal Clock
+Counts the number of fractions in a day in base 16. There are 10 000<sub>16</sub> or 65536<sub>10</sub> 
+fractional chunks in the day. It counts from 0000<sub>16</sub> to FFFF<sub>16</sub> and then overflows.
+
