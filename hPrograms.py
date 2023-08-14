@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.17
+#Version: 2023-08-14.91
 
 from tkinter import *
 import bigNumberUnderstander
@@ -16,35 +16,37 @@ class H(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
     
         self.bigNumButton = Button(self.frameBottom, text = "Huge Number Converter", 
-            font = "Ariel 30", command = self.hugeNumber)
+            font = FONT, command = self.hugeNumber)
         self.bigNumButton.grid(row = 0, column = 0)
 
         self.hexButton = Button(self.frameBottom, text = "Hexadecimal Encoder", 
-            font = "Ariel 30", command = self.hexCode)
+            font = FONT, command = self.hexCode)
         self.hexButton.grid(row = 0, column = 1)
 
         self.hexClockButton = Button(self.frameBottom, text = "Hexadecimal Clock", 
-            font = "Ariel 30", command = self.hexClock)
+            font = FONT, command = self.hexClock)
         self.hexClockButton.grid(row = 0, column = 2)
 
     def quitButtonAction(self):
         self.window.destroy()
 
-    def hugeNumber(self):                   #DONE
+    def hugeNumber(self):                   
         bigNumberUnderstander.main()
 
-    def hexCode(self):                      #DONE
+    def hexCode(self):                      
         hexEncoder.main()
 
-    def hexClock(self):                     #DONE
+    def hexClock(self):                     
         hexClock.main()
 
 def main():
