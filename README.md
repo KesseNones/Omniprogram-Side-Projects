@@ -6,6 +6,10 @@ and other random tools I felt were useful to make for myself.
 This program has been assembled over the course of years of messing around with Python, 
 first in terminal format programs and then in GUI form after learning about tkinter.
 This repositorty is a compilation of all such programs as well as an executable version to run on windows.
+
+THIS DOCUMENTATION IS A WORK IN PROGRESS SO LIKELY WILL HAVE SPELLING AND OTHER ERRORS. IGNORE THOSE BECAUSE
+THEY WILL GET FIXED IN TIME.
+
 ## How to Run
 There are multiple ways to run the Omniprogram for use.
 
@@ -310,3 +314,67 @@ Randomly generates an alias for Kesse Nones by swapping
 out the first letter of each name chunk to another letter or nothing.
 Why does this exist? Don't worry about it.
 
+### M Programs
+
+#### Metric Date
+Displays the current live metric date expressed as kilodays.
+As you'd guess, one kiloday is 1 000 days.
+Metric date 0 is 12000 years ago when humans began agriculture.
+
+#### Metric Date Calculator
+Calculates metric date based on input date and time.
+
+#### Metric Stopwatch
+A stopwatch that can be used as a, well, stopwatch.
+It counts up time as a measure of milidays, or thousandths of days.
+One miliday is 86.4 seconds or about one and a half minutes.
+The first three decimals to the right of milidays would therefore be microdays 
+and the further right three decimals would be nanodays.
+This stopwatch can be operated using three buttons: ```Start```, ```Pause```, and ```Reset```.
+```Start``` Starts or resumes the stopwatch time. ```Pause``` pauses the stopwatch or does nothing it it's already paused.
+Lastly, ```Reset``` resets the stopwatch to time 0.
+
+#### Metric Countdown
+Gives a metric countdown based on an input date and time. The countdown can count down or up depending 
+on if the given date and time is in the future or the past reletive to the current system time it uses as a basis.
+The countdown is given in units of days with precision out to microdays.
+
+#### Moon Phase Calculator MK II
+Calculates the moon phase and moon age based on an input date and time.
+
+#### Magic Eight Ball
+Mimics the iconic Magic Eight Ball toy. You use it by asking it a question mentally 
+or verbally (or not it's up to you) and pressing the ask button to get an answer.
+A random answer is then given based on all possible responses of the real Magic Eight Ball toy.
+##### NOTE
+Like with the Connect Four game, the executable's sound is broken.
+However, if you use the interpreted version of the Omniprogram then 
+each generated response will have a cheesy voice line if sound is enabled.
+
+#### Minecraft Calendar Calc
+Given an input date, calculates the date in the Minecraft calendar I made up for a country.
+It consists of a year with 12 months of 8 days each, making a 96 day year.
+The months are: ```Silverfish```, ```Cow```, ```Ocelot```, ```Rabbit```, ```Ender```, ```Skeleton```, 
+```Horse```, ```Sheep```, ```Steve```, ```Chicken```, ```Wolf```, ```Pig```.
+The month names are based on the Chinese Zodiac but changed to Minecraft mobs and stuff.
+For comparison, the chinese zodiac animals are: ```Rat```, ```Ox```, ```Tiger```, ```Rabbit```, 
+```Dragon```, ```Snake```, ```Horse```, ```Goat```, ```Monkey```, ```Rooster```, ```Dog```, ```Pig```.
+
+#### Mayan Long Count Calendar Calc
+Given input date, calculates date in Mayan time systems.
+Displays date of Mayan Long Count, Tzolkin, Haab, and current Lord of the Night.
+2012-12-20 is: Long Count -> 0.0.0.0.12.19.19.17.19, Tzolkin -> 3 Cauac, Haab -> 2 Kankin, and Lord of Night -> G8
+2012-12-21 is: Long Count -> 0.0.0.0.13.0.0.0.0, Tzolkin -> 4 Ahau, Haab -> 3 Kankin, and Lord of Night -> G9
+This flip over was a big deal and was cool to happen. However, it wasn't foretold as the end of the world like myths of the time (late 2000s to early 2010s) would have you believe.
+
+#### Maker of Nines
+This is a crappy Cookie Clicker bootleg idle game that involves making more and more Nines.
+What are Nines? That would take too long to explain. Anyways, you can click on the Nine to make Nines
+manually which can then buy upgrades like in the game Cookie Clicker. 
+This game has a save/load mechanic to save your data. It also autosaves every few minutes or so.
+It generates a text file with some save data named ```nineSave.txt```. If you try to load the save
+that doesn't exist, an erorr is thrown in the terminal but it keeps working. You just have to have it save
+that file. So yeah, a crappy idle game is basically what this is.
+
+#### Metric Date to Normal Date
+Takes in an input metric date expressed as kilodays and converts it to the equivalent calendar date.
