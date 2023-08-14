@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-12-28.1
+#Version: 2023-08-14.90
 
 from tkinter import *
 import bearimyConverterGUI
@@ -20,43 +20,45 @@ class B(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.berButton = Button(self.frameBottom, text = "Bearimy Converter", 
-            font = "Ariel 30", command = self.berimyConv)
+            font = FONT, command = self.berimyConv)
         self.berButton.grid(row = 0, column = 0)
 
         self.baseConvButton = Button(self.frameBottom, text = "Base Converter", 
-            font = "Ariel 30", command = self.baseConvert)
+            font = FONT, command = self.baseConvert)
         self.baseConvButton.grid(row = 0, column = 1)
 
         self.binConvButton = Button(self.frameBottom, text = "Binary Encoder and Decoder", 
-            font = "Ariel 30", command = self.binConv)
+            font = FONT, command = self.binConv)
         self.binConvButton.grid(row = 0, column = 2)
 
         self.binClockButton = Button(self.frameBottom, text = "Binary Clock", 
-            font = "Ariel 30", command = self.binClock)
+            font = FONT, command = self.binClock)
         self.binClockButton.grid(row = 1, column = 0)
 
         self.binClockButton = Button(self.frameBottom, text = "Base Stopwatch", 
-            font = "Ariel 30", command = self.anyBaseStop)
+            font = FONT, command = self.anyBaseStop)
         self.binClockButton.grid(row = 1, column = 1)
         
         self.baseSixClockButton = Button(self.frameBottom, text = "Base Six Clock", 
-            font = "Ariel 30", command = self.baseSixClock)
+            font = FONT, command = self.baseSixClock)
         self.baseSixClockButton.grid(row = 1, column = 2)
         
         self.baseCalcButton = Button(self.frameBottom, text = "Base Calculator", 
-            font = "Ariel 30", command = self.baseCalculator)
+            font = FONT, command = self.baseCalculator)
         self.baseCalcButton.grid(row = 2, column = 0)
 
         self.baseSixClockButtonII = Button(self.frameBottom, text = "Base Six Clock V. II", 
-            font = "Ariel 30", command = self.baseSixClock2)
+            font = FONT, command = self.baseSixClock2)
         self.baseSixClockButtonII.grid(row = 2, column = 1)
 
     #Quits the given window.
@@ -64,28 +66,28 @@ class B(object):
         self.window.destroy()
 
     #Activates program that converts from regular time to Bearmies and back.
-    def berimyConv(self):           #DONE
+    def berimyConv(self):
         bearimyConverterGUI.main()
 
     #Calls main of program that converts between various bases.
     def baseConvert(self):
-        baseConvGui.main()          #DONE
+        baseConvGui.main()
 
     #Converts text to the ascii binary equivalents.
     def binConv(self):
-        binEncoder.main()           #DONE
+        binEncoder.main()
 
     #Tells the time in a binary fashion.
     def binClock(self):
-        binaryClock.main()          #DONE
+        binaryClock.main()
 
     #A stopwatch for bases 2 through 36.
     def anyBaseStop(self):
-        baseCounter.main()          #DONE
+        baseCounter.main()
         
     #A clock that reckons time in base six.
     def baseSixClock(self):
-        baseSixClock.main()         #DONE
+        baseSixClock.main()
         
     #Performs math in different bases.
     def baseCalculator(self):
@@ -93,7 +95,7 @@ class B(object):
 
     #Another base six clock.
     def baseSixClock2(self):
-        baseSixClock2.main()        #DONE
+        baseSixClock2.main()
 
 def main():
     root = Tk()
