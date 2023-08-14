@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.19
+#Version: 2023-08-14.92
 
 from tkinter import *
 import warpToCGUI
@@ -17,43 +17,45 @@ class W(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.warpButton = Button(self.frameBottom, text = "Warp to C Converter", 
-            font = "Ariel 30", command = self.warpToC)
+            font = FONT, command = self.warpToC)
         self.warpButton.grid(row = 0, column = 0)
 
         self.weekButton = Button(self.frameBottom, text = "Weekday Calculator", 
-            font = "Ariel 30", command = self.weekFind)
+            font = FONT, command = self.weekFind)
         self.weekButton.grid(row = 0, column = 1)
 
         self.warButton = Button(self.frameBottom, text = "Warhammer 40K Calendar", 
-            font = "Ariel 30", command = self.warhammerFind)
+            font = FONT, command = self.warhammerFind)
         self.warButton.grid(row = 0, column = 2)
 
         self.warCalcButton = Button(self.frameBottom, text = "Warhammer 40K Calendar Calculator", 
-            font = "Ariel 30", command = self.warhammerCalc)
+            font = FONT, command = self.warhammerCalc)
         self.warCalcButton.grid(row = 1, column = 0)
 
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
     
-    def warpToC(self):                  #DONE
+    def warpToC(self):                  
         warpToCGUI.main()
 
-    def weekFind(self):                 #DONE
+    def weekFind(self):                 
         dayOfWeekCalc.main()
 
-    def warhammerFind(self):            #DONE
+    def warhammerFind(self):            
         W40KCalendar.main()
 
-    def warhammerCalc(self):            #DONE
+    def warhammerCalc(self):            
         W40KCalendarCalc.main()
 
 def main():
