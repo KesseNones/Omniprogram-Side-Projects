@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.17
+#Version: 2023-08-14.92
 
 from tkinter import *
 import kardeshevCalcGUI
@@ -14,28 +14,30 @@ class K(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.connecButton = Button(self.frameBottom, text = "Kardeshev Calc", 
-            font = "Ariel 30", command = self.karCalc)
+            font = FONT, command = self.karCalc)
         self.connecButton.grid(row = 0, column = 0)
 
         self.connecButton = Button(self.frameBottom, text = "Kesse Nones Alias Generator", 
-            font = "Ariel 30", command = self.kesseNonesAlias)
+            font = FONT, command = self.kesseNonesAlias)
         self.connecButton.grid(row = 0, column = 1)
 
     def quitButtonAction(self):
         self.window.destroy()
 
-    def karCalc(self):                  #DONE
+    def karCalc(self):                  
         kardeshevCalcGUI.main()
 
-    def kesseNonesAlias(self):          #DONE
+    def kesseNonesAlias(self):          
         kessNonesAliasGen.main()
 
 def main():
