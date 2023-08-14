@@ -105,46 +105,46 @@ class Omni(object):
         self.window.destroy()
 
     #All methods listed below call the alphabetized category programs.
-    def aFunc(self): #DONE
+    def aFunc(self):
         aPrograms.main()
 
-    def bFunc(self): #DONE (with comments)
+    def bFunc(self): 
         bPrograms.main()
 
-    def cFunc(self): #DONE
+    def cFunc(self): 
         cPrograms.main()
 
-    def dFunc(self): #DONE
+    def dFunc(self):
         dPrograms.main()
 
-    def eFunc(self): #DONE
+    def eFunc(self):
         ePrograms.main()
 
-    def hFunc(self): #DONE
+    def hFunc(self):
         hPrograms.main()
 
-    def kFunc(self): #DONE
+    def kFunc(self):
         kPrograms.main()
 
-    def mFunc(self): #DONE
+    def mFunc(self):
         mPrograms.main()
 
-    def rFunc(self): #DONE
+    def rFunc(self):
         rPrograms.main()
 
-    def sFunc(self): #DONE
+    def sFunc(self):
         sPrograms.main()
 
-    def tFunc(self): #DONE
+    def tFunc(self):
         tPrograms.main()
 
-    def vFunc(self): #DONE
+    def vFunc(self):
         vPrograms.main()
 
-    def wFunc(self): #DONE
+    def wFunc(self):
         wPrograms.main()
 
-    def yFunc(self): #DONE
+    def yFunc(self):
         yPrograms.main()
 
 def main():

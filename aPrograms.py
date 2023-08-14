@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2022-11-23.4
+#Version: 2023-08-14.90
 
 from tkinter import *
 import ageCalcGUI
@@ -20,35 +20,37 @@ class A(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.ageButton = Button(self.frameBottom, text = "Age Calculator", 
-            font = "Ariel 30", command = self.ageCalculator)
+            font = FONT, command = self.ageCalculator)
         self.ageButton.grid(row = 0, column = 0)
 
         self.affButton = Button(self.frameBottom, text = "Actillion FTL Calculator", 
-            font = "Ariel 30", command = self.actillionCalc)
+            font = FONT, command = self.actillionCalc)
         self.affButton.grid(row = 0, column = 1)
 
         self.affButton = Button(self.frameBottom, text = "A Lunisolar Calendar", 
-            font = "Ariel 30", command = self.lunisolarCalc)
+            font = FONT, command = self.lunisolarCalc)
         self.affButton.grid(row = 0, column = 2)
 
         self.affButton = Button(self.frameBottom, text = "Alien Name Generator", 
-            font = "Ariel 30", command = self.alienName)
+            font = FONT, command = self.alienName)
         self.affButton.grid(row = 1, column = 0)
 
         self.affButton = Button(self.frameBottom, text = "Analog Clock", 
-            font = "Ariel 30", command = self.analogClock)
+            font = FONT, command = self.analogClock)
         self.affButton.grid(row = 1, column = 1)
 
         self.affButton = Button(self.frameBottom, text = "Astrology Zodiac Clock", 
-            font = "Ariel 30", command = self.astrologyClock)
+            font = FONT, command = self.astrologyClock)
         self.affButton.grid(row = 1, column = 2)
 
     #Quits the program chunk.
@@ -56,29 +58,29 @@ class A(object):
         self.window.destroy()
 
     #Calculates the age based on a birth date and "current" date.
-    def ageCalculator(self): #DONE
+    def ageCalculator(self): 
         ageCalcGUI.main()
 
     #Calculates velocity based on the Actillion FTL Factor scale.
-    def actillionCalc(self): #DONE
+    def actillionCalc(self): 
         affCalculator.main()
 
     #Converts Gregorian Calendar Date to home-made lunisolar calendar date.
-    def lunisolarCalc(self): #DONE
+    def lunisolarCalc(self): 
         luniSolarCalAttempt.main()
 
     #Generates a random alien name based 
     #   on steriotypical alien name components.
-    def alienName(self): #DONE
+    def alienName(self):
         alienNameGenerator.main()
 
     #Displays an analog clock with some extra information attached.
-    def analogClock(self):  #DONE
+    def analogClock(self): 
         analogClock.main()
 
     #Displays the current position 
     #   in the western astrological zodiac.
-    def astrologyClock(self): #DONE
+    def astrologyClock(self):
         zodiacClock.main()
 
 #Creates and sustains GUI window.
