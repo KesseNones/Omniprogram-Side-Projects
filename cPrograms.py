@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-08-01.27
+#Version: 2023-08-14.90
 
 from tkinter import *
 import coinFlipGUI
@@ -23,9 +23,11 @@ class C(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         #Quit button.
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         #Bottom frame contains all buttons 
@@ -34,39 +36,39 @@ class C(object):
         self.frameBottom.pack(side = BOTTOM)
 
         self.flipButton = Button(self.frameBottom, text = "Coin Flipper",
-            font = "Ariel 30", command = self.coinFlipper)
+            font = FONT, command = self.coinFlipper)
         self.flipButton.grid(row = 0, column = 0)
 
         self.CButton = Button(self.frameBottom, text = "C to Warp Converter", 
-            font = "Ariel 30", command = self.CToWarp)
+            font = FONT, command = self.CToWarp)
         self.CButton.grid(row = 0, column = 1)
 
         self.connecButton = Button(self.frameBottom, text = "Connect Four", 
-            font = "Ariel 30", command = self.connecFour)
+            font = FONT, command = self.connecFour)
         self.connecButton.grid(row = 0, column = 2)
 
         self.chiButton = Button(self.frameBottom, text = "Chinese Year Calculator", 
-            font = "Ariel 30", command = self.chineseCalc)
+            font = FONT, command = self.chineseCalc)
         self.chiButton.grid(row = 1, column = 0)
 
         self.grdButton = Button(self.frameBottom, text = "Calculate Weighted Grade", 
-            font = "Ariel 30", command = self.grdCalc)
+            font = FONT, command = self.grdCalc)
         self.grdButton.grid(row = 1, column = 1)
 
         self.calButton = Button(self.frameBottom, text = "Calendar Month Displayer", 
-            font = "Ariel 30", command = self.mnthCalc)
+            font = FONT, command = self.mnthCalc)
         self.calButton.grid(row = 1, column = 2)
 
         self.caeButton = Button(self.frameBottom, text = "Caesar Cipher", 
-            font = "Ariel 30", command = self.caesarCode)
+            font = FONT, command = self.caesarCode)
         self.caeButton.grid(row = 2, column = 0)
 
         self.cenButton = Button(self.frameBottom, text = "Centaurian Time", 
-            font = "Ariel 30", command = self.centaurian)
+            font = FONT, command = self.centaurian)
         self.cenButton.grid(row = 2, column = 1)
 
         self.gradeMarkII = Button(self.frameBottom, text = "Calculate Weighted Grade GUI Edition", 
-            font = "Ariel 30", command = self.guiGrade)
+            font = FONT, command = self.guiGrade)
         self.gradeMarkII.grid(row = 2, column = 2)
 
     #Quits the program.
@@ -79,37 +81,37 @@ class C(object):
 
     #Converts a multiple of the speed of light 
     #   to the Star Trek TNG Warp Drive Scale.
-    def CToWarp(self):                          #DONE
+    def CToWarp(self):                          
         betterCToWarpConv.main()
 
     #Runs a GUI connect four game with several bells and wistles. 
     #   The sound is currently a bit broken and needs to be fixed.
-    def connecFour(self):                       #DONE
+    def connecFour(self):                       
         connecFour.main()
 
     #Converts a year to the equivalent year in the Chinese Calendar.
-    def chineseCalc(self):                      #DONE
+    def chineseCalc(self):                      
         chineseCalCalc.main()
 
     #Calculates a grade from weighted grade portions. This is not a GUI.
-    def grdCalc(self):                          #DONE
+    def grdCalc(self):                          
         gradeCalc.main()
 
     #Displays a calendar month page for a given year and month.
     #   Is kind of garbage and could use improving.
     def mnthCalc(self):
-        calMonthDisplayGUI.main()               #DONE (DISPLAY STUFF IS STILL WONKY)
+        calMonthDisplayGUI.main()              #DONE  (DISPLAY STUFF IS STILL WONKY)
 
     #Performs the classic Caeser Cipher encrption or decryption on a string.
     def caesarCode(self):
-        caesarCipher.main()                     #DONE
+        caesarCipher.main()                     
 
     #Displays the present Centaurian time that m.i.b Headquarters uses.
-    def centaurian(self):                       #DONE
+    def centaurian(self):                       
         centaurianTime.main()
 
     #Calculates a grade from weighted grade portions.
-    def guiGrade(self):                         #DONE
+    def guiGrade(self):                         
         gradeCalcGUI.main()
 
 def main():
