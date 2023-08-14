@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.19
+#Version: 2023-08-14.90
 
 #All alphabet category programs imported as well as tkinter.
 from tkinter import *
@@ -35,67 +35,69 @@ class Omni(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.aButton = Button(self.frameBottom, text = "A Programs",
-            font = "Ariel 30", command = self.aFunc)
+            font = FONT, command = self.aFunc)
         self.aButton.grid(row = 0, column = 0)
 
         self.bButton = Button(self.frameBottom, text = "B Programs",
-            font = "Ariel 30", command = self.bFunc)
+            font = FONT, command = self.bFunc)
         self.bButton.grid(row = 0, column = 1)
 
         self.cButton = Button(self.frameBottom, text = "C Programs",
-            font = "Ariel 30", command = self.cFunc)
+            font = FONT, command = self.cFunc)
         self.cButton.grid(row = 0, column = 2)
 
         self.dButton = Button(self.frameBottom, text = "D Programs",
-            font = "Ariel 30", command = self.dFunc)
+            font = FONT, command = self.dFunc)
         self.dButton.grid(row = 1, column = 0)
 
         self.eButton = Button(self.frameBottom, text = "E Programs",
-            font = "Ariel 30", command = self.eFunc)
+            font = FONT, command = self.eFunc)
         self.eButton.grid(row = 1, column = 1)
 
         self.hButton = Button(self.frameBottom, text = "H Programs",
-            font = "Ariel 30", command = self.hFunc)
+            font = FONT, command = self.hFunc)
         self.hButton.grid(row = 1, column = 2)
 
         self.kButton = Button(self.frameBottom, text = "K Programs", 
-            font = "Ariel 30", command = self.kFunc)
+            font = FONT, command = self.kFunc)
         self.kButton.grid(row = 2, column = 0)
 
         self.mButton = Button(self.frameBottom, text = "M Programs", 
-            font = "Ariel 30", command = self.mFunc)
+            font = FONT, command = self.mFunc)
         self.mButton.grid(row = 2, column = 1)
 
         self.rButton = Button(self.frameBottom, text = "R Programs", 
-            font = "Ariel 30", command = self.rFunc)
+            font = FONT, command = self.rFunc)
         self.rButton.grid(row = 2, column = 2)
 
         self.sButton = Button(self.frameBottom, text = "S Programs", 
-            font = "Ariel 30", command = self.sFunc)
+            font = FONT, command = self.sFunc)
         self.sButton.grid(row = 3, column = 0)
 
         self.tButton = Button(self.frameBottom, text = "T Programs", 
-            font = "Ariel 30", command = self.tFunc)
+            font = FONT, command = self.tFunc)
         self.tButton.grid(row = 3, column = 1)
 
         self.vButton = Button(self.frameBottom, text = "V Programs", 
-            font = "Ariel 30", command = self.vFunc)
+            font = FONT, command = self.vFunc)
         self.vButton.grid(row = 3, column = 2)
 
         self.wButton = Button(self.frameBottom, text = "W Programs", 
-            font = "Ariel 30", command = self.wFunc)
+            font = FONT, command = self.wFunc)
         self.wButton.grid(row = 4, column = 0)
 
         self.yButton = Button(self.frameBottom, text = "Y Programs", 
-            font = "Ariel 30", command = self.yFunc)
+            font = FONT, command = self.yFunc)
         self.yButton.grid(row = 4, column = 1)
 
     #This method quits the main window.
