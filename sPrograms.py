@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-13.17
+#Version: 2023-08-14.91
 
 from tkinter import *
 import stardateGUILIVE
@@ -23,85 +23,87 @@ class S(object):
         self.frameTop = Frame(self.window)
         self.frameTop.pack(side = TOP)
 
+        FONT = "Ariel 20"
+
         self.quitButton = Button(self.frameTop, text = "Quit",
-            font = "Ariel 30", command = self.quitButtonAction)
+            font = FONT, command = self.quitButtonAction)
         self.quitButton.pack()
 
         self.frameBottom = Frame(self.window)
         self.frameBottom.pack(side = BOTTOM)
 
         self.starButtonII = Button(self.frameBottom, text = "Stardate",
-            font = "Ariel 30", command = self.stardateLive)
+            font = FONT, command = self.stardateLive)
         self.starButtonII.grid(row = 0, column = 0)
 
         self.stardateButton = Button(self.frameBottom, text = "Stardate Calculator", 
-            font = "Ariel 30", command = self.stardateCalc)
+            font = FONT, command = self.stardateCalc)
         self.stardateButton.grid(row = 0, column = 1)
 
         self.seasonButton = Button(self.frameBottom, text = "Season Calendar Calculator", 
-            font = "Ariel 30", command = self.seasonCalc)
+            font = FONT, command = self.seasonCalc)
         self.seasonButton.grid(row = 0, column = 2)
 
         self.shireButton = Button(self.frameBottom, text = "Shire Calendar Calculator", 
-            font = "Ariel 30", command = self.shireCalc)
+            font = FONT, command = self.shireCalc)
         self.shireButton.grid(row = 1, column = 0)
 
         self.secButton = Button(self.frameBottom, text = "Second Counting Stopwatch", 
-            font = "Ariel 30", command = self.secStopwatch)
+            font = FONT, command = self.secStopwatch)
         self.secButton.grid(row = 1, column = 1)
 
         self.revButton = Button(self.frameBottom, text = "String Reverser", 
-            font = "Ariel 30", command = self.revString)
+            font = FONT, command = self.revString)
         self.revButton.grid(row = 1, column = 2)
 
         self.daysecButton = Button(self.frameBottom, text = "Seconds in Day", 
-            font = "Ariel 30", command = self.secCountOfDay)
+            font = FONT, command = self.secCountOfDay)
         self.daysecButton.grid(row = 2, column = 0)
 
         self.seasonclkButton = Button(self.frameBottom, text = "Season Clock", 
-            font = "Ariel 30", command = self.seasonClock)
+            font = FONT, command = self.seasonClock)
         self.seasonclkButton.grid(row = 2, column = 1)
 
         self.seasonclkButton = Button(self.frameBottom, text = "Starfield", 
-            font = "Ariel 30", command = self.starfield)
+            font = FONT, command = self.starfield)
         self.seasonclkButton.grid(row = 2, column = 2)
 
         self.sesSynButton = Button(self.frameBottom, text = "Seasonaly Synced Calendar", 
-            font = "Ariel 30", command = self.sesSynCalc)
+            font = FONT, command = self.sesSynCalc)
         self.sesSynButton.grid(row = 3, column = 0)
 
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
 
-    def stardateLive(self):                     #DONE
+    def stardateLive(self):                     
         stardateGUILIVE.main()
 
-    def stardateCalc(self):                     #DONE
+    def stardateCalc(self):                     
         stardateCalculatorGUI.main()
 
-    def seasonCalc(self):                       #DONE
+    def seasonCalc(self):                       
         seasonalCalCalc.main()
 
-    def shireCalc(self):                        #DONE
+    def shireCalc(self):                        
         shireCalConv.main()
 
-    def secStopwatch(self):                     #DONE
+    def secStopwatch(self):                     
         secondStopwatch.main()
 
-    def revString(self):                        #DONE
+    def revString(self):                        
         stringReverser.main()
 
-    def secCountOfDay(self):                    #DONE
+    def secCountOfDay(self):                    
         secondsInDay.main()
 
-    def seasonClock(self):                      #DONE
+    def seasonClock(self):                      
         seasonClock.main()
 
     def starfield(self):                        #DONE (could use some optimization)
         starfield.main()
 
-    def sesSynCalc(self):                       #DONE
+    def sesSynCalc(self):                       
         seasonalSyncCalendar.main()
 
 def main():
