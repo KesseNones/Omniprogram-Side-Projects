@@ -378,3 +378,61 @@ that file. So yeah, a crappy idle game is basically what this is.
 
 #### Metric Date to Normal Date
 Takes in an input metric date expressed as kilodays and converts it to the equivalent calendar date.
+
+### R Programs
+
+#### Reformed Calendar Calculator
+Takes in an input date and calculates the Reformed Calendar date from it.
+The Reformed Calendar is a calendar of thirteen 28 day long periods called 
+Quads. A 14th Quad is at the end of the year and usually just contains 1 day
+sometimes 2. This totals to 365/366 days for a the whole year.
+
+The calendar also displays an Age, which is useful for long term time keeping.
+One age is 10 000 years. It started with the 0th Age and went up from there,
+so being the first age means the year is 10 000 plus 2023 (more if you're from the future) of the current age.
+
+
+#### Roman Numeral Converter
+Takes in an integer and converts it to an equivalent Roman Numeral. 
+This system uses a bar system for numbers greater than 3 999. 
+For instance, 3 999 is MMMCMXCIX and 4 000 is |IV| which means 4 times 1000.
+So, to express say, a million you do |M| which is 1000 times 1000.
+A billion would be ||M||, a trillion |||M|||, a quadrillion, |>M|>k, a quintillion >M>, etc.
+Basically the side bars mimic roman numerals in how they progress too, 
+just each bar number equates to another multiplication of a thousand.
+In the converted number, numbers with bars on the sides are surrounded by parenthesis too to make seperating the large numbers possible.
+For example a million reads as ```(|M|)```.
+
+#### Relativity Calculator
+Given a distance and velocity, it calculates how long it takes to get there from the traveler's perspective.
+This program can have a unit specifier of ly in distance and a light speed percentage symbol % in velocity.
+For example you can input the distance as ```11.9 ly``` and the speed as ```92 %``` and it will understand you mean
+traveling 11.9 light years with the velocity of 92 percent light speed. 
+It then gives the number of seconds and standard formatted time to travel that distance from the traveler's perspective.
+
+#### Roman Numeral Clock and Calendar
+Displays the current date and time in Roman Numerals
+
+#### Reformed Calendar Live Edition
+Displays the current calendar page of the current date of the Reformed Calendar.
+It's layed out like a calendar page would be in a grid pattern of days.
+
+The weekdays are different of course since it's a different calendar.
+The names of the week days are: ```Solday```, ```Hermesday```, ```Venusday```, 
+```Terraday```, ```Lunaday```, ```Marsday```, ```Joviday```.
+Translated to more plain english the week days are: ```Sun Day```, ```Mercury Day```, ```Venus Day```, 
+```Earth Day```, ```Moon Day```, ```Mars Day```, ```Jupiter Day```
+
+The medium periods of this calendar are called Quads, short for Quadroons. A quad is a period of four weeks in this calendar.
+There are 13 quads of the main calendar and one really short extra quad to complete the year at the end.
+The names of the quads are basically a number in latin/spanish and some random suffix, except for the last one which literally just means extra.
+The Quads are: ```Unuary```, ```Duotober```, ```Tres```, ```Quadtober```, ```Quintecember```, ```Sixril```, 
+```Septecember```, ```Octo```, ```Novembuary```, ```Decemptober```, ```Undecimber```, ```Dosdecimber```, ```Tridecimber```, and ```Supplementary```
+
+The current day in the Quad is highlighted yellow. Days already complete if any are a dark grey.
+Future days if any are a light grey. Beyond the days of the Quad, the Quad name is also displayed as well as the year and Age.
+
+#### Reformed Calendar Calculator Mk II
+Looks like the Reformed Calendar Page described above and starts on today's date in the calendar but can take in an input Gregorian Calendar date.
+This input Gregorian Calendar date is then converted to the Reformed Calendar and the calendar page is remade to display the calculated date.
+
