@@ -436,3 +436,96 @@ Future days if any are a light grey. Beyond the days of the Quad, the Quad name 
 Looks like the Reformed Calendar Page described above and starts on today's date in the calendar but can take in an input Gregorian Calendar date.
 This input Gregorian Calendar date is then converted to the Reformed Calendar and the calendar page is remade to display the calculated date.
 
+### S Programs
+
+#### Stardate
+Displays a version of the Stardate from Star Trek the Next Generation.
+The Stardate precision can be controlled by the precision slider 
+from the classic one decimal of precision all the way up to 5.
+
+#### Stardate Calculator
+Takes in an input date and time and calculates the 
+Star Trek TNG Stardate, displaying it at five decimals of precission.
+
+#### Season Calendar Calculator
+Takes an input date and calculates the Season Calendar date. 
+This calendar displays the day of the current season, the season, 
+and the year which is the gregorian year minus 2000.
+It also shows the moonphase of that day, for fun.
+If you're from the southern hemisphere, just flip the season it says it is.
+It's a very Northern Hemisphere biased calendar.
+
+#### Shire Calendar Calculator
+Receives an input date and calculates the date in the Shire Calendar of Middle Earth.
+It's similar to the Gregorian Calendar but with some more flavor.
+
+#### Second Counting Stopwatch
+A stopwatch that counts up in the units of seconds from 0.
+This stopwatch is basically a stopwatch without converting seconds 
+to other time units and just keeping with seconds.
+
+Three buttons control this stopwatch: ```Start```, ```Pause```, and ```Reset```.
+The ```Start``` button starts or resumes the stopwatch, the ```Pause``` button pauses the stopwatch 
+or does nothing if the stopwatch is already paused (CURRENTLY PRESSING PAUSE MORE THAN ONCE ACTUALLY MESSES WITH IT. WILL GET FIXED SOON).
+```Reset``` resets the stopwatch time to 0 from wherever.
+
+#### String Reverser
+Takes in a string as input and reverses it, displaying the result in the bottom box. 
+Pretty simple.
+
+#### Seconds in Day
+Counts up the number of seconds elapsed in the current day based on local system time.
+
+#### Season Clock
+A clock face that displays where in the seasonal cycle the Northern Hemisphere is by having
+a clock hand pointing to the portion of the season it is. It's very pretty.
+Again this is Northern Hemisphere biased, if you're from the Southern Hemisphere, just flip the seasons, 
+so Winter becomes Summer and Autumn becomes Spring. 
+
+It also displays the moon phase because why not.
+
+#### Starfield
+Displays a starfield that moves stars by you as if you were traveling at slow warp speed.
+It looks like you're traveling through space. The inner layer keeps spawning new stars and moving.
+The background stars eventually disappear as they move past you. Generally it's just a neatish 
+looking starfield made of randomly generated "stars".
+
+#### Seasonaly Synced Calendar
+Takes an input date and calculates the equivalent date in the Seasonaly Synced Calendar.
+This calendar is like our own but more in sync with the seasons, as the name indicates.
+The calendar takes the current date, moves it back 19 days 
+and the year starts in March instead of January. 
+
+As a result of these adjustments, 
+based on the Northern Hemisphere, the year starts on the spring equinox 
+which reads as March 1st which is March 20th in our calendar. Then, three months later, June is reached and marks the start 
+of Summer at June 1st which is June 20th in our calendar. Granted the Summer Solstice is June 21st but it's close enough, much closer than our current calendar.
+Three months after that Autumn begins on September 1st which is September 20th in our calendar usually. This is close enough to the equinox to work.
+Three months after that begins the final season of Winter on December 1st, December 20th in our calendar.
+
+Beyond just having the seasons starting at the start of months, each season now contains exactly 3 months: Spring has March, April, and May, 
+Summer has June, July, and August, Autumn has September, October, and November, and Winter has December, January, and February. 
+Since February is the last month of the year in this calendar, the leap day is at the end of the year instead of at an arbitrary early point 
+of the year. Starting in spring also just makes more sense since it signifies a time of rebirth and all that.
+
+Another neat bonus is that some of the month names actually make sense again. Here are the months with their new numbers: <br>
+```
+1. March 
+2. April 
+3. May 
+4. June 
+5. July 
+6. August 
+7. September
+8. October
+9. November
+10. December
+11. January
+12. February 
+```
+Notice how September, meaning seventh month, is now actually the seventh month, 
+just like how october is the 8th, november is the 9th and december the 10th. 
+
+Overall, no one will ever use this calendar because switching would be confusion 
+and the pain of switching far outweighs any benefits this calendar provides. Still a neat adjustment though.
+
