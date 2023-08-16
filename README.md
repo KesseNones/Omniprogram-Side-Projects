@@ -529,3 +529,27 @@ just like how october is the 8th, november is the 9th and december the 10th.
 Overall, no one will ever use this calendar because switching would be confusion 
 and the pain of switching far outweighs any benefits this calendar provides. Still a neat adjustment though.
 
+### T Programs
+
+#### Temp Converter
+Converts an input temperature between the three main temperature systems of Celsius, Fahrenheit, and Kelvin
+and outputs the converted temperature.
+
+#### Time Displayer Ultima
+Displays a series of previously made time systems live.
+The systems displayed are the Metric Date, Star Trek Next Generation Stardate,
+Star Trek The Original Series Stardate, UTC Time, Local Time, the current date in the Gregorian and Seasonal Calendar, the week number of the year, the day number of the year, the Moon Age, and the Moonphase.
+
+#### TOS Stardate
+Displays the live Star Trek the Original Series Stardate with precision range of one decimal to 5 decimals.
+
+#### TOS Stardate Calc
+Takes in an input date and time and calculates the Star Trek: The Original Series Stardate based on the input.
+
+#### TNG True Stardate
+Displays another version of the live Star Trek: The Next Generation Stardate which accounts for the current
+year instead of being the show stardate continued like the other TNG Stardate.
+This version of the stardate involves calculating how many years displacement from 2323 for the first digit segment and the fragment of the year for the last four digits.
+
+#### TNG True Stardate Calculator
+Takes in an input date and time and calculates the True TNG Stardate based on the input.
