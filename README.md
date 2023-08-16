@@ -553,3 +553,23 @@ This version of the stardate involves calculating how many years displacement fr
 
 #### TNG True Stardate Calculator
 Takes in an input date and time and calculates the True TNG Stardate based on the input.
+
+### V Programs
+
+#### Viking Calendar (WIP)
+The eternally WIP calendar that takes an input date and converts it to a version of the old viking calendar.
+This calendar is luni-solar and messy but kinda neat.
+
+#### Visual Clock
+Displays the time of the day using a series of emoji's as opposed to numbers.
+The top symbol is an AM sun or a PM moon. 
+The second row has the hours ranging from 1 to 12 of varying symbols depending on the time of day.
+Be aware that the hours are an hour ahead, so midnight is 1 and noon is 1, not 12. This might change later. 
+The third row is clock faces that represent five minute chunks of the hour. 
+Below those is a row of hourglasses which represent singular minutes in the hour. 
+Below that are hand symbols that represent five second chunks. 
+Lastly, there's a hearts that represent a single second since a resting heart beat is similar to one a second.
+
+#### Visual Clock Calculator
+Takes in an input time and calculates the equivalent Visual Clock time.
+
