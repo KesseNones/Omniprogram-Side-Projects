@@ -596,3 +596,7 @@ Takes in an input date and time and calculates the equvialent Imperial Calendar 
 #### Youtube Tier Converter
 Converts a subscriber count to a Youtube Tier, a madeup scale by me because yes.
 Also can convert a tier to a subscriber count.
+
+## Conclusion
+This whole program set is not super serious and rather goofy. Some applications are quite useful while others
+are completely useless. It's just a series of random fun ideas I had for Python tkinter programs I had. Is it a good program? No. Was it fun to put it all together? YES. Hopefully you have fun messing around with this if you feel like checking it out.
