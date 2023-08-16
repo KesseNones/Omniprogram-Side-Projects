@@ -573,3 +573,21 @@ Lastly, there's a hearts that represent a single second since a resting heart be
 #### Visual Clock Calculator
 Takes in an input time and calculates the equivalent Visual Clock time.
 
+### W Programs
+
+#### Warp to C Converter
+Takes in a Star Trek TNG Warp Factor and converts it to its equivalent light speed multiple.
+Using this program, one can see the wacky threshold thing that approaching Warp 10 does.
+
+#### Weekday Calculator
+Takes in an input date and calculates the day of the week that that date is on.
+
+#### Warhammer 40K Calendar
+Displays the current Imperial Calendar date.
+The checking number is a static 0 because this program will never not be run on Holy Terra (probably).
+The next three digits are the thousandths of the year, the third block of three digits is the year of the current
+millennium, and lastly the M block is the millenium. For example, 2023 is 023.M03, so year 23 of the 3rd millennium. The Emperor Protects.
+
+#### Warhammer 40K Calendar Calculator
+Takes in an input date and time and calculates the equvialent Imperial Calendar date.
+
