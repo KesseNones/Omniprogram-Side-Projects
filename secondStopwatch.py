@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-07.24
+#Version: 2023-08-17.87
 
 import time
 from tkinter import *
@@ -47,11 +47,12 @@ class SecStopwatch(object):
 
     #Pauses stopwatch.
     def pauseButtonAction(self):
-        self.pauseFlag = True
+        if not(self.pauseFlag):
+            self.pauseFlag = True
 
-        #Saves current time to time delta.
-        time = self.stopWatch()
-        self.timeDelta = time
+            #Saves current time to time delta.
+            time = self.stopWatch()
+            self.timeDelta = time
 
     #Quits program when called.
     def quitButtonAction(self):

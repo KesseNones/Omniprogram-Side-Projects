@@ -466,7 +466,7 @@ to other time units and just keeping with seconds.
 
 Three buttons control this stopwatch: ```Start```, ```Pause```, and ```Reset```.
 The ```Start``` button starts or resumes the stopwatch, the ```Pause``` button pauses the stopwatch 
-or does nothing if the stopwatch is already paused (CURRENTLY PRESSING PAUSE MORE THAN ONCE ACTUALLY MESSES WITH IT. WILL GET FIXED SOON).
+or does nothing if the stopwatch is already paused.
 ```Reset``` resets the stopwatch time to 0 from wherever.
 
 #### String Reverser
