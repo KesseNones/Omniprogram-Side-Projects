@@ -1,10 +1,15 @@
 #Jesse A. Jones
-#Version: 2023-08-01.27
+#Version: 2024-01-02.10
 
 from tkinter import *
 from math import inf, log10
 from math import ceil
 import dateHandling
+
+import decimal
+from decimal import Decimal
+
+decimal.getcontext().prec = 360
 
 #Has the methods and members necessary to convert a multiple 
 #   of the speed of light to a warp factor in the Star Trek TNG scale.
@@ -67,15 +72,15 @@ class CToWConv(object):
         self.wOutput.insert(0, f"Warp Factor: {warpFac}")
 
     #Converts warp factor to speed of light multiple.
-    def warpToC(self, warp):
+    def warpToC(self, warp: Decimal) -> Decimal:
         if (warp <= 9):
-            C = warp ** (10/3)
+            C = warp ** Decimal(10/3)
         else:
-            C = ((warp ** (10/3))/(warp - 10)) * -1
+            C = ((warp ** Decimal(10/3))/(warp - Decimal(10))) * Decimal(-1)
         return C
     
     #Converts light speed multiple to warp factor.
-    def cToWarp(self, speed):
+    def cToWarp(self, speed: float) -> Decimal:
         #If speed is infinite, warp factor is 10.
         if (speed == inf):
             return 10
@@ -85,20 +90,14 @@ class CToWConv(object):
         #Calculates warp factor with constant time mathematics 
         #   if the speed of light multiple is less than 1516.4 or so.
         if (speed <= 1516.3811070048380994924114249569):
-            warp = speed ** (3/10)
+            warp = Decimal(speed) ** Decimal(3/10)
             return warp
 
         #Calculates necessary logarithims for converting 
         #   to a warp factor for a speed larger than 1516.4.
-        warp = 9
+        warp = Decimal(9)
         expectedSpeed = round(log10(speed), 4)
-        currentSpeed = round(log10(self.warpToC(warp)), 4)
-        maxSpeed = round(log10(1.2128389084027075e+18), 4)
-        
-        #Returns particular string if speed 
-        #   is too large to calculate but not infinite.
-        if (expectedSpeed > maxSpeed):
-            return "Greater than 9.999999999999999 and less than 10"
+        currentSpeed = round(log10(float(self.warpToC(warp))), 4)
 
         #Loop runs until sufficiently precise warp factor has been found.
         while (True):
@@ -112,13 +111,13 @@ class CToWConv(object):
             #Calculates warp factor decimal place value. 
             while (place < 9):
                 #Increases warp factor by 1/div.
-                warp += (1 / div)
+                warp += Decimal(1 / div)
 
                 #Rounds to desired place to avoid floating point messyness.
                 warp = round(warp, int(ceil(log10(div))))
 
                 #Calculates current speed from current warp factor.
-                currentSpeed = round(log10(self.warpToC(warp)), 4)
+                currentSpeed = round(log10(float(self.warpToC(warp))), 4)
 
                 #If the exactly correct warp factor is found, 
                 #   return the warp factor.
@@ -128,16 +127,11 @@ class CToWConv(object):
                 #If the warp factor becomes too great, 
                 #   decrease by 1/div and quit this sub loop.
                 if (currentSpeed > expectedSpeed):
-                    warp -= (1 / div)
+                    warp -= Decimal(1 / div)
                     warp = round(warp, int(ceil(log10(div))))
                     break
 
                 place += 1
-
-            #If the precision of 16 decimal places has been reached, 
-            #   the warp factor is returned.
-            if (log10(div) > 15):
-                return warp
 
 def main():
     root = Tk()
