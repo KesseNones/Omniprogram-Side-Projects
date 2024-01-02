@@ -1,8 +1,13 @@
 #Jesse A. Jones
-#Version: 2023-08-01.32
+#Version: 2024-01-02.07
 
 from tkinter import *
 import dateHandling
+
+import decimal
+from decimal import Decimal
+
+decimal.getcontext().prec = 1000
 
 #This class takes in an input Warp Factor 
 #   and returns the multiple of light speed it correlates to.
@@ -47,29 +52,33 @@ class WarpToCConv(object):
         self.window.destroy()
 
     #Caclulates C multiple and displays result.
-    def warpy(self):
+    def warpy(self) -> None:
         #Parses input warp factor.
-        warpFac = self.parse.getGeneral(self.warp.get())
+        warpFac: Decimal = None
+        try: 
+            warpFac = Decimal(self.warp.get())
+        except decimal.InvalidOperation:
+            warpFac = Decimal(0)
 
         #Calculates C and shows it.
         speed = self.warpToC(warpFac)
         self.cOutput["text"] = "The speed is: " + str(speed) + " C"
 
     #Calculates C multiple based on warp factor and returns it.
-    def warpToC(self, warpFac):
+    def warpToC(self, warpFac: Decimal):
         #Invalid warp factor case.
-        if warpFac > 10 or warpFac < 0:
+        if warpFac > Decimal(10) or warpFac < Decimal(0):
             return "[INVALID WARP FACTOR]"
         
         #Caclulates C from warp factors in normal range.
-        if 0 <= warpFac <= 9:
-            C = warpFac ** (10/3)
-            C = round(C, 3)
+        if Decimal(0) <= warpFac <= Decimal(9):
+            C = warpFac ** Decimal(10/3)
+            C = float(round(C, 3))
 
         #Calculates C for warp factors of threshold case.
-        elif 10 > warpFac > 9:
-            C = (warpFac ** (10/3)) / (warpFac - 10) * -1
-            C = round(C, 3)
+        elif Decimal(10) > warpFac > Decimal(9):
+            C = (warpFac ** Decimal(10/3)) / (warpFac - Decimal(10)) * Decimal(-1)
+            C = float(round(C, 3))
         else:
             C = "INFINITY"
         
