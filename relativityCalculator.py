@@ -1,10 +1,15 @@
 #Jesse A. Jones
-#Version: 2023-08-01.31
+#Version: 2024-01-14.93
 
 from tkinter import *
 import math
 import metricTimeToStandard
 import dateHandling
+
+import decimal
+from decimal import Decimal
+
+decimal.getcontext().prec = 1000
 
 #Takes in a distance and velocity 
 #   (optionally in light years and light speed percentage) 
@@ -58,7 +63,7 @@ class RelCalc(object):
 
         self.convToStand = metricTimeToStandard.MetricToStandard()
         
-        self.C = 299792458
+        self.C: Decimal = Decimal(299792458)
 
         self.parse = dateHandling.GetDate()
 
@@ -70,62 +75,66 @@ class RelCalc(object):
     def timeFind(self):
         #Calculates time in seconds and displays result.
         time = self.calcRelative()
-        self.messageTime["text"] = round(time, 3)
+        self.messageTime["text"] = float(time)
         self.messageTimeSeg["text"] = "Seconds"
 
         #Displays time as infinite or a finite amount of converted time.
         if (time == math.inf):
             self.messageTimeSegOther["text"] = "Inf yr"
         else:
-            self.messageTimeSegOther["text"] = self.convToStand.metricToStandard(((round(time, 3)) / 86400), True)
+            self.messageTimeSegOther["text"] = self.convToStand.metricToStandard((time / 86400), True)
         
 
     #Fetches speed and distance from inputs 
     #   and sets class variables unnescesarily.
-    def distAndSpeedGet(self):
+    def distAndSpeedGet(self) -> list[Decimal]:
+        #Parses the input velocity.
         vel = self.velocity.get()
 
-        #Checks for empty velocity input.
-        if vel == "":
-            vel = "0"
-        
-        #Checks to see if user intended percentage of light speed for velocity.
-        if "%" in vel:
-            vel = vel.replace("%", "")
-            vel = self.parse.getGeneral(vel) / 100
-            vel = vel * self.C
-        else:
-            vel = self.parse.getGeneral(vel)
+        try:
+            #Accounts for if light speed percentage is given.
+            #Otherwise just converts to regular decimal.
+            if "%" in vel:
+                vel = vel.replace("%", "")
+                vel = Decimal(vel) / Decimal("100")
+                vel = vel * self.C
+            else:
+                vel = Decimal(vel)
+        except decimal.InvalidOperation:
+            vel = Decimal(0)
 
+        #Parses input distance.
         dist = self.distance.get()
         
-        #Checks for empty distance field.
-        if dist == "":
-            dist = "0"
+        try:
+            #Accounts for if light year is given as distance unit.
+            #If not given, meters are assumed.
+            if "ly" in dist:
+                dist = dist.replace("ly", "")
+                dist = Decimal(dist) * Decimal(9.461e+15)
+            else:
+                dist = Decimal(dist)
+        except decimal.InvalidOperation:
+            dist = Decimal(0)
 
-        #Determines if light years are units used in input.
-        if "ly" in dist:
-            dist = dist.replace("ly", "")
-            dist = self.parse.getGeneral(dist) * 9.461e+15
-        else:
-            dist = self.parse.getGeneral(dist)
         return [dist, vel]
 
     #Calculates time distortion based on velocity and speed.
-    def calcTime(self):
+    def calcTime(self) -> list[Decimal]:
         retLs = self.distAndSpeedGet()
-        d = retLs[0]
-        v = retLs[1]
+        d: Decimal = retLs[0]
+        v: Decimal = retLs[1]
+
         #If velocity is equal to or larger than C, distortion is infinite.
         if v >= self.C:
             return [math.inf, d, v]
         else:
             #This calculation is based on Einstein's relativisitic equations.
-            distortion = (1 / math.sqrt(1 - ((v) ** 2) / ((self.C) ** 2)))
+            distortion = (Decimal(1) / Decimal(math.sqrt(Decimal(1) - ((v) ** Decimal(2)) / ((self.C) ** Decimal(2)))))
         return [distortion, d, v]
 
     #Calculates time with reletavistic distortion.
-    def calcRelative(self):
+    def calcRelative(self) -> Decimal:
         retLs = self.calcTime()
         distort = retLs[0]
         d = retLs[1]
