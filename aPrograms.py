@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2024-02-10.03
+#Version: 2024-02-25.36
 
 from tkinter import *
 import ageCalcGUI
@@ -9,6 +9,7 @@ import alienNameGenerator
 import analogClock
 import zodiacClock
 import asimovEarthMetricTime
+import asimovEarthMetTimeCalc
 
 #This class holds all programs that start with "A"
 class A(object):
@@ -57,6 +58,9 @@ class A(object):
         Button(self.frameBottom, text = "Asimov Metric Date and Time",
             font = FONT, command = self.asimovTime).grid(row = 2, column = 0)
 
+        Button(self.frameBottom, text = "Asimov Metric Time Calculator",
+            font = FONT, command = self.asimovTimeCalc).grid(row = 2, column = 1)
+
     #Quits the program chunk.
     def quitButtonAction(self):
         self.window.destroy()
@@ -89,6 +93,9 @@ class A(object):
 
     def asimovTime(self):
         asimovEarthMetricTime.main()
+
+    def asimovTimeCalc(self):
+        asimovEarthMetTimeCalc.main()
 
 #Creates and sustains GUI window.
 def main():
