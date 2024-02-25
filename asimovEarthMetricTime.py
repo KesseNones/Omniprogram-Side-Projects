@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2024-02-10.02
+#Version: 2024-02-25.34
 
 from time import time
 import datetime
@@ -39,7 +39,7 @@ class AsimovCalc(object):
     def quitButtonAction(self):
         self.window.destroy()
 
-    #Finds time and date in Eru'varian calendar and updates stuff as such.
+    #Finds current time and date in Asimov metric calendar.
     def timeUpdate(self):
         timeArr = self.asimovCalc(self.localUnix(time()))
         self.message["text"] = timeArr[0]
