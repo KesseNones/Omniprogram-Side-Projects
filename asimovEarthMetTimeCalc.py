@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2024-02-25.36
+#Version: 2024-03-11.21
 
 from time import time
 import datetime
@@ -85,45 +85,53 @@ class AsimovCalCalc(object):
         hour = self.date.getHour(self.hour.get())
         minute = self.date.getMinOrSec(self.minute.get())
 
-        #Calculates metric time and converts it to unix timestamp.
         metricDate = self.metric.metric_calc(year, month, day, hour, minute)
 
-        unixEquiv = (metricDate - 4371.952) * 1000 * 86400
+        #Days elapsed since start of Common Era.
+        daysSinceCEStart = (metricDate * 1000) - 3652425
 
-        asimovLs = self.asimovCalc(int(self.localUnix(unixEquiv)))
+        #Only accounts for timezone if necessary.
+        #TURNED OFF CURRENTLY BECAUSE OF WACKINESS
+        if False and year > 1969 and year < 3002:
+            localDayDec = self.findLocalDayDec(daysSinceCEStart)
+        else:
+            localDayDec = daysSinceCEStart
+
+        asimovLs = self.asimovCalc(localDayDec)
 
         self.dateOutput["text"] = asimovLs[0]
         self.timeOutput["text"] = asimovLs[1]
 
-    #Takes unix time stamp and alters it based 
-    #   on timezone of user running this application.
-    def localUnix(self, utcUnix):
-        t = utcUnix
-        t = int(t)
-        local = datetime.datetime.now()
-        localHr = local.hour
-        utcHour = ((t % 86400) // 3600)
+    #Finds local version of days elapsed decimal 
+    #   to be thrown into the Asimov calendar.
+    def findLocalDayDec(self, days):
+        seconds = int(days * 86400)
+        secondsElapsedInDay = seconds % 86400
+
+        #Finds local and UTC hour.
+        localHr = self.date.getHour(self.hour.get())
+        utcHour = secondsElapsedInDay // 3600
+        
+        #Finds timezone difference between UTC and local time.
         if utcHour < localHr:
             utcHour += 24
         timeZoneDiff = abs(utcHour - localHr)
-        t = (t - (3600 * timeZoneDiff))
-        return t
+        print(f"{localHr} {utcHour} FOUND TIMEZONE DIFF OF: {timeZoneDiff}")
+        localSeconds = (seconds - (3600 * timeZoneDiff))
+        
+        return localSeconds / 86400
 
     #Determines the metric date 
     #   and metric time based on Isaac Asimov's format.
-    def asimovCalc(self, unix):
-        #Number of days from start of CE to start of Unix epoch.
-        baseDays = 719527
-
+    def asimovCalc(self, daysElapsed):
         #Finds current metric date.
-        totalDays = baseDays + (unix / 86400)
-        currMetYear = int(totalDays) // 300
-        daysElapsedInMetYear = int(totalDays) % 300
+        currMetYear = int(daysElapsed) // 300
+        daysElapsedInMetYear = int(daysElapsed) % 300
         currMetMonth = (daysElapsedInMetYear // 30) + 1
         currMetDay = (daysElapsedInMetYear % 30) + 1
 
         #Finds current metric time.
-        timeOfDay = totalDays - int(totalDays)
+        timeOfDay = daysElapsed - int(daysElapsed)
         currMetHour = int(timeOfDay * 10)
         currMetMinute = int((timeOfDay * 1000) % 100)
         currMetSecond = int((timeOfDay * 100000) % 100)
