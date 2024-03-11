@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2024-02-25.34
+#Version: 2024-03-11.18
 
 from time import time
 import datetime
@@ -32,6 +32,10 @@ class AsimovCalc(object):
         self.messageII = Label(self.frameBottom, text = "", font = "Ariel 50", anchor = "w")
         self.messageII.grid(row = 1, column = 0)
 
+        #Finds timezone once for given program runtime.
+        tTemp = time()
+        self.timeZoneDiff = (self.findTimeZoneDiff(tTemp) * 3600)
+
         #Starts the recursive time update loop.
         self.timeUpdate()
 
@@ -41,24 +45,20 @@ class AsimovCalc(object):
 
     #Finds current time and date in Asimov metric calendar.
     def timeUpdate(self):
-        timeArr = self.asimovCalc(self.localUnix(time()))
+        timeArr = self.asimovCalc(time() - self.timeZoneDiff)
         self.message["text"] = timeArr[0]
         self.messageII["text"] = timeArr[1]
         self.message.after(1, self.timeUpdate)
 
-    #Takes unix time stamp and alters it based 
-    #   on timezone of user running this application.
-    def localUnix(self, utcUnix):
-        t = utcUnix
-        t = int(t)
+    #Finds timezone difference between local and UTC.
+    def findTimeZoneDiff(self, utcUnix):
+        t = int(utcUnix)
         local = datetime.datetime.now()
         localHr = local.hour
         utcHour = ((t % 86400) // 3600)
         if utcHour < localHr:
             utcHour += 24
-        timeZoneDiff = abs(utcHour - localHr)
-        t = (t - (3600 * timeZoneDiff))
-        return t
+        return abs(utcHour - localHr)
 
     #Determines the metric date 
     #   and metric time based on Isaac Asimov's format.
@@ -74,10 +74,13 @@ class AsimovCalc(object):
         currMetDay = (daysElapsedInMetYear % 30) + 1
 
         #Finds current metric time.
-        timeOfDay = totalDays - int(totalDays)
-        currMetHour = int(timeOfDay * 10)
-        currMetMinute = int((timeOfDay * 1000) % 100)
-        currMetSecond = int((timeOfDay * 100000) % 100)
+        timeOfDay = totalDays % 1
+        totalMetSeconds = int(timeOfDay * 100000)
+        currMetHour = totalMetSeconds // 10000
+        totalMetSeconds %= 10000
+        currMetMinute = totalMetSeconds // 100
+        totalMetSeconds %= 100
+        currMetSecond = totalMetSeconds
 
         return [
             f"{currMetYear}-{str(currMetMonth).zfill(2)}-{str(currMetDay).zfill(2)}",
