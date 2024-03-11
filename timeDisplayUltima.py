@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-06-10.93
+#Version: 2024-03-11.22
 
 import time
 from tkinter import *
@@ -95,7 +95,7 @@ class Date(object):
         timeNowLocal = local.strftime("%H:%M:%S")
         
         #Finds UTC time.
-        UTC = datetime.datetime.utcnow()
+        UTC = datetime.datetime.now(datetime.UTC)
         timeNowUTC = UTC.strftime("%H:%M:%S")
         
         #Finds ISO date.
