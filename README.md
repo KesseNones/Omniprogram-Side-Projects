@@ -86,6 +86,18 @@ Displays the current position in the zodiac cycle according to Astrology. The mo
 in the background between the zodiac wheel and the moon are randomly generated each time the program is opened.
 Generally, it's just a fancy zodiac clock for those who believe in that sort of thing.
 
+#### Asimov Metric Date and Time
+Displays the current Spacer Metric Time as if it were used on Earth.
+One day is a day like normal. Thirty days make a month and ten months make a 300 day year.
+The day is also split up into 10 "hours" each hour is split into 100 "minutes" and each minute into 100 "seconds"
+This means one day is 100 000 metric seconds and each metric second is 0.864 standard seconds.
+
+#### Asimov Metric Time Calculator
+Calculates a Spacer Metric Time from an input date and time which shifts to UTC (mostly due to timezone issues) and displays the result.
+See the above description of `Asimov Metric Date and Time` to see how the system works. 
+
+THE TIMEZONE STUFF IS IFFY BUT WILL GET FIXED IN TIME!
+
 ### B Programs
 Launches all programs that start with the letter B.
 
