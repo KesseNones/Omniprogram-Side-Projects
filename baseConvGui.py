@@ -104,10 +104,6 @@ class baseConv(object):
         baseNum = int(self.baseScalarII.get())
         return baseNum
 
-    #Fetches string representation of integer passed in.
-    def integerNum(self):
-        return str(self.parse.getYear(self.I.get()))
-
     #Fetches base 10 integer from input.
     def baseTenInt(self):
         return self.parse.getYear(self.bsTen.get())
@@ -117,12 +113,16 @@ class baseConv(object):
     def baseConvert(self, isTurningToDecimalOnly):
         if isTurningToDecimalOnly:
             #Gets slider value and input integer.
-            num = self.integerNum()
+            num = self.I.get()
             base = self.sliderNumber(666)
             
             #Built in int function converts input integer 
             #   to base 10 from input base.
-            decnum = int(num, base)
+            decnum = None
+            try:
+                decnum = int(num, base)
+            except ValueError:
+                decnum = 0
             return decnum
         else:
             #Fetches base ten integer and slider of base conversion.
