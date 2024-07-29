@@ -91,7 +91,7 @@ class Date(object):
         self.messageStardateTOS["text"] = f"TOS SD: {tosStar[0]} ({int(tosStar[1])})"
         
         #Finds local time.
-        local = datetime.datetime.utcnow()
+        local = datetime.datetime.now()
         timeNowLocal = local.strftime("%H:%M:%S")
         
         #Finds UTC time.
