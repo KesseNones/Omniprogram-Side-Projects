@@ -3,7 +3,7 @@
 
 import random
 from tkinter import *
-import winsound
+from playsound3 import playsound
 
 #This class displays a magic eight ball 
 #   that randomly displays answers to a user's verbal or mental questions.
@@ -55,13 +55,13 @@ class EightBall(object):
     #Plays click sound for certain things.
     def clickSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("magicEightBallSounds/click.wav", winsound.SND_ASYNC)
+            playsound("magicEightBallSounds/click.wav", False)
 
     #Plays an appropriate magic eight ball sound based on the input number.
     def ballSounds(self, num):
         if self.soundsAllowed:
             if 0 < num < 21:
-                winsound.PlaySound(f"magicEightBallSounds/{num}.wav", winsound.SND_ASYNC)
+                playsound(f"magicEightBallSounds/{num}.wav", False)
 
     #Turns sound on when called.
     def soundOn(self):
