@@ -1,10 +1,10 @@
 #Jesse A. Jones
-#Version: 2023-05-09.06
+#Version: 2025-06-20.1
 
 import random
 from time import sleep
 from tkinter import *
-import winsound
+from playsound3 import playsound
 
 #This class works with the player class and manages 
 #   tkinter stuff to run a GUI game of Connect Four.
@@ -127,28 +127,28 @@ class Connect4(object):
     #Plays sound of chip hitting falling into place.
     def chipSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("connectFourSoundEffects/chipDrop.wav", winsound.SND_ASYNC)
+            playsound("connectFourSoundEffects/chipDrop.wav", False)
 
     #Plays sound of player winning game.
     def winningSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("connectFourSoundEffects/playerWin.wav", winsound.SND_ASYNC)
+            playsound("connectFourSoundEffects/playerWin.wav", False)
 
     #Plays sound of AI winning game.
     def loosingSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("connectFourSoundEffects/aiWin.wav", winsound.SND_ASYNC)
+            playsound("connectFourSoundEffects/aiWin.wav", False)
 
     #Plays if stalemate occurs.
     def stalemateSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("connectFourSoundEffects/stalemate.wav", winsound.SND_ASYNC)
+            playsound("connectFourSoundEffects/stalemate.wav", False)
 
     #Plays a clip of my dumb voice saying "Click" which is pretty 
     #   much used to confirm if the sound is enabled or not.
     def clickSound(self):
         if self.soundsAllowed:
-            winsound.PlaySound("connectFourSoundEffects/click.wav", winsound.SND_ASYNC)
+            playsound("connectFourSoundEffects/click.wav", block=False)
 
     #This is called if the sound on button is pressed.
     #   Enables sound and plays the confirmation sound.
