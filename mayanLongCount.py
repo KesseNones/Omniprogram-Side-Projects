@@ -1,5 +1,5 @@
 #Jesse A. Jones
-#Version: 2023-05-31.07
+#Version: 2026-06-03.00
 
 from tkinter import *
 import dateHandling
@@ -100,40 +100,35 @@ class MayanCalendarCalc(object):
         #8 Cumku haab base
         
         #God names used in Tzolkin.
-        tzolGods = ["Imix", "Ik", "Akbal", "Kan", "Chicchan", "Cimi", "Manik", "Lamat", "Muluc", "Oc", "Chuen", "Eb", "Ben", "Ix", "Men", "Cib", "Caban", "Etznab", "Cauac", "Ahau"]
+        tzolGods = ["Imix", "Ik", "Akbal", 
+				"Kan", "Chicchan", "Cimi", 
+				"Manik", "Lamat", "Muluc", 
+				"Oc", "Chuen", "Eb", "Ben", 
+				"Ix", "Men", "Cib", "Caban", 
+				"Etznab", "Cauac", "Ahau"
+		]
         
         #Month names of Haab.
-        haabMonths = ["Pop", "Uo", "Zip", "Zotz", "Tzec", "Xul", "Yaxkin", "Mol", "Chen", "Yax", "Zac", "Ceh", "Mac", "Kankin", "Muan", "Pax", "Kayab", "Cumku", "Uayeb"]
-        
-        #Range of days in tzolkin.
-        tzolDays = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+        haabMonths = ["Pop", "Uo", "Zip",
+					 "Zotz", "Tzec", "Xul", 
+					"Yaxkin", "Mol", "Chen",
+					 "Yax", "Zac", "Ceh", "Mac", 
+					"Kankin", "Muan", "Pax", 
+					"Kayab", "Cumku", "Uayeb"
+		]
         
         #The range of numbers who are lords of the night.
-        lordOfNightArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        lordOfNightArr = list(range(1,10))
         
         #Base index for each Tzolkin.
-        tzolDayIndex = 3
-        tzolGodIndex = 19
+        tzolDayIndexOffset = 3
+        tzolGodIndexOffset = 19
         
         #Calculates current Tzolkin day.
         currentTzolDay = dayDelta % 260
-        #Tzolkin base case.
-        if currentTzolDay == 0:
-            tzolDay = 4
-            tzolGod = "Ahau"
 
-        #Advances time until current Tzolkin is found.
-        while currentTzolDay > 0:
-            tzolDayIndex += 1
-            tzolGodIndex += 1
-            #Resets indexes.
-            if tzolDayIndex > 12:
-                tzolDayIndex %= 13
-            if tzolGodIndex > 19:
-                tzolGodIndex %= 20
-            tzolDay = tzolDays[tzolDayIndex]
-            tzolGod = tzolGods[tzolGodIndex]
-            currentTzolDay -= 1
+        tzolDay = ((tzolDayIndexOffset + currentTzolDay) % 13) + 1
+        tzolGod = tzolGods[(tzolGodIndexOffset + currentTzolDay) % 20]
 
         #Calculates date in Haab.
         currentHaabDay = (dayDelta + 348) % 365
@@ -158,44 +153,25 @@ class MayanCalendarCalc(object):
         tunLength = 360
         winalLength = 20
         kinLength = 1
-        
-        #Alautun calculated.
-        alauTun = dayDelta // alauTunLength
-        reducedDayDelta = dayDelta % alauTunLength
-        
-        #KinchilTun calculated.
-        kinchilTun = reducedDayDelta // kinchilTunLength
-        reducedDayDelta = reducedDayDelta % kinchilTunLength
-        
-        #Kalaptun calculated.
-        kalapTun = reducedDayDelta // kalapTunLength
-        reducedDayDelta = reducedDayDelta % kalapTunLength
 
-        #Piktun calculated.
-        piktun = reducedDayDelta // piktunLength
-        reducedDayDelta = reducedDayDelta % piktunLength
+        lengths = [
+            alauTunLength,
+            kinchilTunLength,
+            kalapTunLength,
+            piktunLength,
+            baktunLength,
+            katunLength,
+            tunLength,
+            winalLength,
+            kinLength
+        ]
 
-        #Baktun calculated.
-        baktun = (reducedDayDelta // baktunLength)
-        reducedDayDelta = reducedDayDelta % baktunLength
-
-        #Katun calculated.
-        katun = reducedDayDelta // katunLength
-        reducedDayDelta %= katunLength
-
-        #Tun calculated.
-        tun = reducedDayDelta // tunLength
-        reducedDayDelta %= tunLength
-
-        #Winal calculated.
-        winal = reducedDayDelta // winalLength
-        reducedDayDelta %= winalLength
-        
-        #Kin is days leftover.
-        kin = reducedDayDelta
-
-        #Builds longcount time string and returns it.
-        return f"{alauTun}.{kinchilTun}.{kalapTun}.{piktun}.{baktun}.{katun}.{tun}.{winal}.{kin}"
+        res = []
+        for l in lengths:
+            res.append(str(dayDelta // l))
+            dayDelta %= l
+    
+        return ".".join(res)
 
 def main():
     root = Tk()
