@@ -1,10 +1,11 @@
 #Jesse A. Jones
-#Version: 2025-06-20.1
+#Version: 2026-10-11.1
 
 import random
 from time import sleep
 from tkinter import *
-from playsound3 import playsound
+from playsound import playsound
+from pathlib import Path
 
 #This class works with the player class and manages 
 #   tkinter stuff to run a GUI game of Connect Four.
@@ -124,31 +125,33 @@ class Connect4(object):
             text = "Sound Off", font = "Ariel 25", command = self.soundOff)
         self.offSoundButton.grid(row = 0, column = 2)
 
+        self.base = str(Path(__file__).resolve().parent)
+
     #Plays sound of chip hitting falling into place.
     def chipSound(self):
         if self.soundsAllowed:
-            playsound("connectFourSoundEffects/chipDrop.wav", False)
+            playsound(self.base + "/connectFourSoundEffects/chipDrop.wav", False)
 
     #Plays sound of player winning game.
     def winningSound(self):
         if self.soundsAllowed:
-            playsound("connectFourSoundEffects/playerWin.wav", False)
+            playsound(self.base + "/connectFourSoundEffects/playerWin.wav", False)
 
     #Plays sound of AI winning game.
     def loosingSound(self):
         if self.soundsAllowed:
-            playsound("connectFourSoundEffects/aiWin.wav", False)
+            playsound(self.base + "/connectFourSoundEffects/aiWin.wav", False)
 
     #Plays if stalemate occurs.
     def stalemateSound(self):
         if self.soundsAllowed:
-            playsound("connectFourSoundEffects/stalemate.wav", False)
+            playsound(self.base + "/connectFourSoundEffects/stalemate.wav", False)
 
     #Plays a clip of my dumb voice saying "Click" which is pretty 
     #   much used to confirm if the sound is enabled or not.
     def clickSound(self):
         if self.soundsAllowed:
-            playsound("connectFourSoundEffects/click.wav", block=False)
+            playsound(self.base + "/connectFourSoundEffects/click.wav", block=False)
 
     #This is called if the sound on button is pressed.
     #   Enables sound and plays the confirmation sound.

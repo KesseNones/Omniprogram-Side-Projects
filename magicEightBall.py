@@ -1,9 +1,10 @@
 #Jesse A. Jones
-#Version: 2023-05-26.16
+#Version: 2026-10-11.2 
 
 import random
 from tkinter import *
-from playsound3 import playsound
+from playsound import playsound
+from pathlib import Path
 
 #This class displays a magic eight ball 
 #   that randomly displays answers to a user's verbal or mental questions.
@@ -48,6 +49,8 @@ class EightBall(object):
             fill = "white", font = "Ariel 33", text = "", width = 240, justify = "center")
         self.draw.pack()
 
+        self.base = str(Path(__file__).resolve().parent)
+
     #Quits program when called.
     def quitButtonAction(self):
         self.window.destroy()
@@ -55,13 +58,13 @@ class EightBall(object):
     #Plays click sound for certain things.
     def clickSound(self):
         if self.soundsAllowed:
-            playsound("magicEightBallSounds/click.wav", False)
+            playsound(self.base + "/magicEightBallSounds/click.wav", False)
 
     #Plays an appropriate magic eight ball sound based on the input number.
     def ballSounds(self, num):
         if self.soundsAllowed:
             if 0 < num < 21:
-                playsound(f"magicEightBallSounds/{num}.wav", False)
+                playsound(f"{self.base}/magicEightBallSounds/{num}.wav", False)
 
     #Turns sound on when called.
     def soundOn(self):
